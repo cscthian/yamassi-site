@@ -1,0 +1,116 @@
+---
+export const prerender = true;
+
+import InfoLayout from "@/layouts/InfoLayout.astro";
+---
+
+<InfoLayout
+  title="Políticas de Privacidad y Protección de Datos"
+  description="Tratamiento responsable de la información, cumplimiento estricto con las normas de SUNAT, no almacenamiento de datos sensibles de tarjetas bancarias y garantía de no comercialización de datos."
+  documentType="Política de Privacidad y Seguridad de la Información"
+  effectiveDate="15 de Febrero de 2025"
+  version="Versión 3.1 — Normativa SUNAT y Ley 29733"
+>
+  <div class="prose-formal">
+    <div class="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5 text-emerald-950 text-sm leading-relaxed mb-8">
+      <strong>Declaración Fundamental de Confianza:</strong> Yamassi es un software peruano concebido bajo el principio de <em>Ayni</em> (reciprocidad y equilibrio). Tratamos la información de tu negocio con máxima confidencialidad. <strong>No guardamos datos sensibles de tarjetas ni contraseñas bancarias</strong>, <strong>no compartimos ni vendemos tu información a terceros</strong>, y cumplimos estrictamente con las normas tributarias vigentes de la SUNAT.
+    </div>
+
+    <h2>1. Marco Legal Aplicable</h2>
+    <p>
+      El presente documento establece las condiciones bajo las cuales <strong>Yamassi</strong> (en adelante, "la Plataforma") efectúa el tratamiento de datos personales, comerciales y tributarios. Esta política se rige en estricto cumplimiento del marco legal de la República del Perú:
+    </p>
+    <ul>
+      <li><strong>Ley N° 29733:</strong> Ley de Protección de Datos Personales y su Reglamento aprobado mediante Decreto Supremo N° 003-2013-JUS.</li>
+      <li><strong>Normativa de Comprobantes de Pago Electrónicos de la SUNAT:</strong> Resolución de Superintendencia N° 097-2012/SUNAT, Resolución N° 193-2020/SUNAT y normas conexas que regulan la emisión, validación y conservación de comprobantes de pago digitales.</li>
+      <li><strong>Código de Protección y Defensa del Consumidor:</strong> Ley N° 29571.</li>
+    </ul>
+
+    <h2>2. Principio Esencial: No Almacenamiento de Datos Sensibles de Tarjetas ni Claves Bancarias</h2>
+    <p>
+      Para garantizar la absoluta tranquilidad y seguridad financiera de nuestros usuarios y de los clientes finales que consumen en sus establecimientos:
+    </p>
+    <blockquote>
+      <p>
+        <strong>Yamassi NO almacena, NO procesa directamente en sus servidores y NO tiene acceso a datos sensibles de tarjetas de crédito ni débito</strong> (incluyendo el número completo de tarjeta de 16 dígitos PAN, códigos de seguridad CVV/CVC, fechas de vencimiento privadas o contraseñas de banca por internet).
+      </p>
+    </blockquote>
+    <p>
+      Toda transacción dineraria realizada mediante tarjetas, transferencias interbancarias o billeteras electrónicas (Yape, Plin) depende y es procesada exclusivamente por la <strong>entidad bancaria o pasarela de pagos autorizada y supervisada por la Superintendencia de Banca, Seguros y AFP (SBS)</strong> que el usuario decida utilizar (tales como BCP, BBVA, Interbank, Niubiz, Izipay, Culqi o PagoEfectivo).
+    </p>
+    <p>
+      Yamassi únicamente registra los metadatos necesarios para el control contable interno y la emisión del comprobante (por ejemplo: método de pago seleccionado, monto total pagado, número de referencia o código de operación de la transacción).
+    </p>
+
+    <h2>3. Tratamiento de Datos Comerciales y Cumplimiento Normativo SUNAT</h2>
+    <p>
+      En virtud de su condición de plataforma de punto de venta (POS) y emisión electrónica autorizada, Yamassi recopila y procesa exclusivamente los datos necesarios para:
+    </p>
+    <ul>
+      <li><strong>Emisión de Comprobantes Electrónicos:</strong> Boletas de Venta, Facturas, Notas de Crédito, Notas de Débito y Guías de Remisión Electrónicas (GRE) conforme al estándar UBL 2.1 exigido por SUNAT.</li>
+      <li><strong>Generación de archivos XML y CDR:</strong> Creación de la firma digital con el Certificado Digital Tributario del usuario o a través del Operador de Servicios Electrónicos (OSE) habilitado.</li>
+      <li><strong>Custodia y Conservación Legal:</strong> De conformidad con el Código Tributario peruano, Yamassi resguarda los comprobantes electrónicos generados durante el plazo legal de conservación obligatoria (mínimo de cinco años), facilitando su descarga en formatos XML y PDF en cualquier momento.</li>
+      <li><strong>Validación automática de RUC y DNI:</strong> Consultas directas a los padrones oficiales de SUNAT y RENIEC para garantizar que los comprobantes se emitan a receptores válidos y evitar reparos tributarios.</li>
+    </ul>
+
+    <h2>4. Garantía de No Comercialización ni Cesión de Datos a Terceros</h2>
+    <p>
+      Yamassi asume un compromiso irrevocable con la privacidad comercial de sus usuarios:
+    </p>
+    <ul>
+      <li><strong>Prohibición total de venta:</strong> No vendemos, no alquilamos, no arrendamos ni transferimos bajo ninguna modalidad comercial las bases de datos de clientes, listas de precios, márgenes de utilidad, niveles de inventario ni volúmenes de facturación de tu negocio.</li>
+      <li><strong>Sin publicidad de terceros:</strong> Tu información no es analizada para perfilarte frente a agencias de publicidad externa ni proveedores comerciales competidores.</li>
+      <li><strong>Aislamiento de información (Multi-Tenant seguro):</strong> Los datos de cada comercio se encuentran estrictamente segmentados y aislados, de manera que ningún otro usuario o negocio puede tener acceso a los reportes o transacciones de tu cuenta.</li>
+    </ul>
+
+    <h2>5. Seguridad de las Comunicaciones y Respaldo en la Nube</h2>
+    <p>
+      Para salvaguardar la integridad de los datos frente a pérdidas accidentales o accesos no autorizados, la Plataforma implementa estándares de seguridad de nivel bancario:
+    </p>
+    <ul>
+      <li><strong>Cifrado de extremo a extremo en tránsito:</strong> Todas las comunicaciones entre el navegador del usuario y los servidores de Yamassi se efectúan mediante protocolo seguro <strong>HTTPS con cifrado TLS 1.3 / SSL de 256 bits</strong>.</li>
+      <li><strong>Cifrado en reposo:</strong> Las bases de datos y repositorios de comprobantes XML se encuentran cifrados bajo algoritmos robustos (AES-256).</li>
+      <li><strong>Copias de seguridad continuas:</strong> Respaldos periódicos automatizados en centros de datos con redundancia geográfica para garantizar la recuperación inmediata ante eventuales contingencias.</li>
+    </ul>
+
+    <h2>6. Resguardo de Credenciales de Clave SOL y Certificados Digitales</h2>
+    <p>
+      Para operar la facturación electrónica, el usuario proporciona las credenciales de su <strong>Usuario Secundario SUNAT</strong> expresamente creado con permisos exclusivos de emisión de comprobantes. Yamassi:
+    </p>
+    <ul>
+      <li>Recomienda y orienta al usuario para que <strong>nunca ingrese su Clave SOL principal de administrador</strong>, sino un usuario secundario acotado.</li>
+      <li>Almacena dichas credenciales en un bóveda digital cifrada con acceso restringido exclusivamente al servicio automatizado de firma y envío de comprobantes ante SUNAT.</li>
+    </ul>
+
+    <h2>7. Modificaciones a las Políticas de Privacidad y Notificación Obligatoria</h2>
+    <p>
+      El entorno normativo tributario de la SUNAT y las tecnologías digitales evolucionan de manera continua. En tal sentido:
+    </p>
+    <blockquote>
+      <p>
+        <strong>Yamassi se reserva el derecho de modificar o actualizar las presentes Políticas de Privacidad en cualquier momento.</strong> Cualquier cambio será realizado con el propósito de adecuarse a nuevas leyes peruanas, resoluciones de SUNAT o mejoras en las medidas de seguridad del servicio.
+      </p>
+      <p>
+        <strong>Garantía de Notificación Oportuna:</strong> Siempre que se efectúe una modificación relevante a estas políticas, <strong>Yamassi informará de manera clara y oportuna a todos sus usuarios</strong> mediante avisos destacados dentro de la aplicación web y/o notificaciones remitidas a la dirección de correo electrónico vinculada a su cuenta, antes de que los cambios entren en vigencia.
+      </p>
+    </blockquote>
+
+    <h2>8. Ejercicio de Derechos ARCO (Acceso, Rectificación, Cancelación y Oposición)</h2>
+    <p>
+      De conformidad con la Ley N° 29733, los titulares de datos personales tienen derecho a acceder a su información personal registrada en nuestros bancos de datos, solicitar la rectificación de datos inexactos, pedir su cancelación cuando no sean necesarios para la relación contractual, u oponerse a tratamientos específicos, siempre que no contravenga la obligación legal de conservación tributaria exigida por la SUNAT.
+    </p>
+    <p>
+      Para ejercer cualquiera de estos derechos, el titular puede dirigir una comunicación formal con el asunto "Derechos ARCO" al correo institucional: <a href="mailto:privacidad@yamassi.com">privacidad@yamassi.com</a>.
+    </p>
+
+    <h2>9. Contacto y Consultas Legales</h2>
+    <p>
+      Para cualquier consulta relacionada con la privacidad, la protección de datos o el tratamiento de información en Yamassi, puedes contactar a nuestro equipo legal y de seguridad:
+    </p>
+    <ul>
+      <li><strong>Oficina Central:</strong> Lima, República del Perú.</li>
+      <li><strong>Correo Electrónico de Privacidad:</strong> <a href="mailto:privacidad@yamassi.com">privacidad@yamassi.com</a></li>
+      <li><strong>Soporte al Usuario:</strong> A través de los canales oficiales de atención al cliente de la plataforma.</li>
+    </ul>
+  </div>
+</InfoLayout>

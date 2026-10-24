@@ -1,0 +1,234 @@
+---
+import { RESTOBAR_URL } from "@/lib/site";
+
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+
+const RESTOBAR_FEATURES = [
+  "Punto de Venta (POS) y Caja sin límite de ventas diarias",
+  "Toma de comandas para mozos desde cualquier celular o tablet",
+  "Monitor de Cocina y Barra (KDS) en tiempo real con alertas",
+  "Gestión visual de salones, mesas, barras y pedidos delivery",
+  "Apertura, cierre y arqueo de caja por turno con control de descuadres",
+  "Cobro con Efectivo, Tarjetas, Yape, Plin y Billeteras Digitales QR",
+  "Carta digital interactiva con código QR lista para comensales",
+  "Reportes de ventas, compras y platos más vendidos (PDF y Excel)",
+  "Soporte prioritario vía WhatsApp y actualizaciones continuas incluidas",
+];
+---
+
+<section id="precios" class={`scroll-mt-24 py-20 bg-slate-50 border-t border-slate-200/80 ${className}`}>
+  <div class="container mx-auto px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-bold text-emerald-700">
+        <span>🏷️ Precios Claros y Transparentes</span>
+      </div>
+      <h2 class="mt-4 font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+        Elige el plan ideal para tu restaurante
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-600">
+        Yamassi es gratis para empezar. Sin contratos forzosos, sin comisiones ocultas por venta y con 100% de funciones gastronómicas activadas.
+      </p>
+    </div>
+
+    <div class="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+      <!-- PLAN 1: Plan Básico -->
+      <div class="rounded-3xl border border-slate-200 bg-white p-7 sm:p-8 shadow-sm flex flex-col justify-between transition-all hover:shadow-xl">
+        <div>
+          <div class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-700">
+            Pago Mensual Flexible
+          </div>
+
+          <h3 class="mt-4 text-3xl font-extrabold text-slate-900">Plan Básico</h3>
+          <p class="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed min-h-[40px]">
+            Ideal para iniciar sin ataduras, pagando mes a mes con todas las funciones activadas.
+          </p>
+
+          <div class="mt-6 flex items-baseline gap-1.5">
+            <span class="text-base text-slate-700 font-bold">S/</span>
+            <span class="text-5xl font-black text-slate-900 tracking-tight">19.90</span>
+            <span class="text-sm text-slate-500 font-medium">/ mes</span>
+          </div>
+          <p class="mt-1 text-xs text-rose-600 font-semibold">• Facturación mensual</p>
+
+          <!-- Highlight Box -->
+          <div class="mt-5 rounded-2xl bg-slate-50 border border-slate-200/80 p-3.5 text-xs text-slate-700">
+            <p class="font-bold text-slate-800">Facturación mensual sin compromiso de permanencia.</p>
+            <p class="text-slate-500 mt-0.5">S/ 19.90 al mes</p>
+          </div>
+
+          <!-- Beneficios -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-4">
+              BENEFICIOS INCLUIDOS (100% DE FUNCIONES):
+            </p>
+            <ul class="space-y-3 text-xs sm:text-[13px] text-slate-700">
+              {RESTOBAR_FEATURES.map((feature) => (
+                <li class="flex items-start gap-2.5">
+                  <span class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-[10px] mt-0.5">
+                    ✓
+                  </span>
+                  <span class="leading-snug">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-4">
+          <a
+            href={RESTOBAR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white py-3.5 px-4 text-sm font-bold text-slate-900 transition-colors hover:bg-slate-50 hover:border-slate-400 shadow-xs"
+          >
+            Elegir Plan Básico
+          </a>
+        </div>
+      </div>
+
+      <!-- PLAN 2: Plan Estándar (MÁS POPULAR) -->
+      <div class="relative rounded-3xl border-2 border-rose-400 bg-white p-7 sm:p-8 shadow-2xl flex flex-col justify-between transition-all hover:shadow-2xl scale-100 lg:scale-[1.02] z-10">
+        <div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-red-600 to-rose-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs">
+              <span>🔥</span>
+              <span>MÁS POPULAR · AHORRA 15.5%</span>
+            </div>
+            <span class="rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-xs font-bold text-emerald-700">
+              -15.5% OFF
+            </span>
+          </div>
+
+          <h3 class="mt-4 text-3xl font-extrabold text-slate-900">Plan Estándar</h3>
+          <p class="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed min-h-[40px]">
+            El equilibrio perfecto para restaurantes en crecimiento. Paga 6 meses y ahorra de inmediato.
+          </p>
+
+          <div class="mt-6 flex items-baseline gap-1.5">
+            <span class="text-base text-slate-700 font-bold">S/</span>
+            <span class="text-5xl font-black text-slate-900 tracking-tight">16.90</span>
+            <span class="text-sm text-slate-500 font-medium">/ mes</span>
+          </div>
+          <p class="mt-1 text-xs text-rose-600 font-semibold">• Se paga por 6 meses</p>
+
+          <!-- Highlight Box (Green) -->
+          <div class="mt-5 rounded-2xl bg-emerald-50/80 border border-emerald-200 p-3.5 text-xs">
+            <div class="flex items-center justify-between font-bold">
+              <span class="text-emerald-900">Ahorro en dinero:</span>
+              <span class="text-emerald-700 text-sm">¡S/ 18.54!</span>
+            </div>
+            <div class="flex items-center justify-between mt-1 text-emerald-800">
+              <span>Descuento aplicado:</span>
+              <span class="font-semibold">15.5% menos vs mes a mes</span>
+            </div>
+            <div class="mt-1 text-[11px] text-emerald-700/80 pt-1 border-t border-emerald-200/60">
+              Total semestral: S/ 101.40 (6 meses)
+            </div>
+          </div>
+
+          <!-- Beneficios -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-4">
+              BENEFICIOS INCLUIDOS (100% DE FUNCIONES):
+            </p>
+            <ul class="space-y-3 text-xs sm:text-[13px] text-slate-700">
+              {RESTOBAR_FEATURES.map((feature) => (
+                <li class="flex items-start gap-2.5">
+                  <span class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-[10px] mt-0.5">
+                    ✓
+                  </span>
+                  <span class="leading-snug">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-4">
+          <a
+            href={RESTOBAR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 py-3.5 px-4 text-sm font-bold text-white shadow-lg shadow-rose-600/30 transition-transform hover:scale-102"
+          >
+            Elegir Plan Estándar
+          </a>
+        </div>
+      </div>
+
+      <!-- PLAN 3: Plan Élite (MEJOR AHORRO) -->
+      <div class="rounded-3xl border-2 border-purple-400 bg-white p-7 sm:p-8 shadow-md flex flex-col justify-between transition-all hover:shadow-xl md:col-span-2 md:max-w-md md:mx-auto lg:col-span-1 lg:max-w-none w-full">
+        <div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs">
+              <span>⭐</span>
+              <span>MEJOR AHORRO · AHORRA 25%</span>
+            </div>
+            <span class="rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-xs font-bold text-emerald-700">
+              -25% OFF
+            </span>
+          </div>
+
+          <h3 class="mt-4 text-3xl font-extrabold text-slate-900">Plan Élite</h3>
+          <p class="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed min-h-[40px]">
+            La tarifa mensual más baja garantizada. Máximo ahorro anual con toda la potencia del sistema.
+          </p>
+
+          <div class="mt-6 flex items-baseline gap-1.5">
+            <span class="text-base text-slate-700 font-bold">S/</span>
+            <span class="text-5xl font-black text-slate-900 tracking-tight">14.90</span>
+            <span class="text-sm text-slate-500 font-medium">/ mes</span>
+          </div>
+          <p class="mt-1 text-xs text-rose-600 font-semibold">• Pago directo anual (12 meses)</p>
+
+          <!-- Highlight Box (Green) -->
+          <div class="mt-5 rounded-2xl bg-emerald-50/80 border border-emerald-200 p-3.5 text-xs">
+            <div class="flex items-center justify-between font-bold">
+              <span class="text-emerald-900">Ahorro en dinero:</span>
+              <span class="text-emerald-700 text-sm">¡S/ 60.00!</span>
+            </div>
+            <div class="flex items-center justify-between mt-1 text-emerald-800">
+              <span>Descuento aplicado:</span>
+              <span class="font-semibold">25% menos vs mes a mes</span>
+            </div>
+            <div class="mt-1 text-[11px] text-emerald-700/80 pt-1 border-t border-emerald-200/60">
+              Total anual: S/ 179.88 (12 meses)
+            </div>
+          </div>
+
+          <!-- Beneficios -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-4">
+              BENEFICIOS INCLUIDOS (100% DE FUNCIONES):
+            </p>
+            <ul class="space-y-3 text-xs sm:text-[13px] text-slate-700">
+              {RESTOBAR_FEATURES.map((feature) => (
+                <li class="flex items-start gap-2.5">
+                  <span class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-[10px] mt-0.5">
+                    ✓
+                  </span>
+                  <span class="leading-snug">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-4">
+          <a
+            href={RESTOBAR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 py-3.5 px-4 text-sm font-bold text-white shadow-lg shadow-purple-600/30 transition-transform hover:scale-102"
+          >
+            Elegir Plan Élite
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

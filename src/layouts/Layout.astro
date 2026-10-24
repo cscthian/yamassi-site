@@ -1,0 +1,158 @@
+---
+import "../styles/global.css";
+import { SITE_URL } from "@/lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Yamassi - Software de caja registradora para negocios Perú",
+  description = "Yamassi reúne todo en un solo lugar: ventas (POS), control de stock, gestión de proveedores y facturación electrónica homologada con SUNAT. Una sola app, en español y con soporte real. El sistema que los emprendedores peruanos merecen.",
+} = Astro.props;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Yamassi",
+      url: SITE_URL,
+      slogan: "Ayni · Yanantin · Masintin — Crecer juntos, en equilibrio",
+      description:
+        "Yamassi es un software de gestión peruano que reúne punto de venta (POS), control de inventario, gestión de proveedores y facturación electrónica homologada con SUNAT en una sola plataforma. Su nombre y su forma de trabajar se inspiran en tres principios de la cosmovisión andina: Yanantin, Masintin y Ayni.",
+      areaServed: { "@type": "Country", name: "Perú" },
+      knowsLanguage: "es-PE",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Yamassi",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web App (navegador en PC, laptop, tablet o móvil)",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "PEN",
+        description:
+          "Plan gratuito para empezar. Sin tarjeta de crédito. Paga solo al superar límites gratuitos.",
+      },
+      featureList: [
+        "Punto de venta (POS)",
+        "Facturación electrónica homologada con SUNAT",
+        "Control de inventario y stock",
+        "Gestión de proveedores y compras",
+        "Reportes y analítica de ventas",
+        "Multi-tenant / multi-sucursal",
+      ],
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.9",
+        reviewCount: "1280",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "¿Qué incluye Yamassi?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yamassi incluye punto de venta (POS), facturación electrónica homologada con SUNAT, control de inventario y stock, gestión de proveedores, reportes de ventas y soporte para múltiples sucursales, todo en una sola app.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿La facturación electrónica de Yamassi está homologada con SUNAT?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sí. Yamassi emite boletas, facturas, notas de crédito y guías de remisión electrónicas 100% homologadas con SUNAT, y se mantiene actualizado ante cada cambio normativo.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿Para qué tipo de negocios sirve Yamassi?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Para todo tipo de negocio: bodegas, minimarkets, restaurantes, cafeterías, farmacias, boticas, retail y servicios. Sin importar tu rubro, Yamassi se adapta a ti.",
+          },
+        },
+      ],
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="es-PE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1E3A8A" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="software POS Perú, punto de venta, facturación electrónica SUNAT, control de inventario, gestión de proveedores, sistema para bodegas, sistema para restaurantes, sistema para farmacias, software de ventas Perú, boletas y facturas electrónicas, ERP para pymes Perú"
+    />
+    <meta name="author" content="Yamassi" />
+    <link rel="canonical" href={SITE_URL} />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="Yamassi — POS, Facturación Electrónica e Inventario, todo en un solo lugar"
+    />
+    <meta
+      property="og:description"
+      content="Ventas, stock, proveedores y facturación SUNAT en una sola app. En español, con soporte real en el Perú. Prueba gratis sin tarjeta."
+    />
+    <meta property="og:url" content={SITE_URL} />
+    <meta property="og:site_name" content="Yamassi" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Yamassi — Todo tu negocio en un solo lugar"
+    />
+    <meta
+      name="twitter:description"
+      content="POS, inventario, proveedores y facturación electrónica SUNAT. Una sola app, en español, con soporte real."
+    />
+
+    <!-- Google Fonts: DM Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XE7W6ZHQC"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag("js", new Date());
+      gtag("config", "G-4XE7W6ZHQC");
+    </script>
+  </head>
+  <body class="font-sans antialiased bg-background text-foreground">
+    <slot />
+  </body>
+</html>

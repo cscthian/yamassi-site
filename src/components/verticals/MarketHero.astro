@@ -1,0 +1,196 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<section class={`relative overflow-hidden bg-gradient-to-b from-[#0b1f4d] via-[#0b2b52] to-[#080c14] text-white pt-32 pb-20 md:pt-40 md:pb-28 ${className}`}>
+  <!-- Glow background elements -->
+  <div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-emerald-500/20 blur-[120px]" aria-hidden="true" />
+  <div class="pointer-events-none absolute top-1/3 -right-20 w-[450px] h-[450px] rounded-full bg-teal-500/15 blur-[100px]" aria-hidden="true" />
+  <div class="pointer-events-none absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full bg-sky-500/10 blur-[100px]" aria-hidden="true" />
+
+  <div class="container relative mx-auto px-4">
+    <!-- Breadcrumb / pill -->
+    <div class="flex justify-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-xs md:text-sm font-semibold text-emerald-300 backdrop-blur-md shadow-sm">
+        <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>Yamassi para Tiendas, Minimarkets y Retail</span>
+        <span class="rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] uppercase font-bold text-emerald-200">Bodegas & Almacén</span>
+      </div>
+    </div>
+
+    <!-- Main Title -->
+    <div class="mt-8 mx-auto max-w-4xl text-center">
+      <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-balance leading-[1.12]">
+        Control de caja, ventas e inventario <span class="bg-gradient-to-r from-emerald-300 via-teal-200 to-sky-300 bg-clip-text text-transparent">que protege cada sol de tu tienda</span>
+      </h1>
+      <p class="mt-6 text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto text-balance">
+        Escaneo veloz con código de barras, control de vencimientos para no perder mercadería, kardex en tiempo real y facturación electrónica SUNAT al instante.
+      </p>
+
+      <!-- CTAs -->
+      <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/login"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-4 text-base font-bold text-white shadow-[0_12px_32px_rgba(16,185,129,0.35)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(16,185,129,0.45)] cursor-pointer"
+        >
+          <span>Empezar con Yamassi gratis</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+        <a
+          href="#pos"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-4 text-base font-semibold text-white/90 backdrop-blur-md transition-all hover:bg-white/10 hover:text-white"
+        >
+          <span>Ver funciones del punto de venta</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </div>
+
+      <p class="mt-4 text-xs sm:text-sm text-white/60">
+        ✓ Compatible con pistolas láser y balanzas &nbsp;·&nbsp; ✓ Carga masiva desde Excel &nbsp;·&nbsp; ✓ Modo offline incluido
+      </p>
+    </div>
+
+    <!-- Quick stats strip -->
+    <div class="mt-14 max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-md">
+        <div class="text-2xl sm:text-3xl font-bold text-emerald-300">&lt; 3 seg</div>
+        <div class="mt-1 text-xs text-white/70">Cobro por cliente con escáner</div>
+      </div>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-md">
+        <div class="text-2xl sm:text-3xl font-bold text-teal-300">0 Mermas</div>
+        <div class="mt-1 text-xs text-white/70">Alertas de caducidad anticipada</div>
+      </div>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-md">
+        <div class="text-2xl sm:text-3xl font-bold text-sky-300">Kardex</div>
+        <div class="mt-1 text-xs text-white/70">Stock valorizado al día</div>
+      </div>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-md">
+        <div class="text-2xl sm:text-3xl font-bold text-white">SUNAT</div>
+        <div class="mt-1 text-xs text-white/70">Boletas electrónicas automáticas</div>
+      </div>
+    </div>
+
+    <!-- Mockup Preview Card: POS Market Screen -->
+    <div class="mt-14 max-w-5xl mx-auto rounded-3xl border border-white/15 bg-slate-900/80 p-3 sm:p-5 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+      <div class="flex items-center justify-between pb-3 px-2 border-b border-white/10 text-xs text-white/60">
+        <div class="flex items-center gap-2">
+          <span class="h-3 w-3 rounded-full bg-rose-500/80"></span>
+          <span class="h-3 w-3 rounded-full bg-amber-500/80"></span>
+          <span class="h-3 w-3 rounded-full bg-emerald-500/80"></span>
+          <span class="ml-2 font-mono text-white/75">Yamassi POS Retail — Caja 01 (Minimarket San Isidro)</span>
+        </div>
+        <span class="hidden sm:inline-flex items-center gap-1.5 text-emerald-400 font-medium">
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Pistola lectora conectada
+        </span>
+      </div>
+
+      <div class="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Ticket en curso (Columna izquierda) -->
+        <div class="lg:col-span-7 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+          <div class="flex items-center justify-between text-xs text-slate-400 pb-2 border-b border-white/10">
+            <span>Producto escaneado</span>
+            <span>Cant. · P. Unit · Subtotal</span>
+          </div>
+
+          <div class="mt-3 space-y-2 text-xs">
+            <div class="flex items-center justify-between py-1.5 border-b border-white/5">
+              <div>
+                <span class="font-bold text-white">Leche Gloria Azul 400g</span>
+                <span class="block text-[10px] text-slate-400 font-mono">7750150000102 · Lote 24B</span>
+              </div>
+              <div class="text-right">
+                <span class="text-white font-mono">3 un x S/ 4.20 = </span>
+                <span class="font-bold text-emerald-300 font-mono">S/ 12.60</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1.5 border-b border-white/5">
+              <div>
+                <span class="font-bold text-white">Aceite Primor Clásico 900ml</span>
+                <span class="block text-[10px] text-slate-400 font-mono">7750243010419</span>
+              </div>
+              <div class="text-right">
+                <span class="text-white font-mono">1 un x S/ 8.90 = </span>
+                <span class="font-bold text-emerald-300 font-mono">S/ 8.90</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1.5 border-b border-white/5">
+              <div>
+                <span class="font-bold text-white">Arroz Costeño Extra 1kg</span>
+                <span class="block text-[10px] text-slate-400 font-mono">7750345000213</span>
+              </div>
+              <div class="text-right">
+                <span class="text-white font-mono">2 un x S/ 4.80 = </span>
+                <span class="font-bold text-emerald-300 font-mono">S/ 9.60</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1.5 border-b border-white/5">
+              <div>
+                <span class="font-bold text-white">Jamónada San Fernando (Granel)</span>
+                <span class="block text-[10px] text-teal-300 font-mono">⚖️ Balanza electrónica: 0.320 kg</span>
+              </div>
+              <div class="text-right">
+                <span class="text-white font-mono">0.32 kg x S/ 22.00 = </span>
+                <span class="font-bold text-emerald-300 font-mono">S/ 7.04</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+            <span class="text-sm font-bold text-white">TOTAL VENTA:</span>
+            <span class="text-2xl font-extrabold text-emerald-300 font-mono">S/ 38.14</span>
+          </div>
+        </div>
+
+        <!-- Panel de cobro rápido (Columna derecha) -->
+        <div class="lg:col-span-5 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-4 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">Medio de Pago Rápido</div>
+            <div class="mt-3 grid grid-cols-3 gap-2">
+              <button class="rounded-xl border border-emerald-400/30 bg-emerald-500/20 p-2.5 text-center text-xs font-bold text-white hover:bg-emerald-500/30">
+                💵 Efectivo
+              </button>
+              <button class="rounded-xl border border-emerald-400 bg-emerald-500 p-2.5 text-center text-xs font-bold text-white shadow">
+                🟣 Yape / Plin
+              </button>
+              <button class="rounded-xl border border-emerald-400/30 bg-emerald-500/20 p-2.5 text-center text-xs font-bold text-white hover:bg-emerald-500/30">
+                💳 Tarjeta
+              </button>
+            </div>
+
+            <div class="mt-4 rounded-xl border border-white/10 bg-slate-900/60 p-3 text-xs">
+              <div class="flex justify-between text-slate-300">
+                <span>Cliente:</span>
+                <span class="font-semibold text-white">Cliente General (Boleta)</span>
+              </div>
+              <div class="mt-1 flex justify-between text-slate-300">
+                <span>Comprobante:</span>
+                <span class="font-mono text-emerald-300">B001-0004218</span>
+              </div>
+              <div class="mt-1 flex justify-between text-slate-300">
+                <span>Stock restante Leche:</span>
+                <span class="font-mono text-sky-300">42 un (Almacén A)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="rounded-xl bg-emerald-500 py-3 text-center text-sm font-bold text-white shadow-lg">
+              ✓ COBRAR E IMPRIMIR TICKET (F12)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

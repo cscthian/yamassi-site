@@ -1,0 +1,48 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { SiteHeader } from "@/components/ui/site-header";
+import MarketHero from "@/components/verticals/MarketHero.astro";
+import MarketFeatures from "@/components/verticals/MarketFeatures.astro";
+import MarketPricing from "@/components/verticals/MarketPricing.astro";
+import MarketFaq from "@/components/verticals/MarketFaq.astro";
+import VerticalCta from "@/components/verticals/VerticalCta.astro";
+import { SiteFooter } from "@/components/blocks/site-footer";
+---
+
+<Layout
+  title="Yamassi Tienda — Sistema de Control de Caja, Ventas e Inventario para Minimarkets, Bodegas y Tiendas Perú"
+  description="Software de punto de venta (POS) e inventario para tiendas, bodegas y minimarkets en Perú. Escáner de código de barras, control de vencimientos, kardex valorizado y facturación SUNAT."
+>
+  <main id="inicio" class="relative min-h-screen bg-white">
+    {/* Navigation con opciones específicas de Market */}
+    <SiteHeader client:load vertical="market" />
+
+    {/* Hero de Retail & Minimarket */}
+    <MarketHero />
+
+    {/* Módulos de POS, Kardex, Vencimientos y Proveedores */}
+    <MarketFeatures />
+
+    {/* Planes y precios para tiendas */}
+    <MarketPricing />
+
+    {/* Preguntas frecuentes */}
+    <MarketFaq />
+
+    {/* Llamado a la acción final */}
+    <VerticalCta
+      badge="Empieza 100% gratis para minimarkets"
+      title="Deja de perder dinero en productos vencidos y"
+      highlightedText="controla tu inventario al 100%"
+      description="Únete a cientos de bodegas, minimarkets y tiendas de conveniencia en todo el Perú que agilizaron su mostrador y protegen sus ganancias con Yamassi."
+      primaryCtaText="Empezar gratis con Yamassi"
+      primaryCtaHref="/login"
+      note="Sin tarjeta de crédito · Soporte en Perú · Importación de productos desde Excel gratis"
+    />
+
+    {/* Footer institucional */}
+    <SiteFooter />
+  </main>
+</Layout>

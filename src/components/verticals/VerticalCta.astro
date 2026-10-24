@@ -1,0 +1,70 @@
+---
+interface Props {
+  badge?: string;
+  title: string;
+  highlightedText?: string;
+  description: string;
+  primaryCtaText?: string;
+  primaryCtaHref?: string;
+  secondaryCtaText?: string;
+  secondaryCtaHref?: string;
+  note?: string;
+}
+
+const {
+  badge = "Empieza 100% gratis",
+  title,
+  highlightedText,
+  description,
+  primaryCtaText = "Empezar gratis con Yamassi",
+  primaryCtaHref = "/login",
+  secondaryCtaText = "Hablar con un asesor por WhatsApp",
+  secondaryCtaHref = "https://wa.me/51999999999?text=Hola%20Yamassi,%20deseo%20una%20demostraci%C3%B3n",
+  note = "Yamassi es gratis · Paga solo al superar límites · Soporte en Perú",
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-gradient-to-b from-[#0b1f4d] via-[#112264] to-[#080c14] py-20 text-white">
+  <!-- Ambient glows -->
+  <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-96 w-[600px] rounded-full bg-emerald-500/15 blur-[120px]" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute bottom-0 right-10 h-72 w-72 rounded-full bg-blue-500/15 blur-[90px]" aria-hidden="true"></div>
+
+  <div class="container relative mx-auto px-4 text-center max-w-4xl">
+    <div class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-bold text-emerald-300">
+      <span class="flex h-2 w-2 rounded-full bg-emerald-400"></span>
+      <span>{badge}</span>
+    </div>
+
+    <h2 class="mt-6 font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-balance leading-tight">
+      {title} {highlightedText && <span class="bg-gradient-to-r from-emerald-300 to-teal-200 bg-clip-text text-transparent">{highlightedText}</span>}
+    </h2>
+
+    <p class="mt-5 text-base sm:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed text-balance">
+      {description}
+    </p>
+
+    <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a
+        href={primaryCtaHref}
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-4 text-base font-bold text-white shadow-[0_12px_32px_rgba(16,185,129,0.35)] transition-all hover:scale-105 hover:shadow-[0_16px_40px_rgba(16,185,129,0.45)] cursor-pointer"
+      >
+        <span>{primaryCtaText}</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+      <a
+        href={secondaryCtaHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-4 text-base font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20"
+      >
+        <span>{secondaryCtaText}</span>
+      </a>
+    </div>
+
+    <p class="mt-5 text-xs text-white/50">
+      {note}
+    </p>
+  </div>
+</section>

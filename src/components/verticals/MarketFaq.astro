@@ -1,0 +1,60 @@
+---
+const faqs = [
+  {
+    q: "¿Tengo que comprar lectores de código de barras especiales o sirve cualquiera?",
+    a: "Sirve prácticamente cualquier pistola lectora USB o inalámbrica disponible en el mercado peruano (Honeywell, Zebra, lectores genéricos de Wilson o MercadoLibre). Yamassi funciona como un teclado virtual: conectas el escáner y lee de inmediato sin instalar drivers raros.",
+  },
+  {
+    q: "Tengo miles de productos en un Excel o en mi antiguo sistema, ¿tengo que tipear todo de nuevo?",
+    a: "¡Para nada! Yamassi incluye importador masivo en Excel. Puedes subir tu catálogo con código de barras, descripción, precio de costo, precio de venta y stock inicial. Nuestro equipo de soporte también te ayuda gratis a ordenar tu archivo si lo necesitas.",
+  },
+  {
+    q: "¿Cómo ayuda Yamassi a evitar que los cajeros cobren de más o se equivoquen con el vuelto?",
+    a: "El sistema calcula el vuelto exacto con monedas y billetes peruanos. Al terminar cada turno, el cajero realiza un arqueo ciego: declara cuánto dinero en efectivo y vouchers tiene físicamente, y el sistema genera el reporte de diferencias visible sólo para el administrador.",
+  },
+  {
+    q: "¿Puedo vender productos que no tienen código de barras, como pan, queso o verduras?",
+    a: "Sí. Puedes vender por búsqueda rápida escribiendo las primeras letras (ej: 'pan') o pulsando el botón visual del producto en pantalla. Si tienes balanza electrónica, Yamassi lee el peso automáticamente y calcula el precio exacto al gramo.",
+  },
+  {
+    q: "¿Cómo me avisa el sistema de los productos que están por vencer?",
+    a: "Cada vez que ingresas mercadería registras su fecha de vencimiento. Yamassi cuenta con un semáforo inteligente que te muestra en una lista prioritaria los productos que vencerán en los próximos 30, 15 o 7 días para que puedas colocarlos al frente de la góndola o armar ofertas.",
+  },
+  {
+    q: "¿Funciona si se corta la luz o el internet?",
+    a: "Yamassi cuenta con soporte offline. Si la señal de internet cae, la caja sigue vendiendo, cobrando e imprimiendo comprobantes. Cuando el internet regresa, todos los comprobantes se envían a SUNAT sin que tengas que hacer nada.",
+  },
+];
+---
+
+<section id="faq" class="scroll-mt-24 py-20 bg-white">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <div class="text-center">
+      <div class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3.5 py-1 text-xs font-bold text-slate-700">
+        <span>❓ Preguntas Frecuentes</span>
+      </div>
+      <h2 class="mt-4 font-serif text-3xl sm:text-4xl font-extrabold text-[#0b1f4d]">
+        Resolvemos tus dudas sobre Yamassi Market
+      </h2>
+      <p class="mt-3 text-slate-600 text-sm sm:text-base">
+        Todo lo que necesitas saber para digitalizar tu mostrador e inventario hoy mismo.
+      </p>
+    </div>
+
+    <div class="mt-12 space-y-4">
+      {faqs.map((faq) => (
+        <details class="group rounded-2xl border border-slate-200 bg-slate-50/50 p-5 transition-all duration-200 open:bg-white open:shadow-md">
+          <summary class="flex cursor-pointer list-none items-center justify-between text-base font-bold text-[#0b1f4d] focus:outline-none">
+            <span>{faq.q}</span>
+            <span class="ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-200 text-slate-700 transition-transform duration-200 group-open:rotate-180 group-open:bg-emerald-100 group-open:text-emerald-700 font-bold">
+              ↓
+            </span>
+          </summary>
+          <p class="mt-4 text-sm leading-relaxed text-slate-600 border-t border-slate-100 pt-3">
+            {faq.a}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,60 @@
+---
+const faqs = [
+  {
+    q: "¿Qué pasa si se cae el internet en pleno servicio de almuerzo o cena?",
+    a: "Yamassi cuenta con modo offline local. Si la conexión a internet falla temporalmente, tus mozos pueden seguir enviando comandas a cocina y tu caja puede seguir registrando cobros e imprimiendo comprobantes. En cuanto vuelve el internet, las ventas se sincronizan automáticamente con SUNAT y la nube.",
+  },
+  {
+    q: "¿Tengo que comprar equipos caros o puedo usar las tablets y celulares de mis mozos?",
+    a: "No requieres hardware propietario costoso. Yamassi funciona en cualquier tablet o smartphone Android, iPad, iPhone o laptop con navegador web. Puedes reutilizar tus impresoras térmicas de tickets (Epson, Bixolon, Xprinter) mediante red local, USB o Bluetooth.",
+  },
+  {
+    q: "¿Cómo funciona la división de cuentas en una mesa grande?",
+    a: "Es sumamente sencillo. Al momento de cobrar la mesa, el cajero puede elegir: (1) dividir el total en partes iguales (ej. entre 4 comensales), o (2) seleccionar plato por plato qué consumió cada persona y emitir boletas o facturas independientes con distintos medios de pago (uno con Yape, otro con tarjeta, otro en efectivo).",
+  },
+  {
+    q: "¿Las boletas y facturas electrónicas van directo a SUNAT?",
+    a: "Sí. Yamassi está 100% homologado con SUNAT y conectado con OSE. Emite Boletas, Facturas, Notas de Crédito y Guías de Remisión con código QR y CDR aprobado al instante. Además, incluye consulta automática de RUC y DNI.",
+  },
+  {
+    q: "¿Cómo me ayuda Yamassi a controlar que los mozos o cajeros no se queden con dinero?",
+    a: "Implementamos arqueos ciegos por turno. El cajero y mozo ingresan el monto físico contado sin saber cuánto marca el sistema. El sistema genera el reporte de diferencias (faltante o sobrante) accesible únicamente por el administrador o dueño del restaurante.",
+  },
+  {
+    q: "¿Ofrecen capacitación y ayuda para cargar nuestra carta y platos?",
+    a: "¡Totalmente! Durante tus 14 días de prueba nuestro equipo de soporte en Perú te ayuda a migrar o cargar tu carta de platos, configurar tus ambientes de mesas y conectar tus impresoras térmicas sin costo adicional.",
+  },
+];
+---
+
+<section id="faq" class="scroll-mt-24 py-20 bg-white">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <div class="text-center">
+      <div class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3.5 py-1 text-xs font-bold text-slate-700">
+        <span>❓ Preguntas Frecuentes</span>
+      </div>
+      <h2 class="mt-4 font-serif text-3xl sm:text-4xl font-extrabold text-[#0b1f4d]">
+        Todo lo que necesitas saber antes de empezar
+      </h2>
+      <p class="mt-3 text-slate-600 text-sm sm:text-base">
+        ¿Tienes dudas sobre la instalación o compatibilidad? Te respondemos claro.
+      </p>
+    </div>
+
+    <div class="mt-12 space-y-4">
+      {faqs.map((faq) => (
+        <details class="group rounded-2xl border border-slate-200 bg-slate-50/50 p-5 transition-all duration-200 open:bg-white open:shadow-md">
+          <summary class="flex cursor-pointer list-none items-center justify-between text-base font-bold text-[#0b1f4d] focus:outline-none">
+            <span>{faq.q}</span>
+            <span class="ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-200 text-slate-700 transition-transform duration-200 group-open:rotate-180 group-open:bg-emerald-100 group-open:text-emerald-700 font-bold">
+              ↓
+            </span>
+          </summary>
+          <p class="mt-4 text-sm leading-relaxed text-slate-600 border-t border-slate-100 pt-3">
+            {faq.a}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,223 @@
+---
+export const prerender = true;
+
+import { getCollection, render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { SiteHeader } from "@/components/ui/site-header";
+import { SiteFooter } from "@/components/blocks/site-footer";
+import { SITE_URL } from "@/lib/site";
+import {
+  Calendar,
+  Clock,
+  User,
+  ArrowLeft,
+  Share2,
+  CheckCircle2,
+  Sparkles,
+  ChevronRight,
+} from "lucide-react";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.md$/, "") },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const slug = post.id.replace(/\.md$/, "");
+const postUrl = `${SITE_URL}/blog/${slug}`;
+
+const formattedDate = new Intl.DateTimeFormat("es-PE", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+}).format(new Date(post.data.pubDate));
+
+// Schema.org Article structured data for Google & AI search engines
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: new Date(post.data.pubDate).toISOString(),
+  dateModified: post.data.updatedDate
+    ? new Date(post.data.updatedDate).toISOString()
+    : new Date(post.data.pubDate).toISOString(),
+  author: {
+    "@type": "Organization",
+    name: "Yamassi",
+    url: SITE_URL,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Yamassi",
+    url: SITE_URL,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/favicon.svg`,
+    },
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": postUrl,
+  },
+  inLanguage: "es-PE",
+  keywords: post.data.tags.join(", "),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: `${SITE_URL}/blog`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: post.data.title,
+      item: postUrl,
+    },
+  ],
+};
+---
+
+<Layout
+  title={`${post.data.title} — Blog Yamassi`}
+  description={post.data.description}
+>
+  <!-- Schema.org JSON-LD structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <main class="min-h-screen bg-slate-50 text-slate-900">
+    <SiteHeader client:load />
+
+    <!-- Article Header -->
+    <header class="relative pt-32 pb-16 bg-gradient-to-b from-[#0b1f4d] via-[#112264] to-[#080c14] text-white">
+      <div class="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-96 w-[600px] rounded-full bg-emerald-500/20 blur-[130px]" aria-hidden="true"></div>
+
+      <div class="container relative mx-auto px-4 max-w-4xl">
+        <!-- Breadcrumbs -->
+        <nav aria-label="Migas de pan" class="flex items-center gap-2 text-xs text-white/60 mb-6 flex-wrap">
+          <a href="/" class="hover:text-white transition-colors">Inicio</a>
+          <ChevronRight class="w-3 h-3 text-white/40" />
+          <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+          <ChevronRight class="w-3 h-3 text-white/40" />
+          <span class="text-emerald-300 truncate max-w-[240px] sm:max-w-none">{post.data.category}</span>
+        </nav>
+
+        <!-- Category & Reading Time -->
+        <div class="flex items-center gap-3 text-xs">
+          <span class="rounded-full bg-emerald-400/20 border border-emerald-400/30 px-3.5 py-1 font-bold text-emerald-300">
+            {post.data.category}
+          </span>
+          <span class="flex items-center gap-1 text-white/70">
+            <Clock class="w-3.5 h-3.5" />
+            {post.data.readingTime}
+          </span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="mt-5 font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight text-balance">
+          {post.data.title}
+        </h1>
+
+        <!-- Subtitle / Excerpt -->
+        <p class="mt-5 text-base sm:text-lg text-white/80 leading-relaxed max-w-3xl text-balance">
+          {post.data.description}
+        </p>
+
+        <!-- Meta info: Author & Date -->
+        <div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm text-white/70">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-bold">
+              Y
+            </div>
+            <div>
+              <p class="font-bold text-white">{post.data.author}</p>
+              <p class="text-xs text-white/60">{post.data.authorRole}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <Calendar class="w-4 h-4 text-emerald-300" />
+            <time datetime={post.data.pubDate.toString()}>{formattedDate}</time>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <article class="py-14 sm:py-20">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <!-- Markdown Body -->
+        <div class="prose-formal bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-12 shadow-sm">
+          <Content />
+        </div>
+
+        <!-- Tags Strip -->
+        <div class="mt-8 flex flex-wrap items-center gap-2">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mr-2">Temas:</span>
+          {post.data.tags.map((tag) => (
+            <span class="rounded-lg bg-slate-200/70 px-3 py-1 text-xs font-medium text-slate-700">
+              #{tag}
+            </span>
+          ))}
+        </div>
+
+        <!-- Author / Editorial Box -->
+        <div class="mt-12 rounded-3xl border border-slate-200 bg-white p-7 sm:p-8 flex flex-col sm:flex-row items-center gap-6 shadow-sm">
+          <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#0b1f4d] text-emerald-300 font-extrabold text-2xl shadow-md">
+            Y
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 class="font-bold text-[#0b1f4d] text-base">{post.data.author}</h4>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5">Oficial</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">{post.data.authorRole}</p>
+            <p class="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Equipo de ingeniería y asesoría comercial de Yamassi. Comprometidos con democratizar la tecnología de ventas y facturación electrónica SUNAT para los emprendedores y pymes de todo el Perú.
+            </p>
+          </div>
+        </div>
+
+        <!-- Navigation back -->
+        <div class="mt-8 flex items-center justify-between">
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-600 transition-colors"
+          >
+            <ArrowLeft class="w-4 h-4" />
+            <span>Volver al listado de artículos</span>
+          </a>
+
+          <a
+            href="/login"
+            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md hover:scale-105 transition-all"
+          >
+            <Sparkles class="w-3.5 h-3.5" />
+            <span>Probar Yamassi gratis</span>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Footer -->
+    <SiteFooter />
+  </main>
+</Layout>

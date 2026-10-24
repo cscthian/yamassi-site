@@ -1,0 +1,48 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { SiteHeader } from "@/components/ui/site-header";
+import OdontoHero from "@/components/verticals/OdontoHero.astro";
+import OdontoFeatures from "@/components/verticals/OdontoFeatures.astro";
+import OdontoPricing from "@/components/verticals/OdontoPricing.astro";
+import OdontoFaq from "@/components/verticals/OdontoFaq.astro";
+import VerticalCta from "@/components/verticals/VerticalCta.astro";
+import { SiteFooter } from "@/components/blocks/site-footer";
+---
+
+<Layout
+  title="Yamassi Odontología — Software para Clínicas y Consultorios Dentales en el Perú"
+  description="Software odontológico completo: odontograma interactivo norma MINSA, agenda médica con recordatorios WhatsApp, historias clínicas digitales, presupuestos por fases y facturación electrónica."
+>
+  <main id="inicio" class="relative min-h-screen bg-white">
+    {/* Navigation con opciones específicas de Odontología */}
+    <SiteHeader client:load vertical="odontologia" />
+
+    {/* Hero odontológico */}
+    <OdontoHero />
+
+    {/* Módulos clínicos: Odontograma, Agenda WhatsApp, Historias y Presupuestos */}
+    <OdontoFeatures />
+
+    {/* Planes y precios clínicos */}
+    <OdontoPricing />
+
+    {/* Preguntas frecuentes clínicas */}
+    <OdontoFaq />
+
+    {/* Llamado a la acción final */}
+    <VerticalCta
+      badge="Empieza 100% gratis para consultorios dentales"
+      title="Digitaliza tu clínica dental hoy y"
+      highlightedText="ofrece la mejor experiencia a tus pacientes"
+      description="Únete a decenas de odontólogos y clínicas en todo el Perú que profesionalizaron su atención, redujeron faltas a citas y organizaron sus finanzas con Yamassi."
+      primaryCtaText="Empezar gratis con Yamassi"
+      primaryCtaHref="/login"
+      note="Sin tarjeta de crédito · Soporte en Perú · Cumplimiento con norma técnica MINSA"
+    />
+
+    {/* Footer institucional */}
+    <SiteFooter />
+  </main>
+</Layout>

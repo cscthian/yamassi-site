@@ -1,0 +1,36 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name yamassi.com www.yamassi.com;
+    # Raíz del proyecto compilado
+    root /webapps/yamassi/dist;
+    index index.html index.htm;
+    charset utf-8;
+    # Logs independientes para no mezclar con otros proyectos
+    access_log /var/log/nginx/yamassi_access.log;
+    error_log /var/log/nginx/yamassi_error.log warn;
+    # Compresión para carga rápida
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml application/xml text/xml;
+    # Enrutamiento de páginas estáticas de Astro
+    location / {
+        try_files $uri $uri/ $uri/index.html =404;
+    }
+    # Caché para assets compilados, imágenes y multimedia
+    location ~* \.(?:ico|css|js|gif|jpe?g|png|webp|avif|svg|woff2?|webm|mp4)$ {
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
+        access_log off;
+    }
+    # Bloqueo de archivos ocultos (.env, .git, etc.)
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+    # Página 404
+    error_page 404 /404.html;
+}

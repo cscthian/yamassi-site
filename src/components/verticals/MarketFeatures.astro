@@ -1,0 +1,332 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<div class={`space-y-24 py-20 ${className}`}>
+  <!-- 1. SECCIÓN POS RÁPIDO (#pos) -->
+  <section id="pos" class="scroll-mt-24 container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-bold text-emerald-700">
+          <span>⚡ Punto de Venta (POS) Ultra Ágil</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+          Cobra en 3 segundos y <span class="text-emerald-600">despacha colas al instante</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Diseñado para el ritmo real del mostrador: pistolas lectoras de código de barras, integración con balanzas electrónicas para productos a granel, y atajos de teclado para no tocar el mouse.
+        </p>
+
+        <ul class="space-y-4 pt-2">
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Lector de código de barras 100% plug & play</strong>
+              <span class="text-slate-600 text-sm">Escanea cualquier código EAN-13, EAN-8 o genera tus propios códigos de barras para productos sueltos.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Balanza electrónica para embutidos, frutas y verduras</strong>
+              <span class="text-slate-600 text-sm">Lee el peso automáticamente o ingresa gramos/kilos con cálculo automático de precio.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Control de fiados ("Fíame casero")</strong>
+              <span class="text-slate-600 text-sm">Registra cuentas corrientes de vecinos de confianza con límite de crédito y recordatorios de pago.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-3">
+              <span class="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold text-lg">🛒</span>
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm">Caja Rápida Retail · Modo Mostrador</h4>
+                <p class="text-xs text-slate-500">Atajo F9: Búsqueda rápida · F12: Cobrar</p>
+              </div>
+            </div>
+            <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 font-bold">100% Offline Ready</span>
+          </div>
+
+          <div class="mt-5 space-y-3">
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">Gaseosa Inka Kola 500ml</p>
+                <p class="text-xs text-slate-500">Cód: 7750123004 · Stock actual: 48 un</p>
+              </div>
+              <span class="font-mono font-bold text-slate-900">S/ 3.50</span>
+            </div>
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">Huevo Pardo Primera (x kilo)</p>
+                <p class="text-xs text-emerald-700 font-medium">Balanza: 1.450 kg @ S/ 9.20/kg</p>
+              </div>
+              <span class="font-mono font-bold text-slate-900">S/ 13.34</span>
+            </div>
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">Detergente Bolívar Floral 800g</p>
+                <p class="text-xs text-slate-500">Cód: 7750890012 · Stock actual: 16 un</p>
+              </div>
+              <span class="font-mono font-bold text-slate-900">S/ 8.20</span>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-500">Ticket térmico 80mm / 58mm listo</span>
+            <span class="text-emerald-600 font-bold">Boleta enviada por WhatsApp al cliente</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SECCIÓN INVENTARIO Y KARDEX (#inventario) -->
+  <section id="inventario" class="scroll-mt-24 bg-slate-50 py-20 border-y border-slate-200/80">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 order-2 lg:order-1">
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <span class="font-bold text-slate-900 text-sm">Kardex de Producto: Arroz Extra 5kg</span>
+              <span class="rounded-full bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 font-bold">Método Promedio Ponderado</span>
+            </div>
+
+            <div class="mt-4 space-y-2.5 text-xs">
+              <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Compra Proveedor: Molinera del Sur</span>
+                  <span class="text-slate-500">Factura F002-1209 · +50 sacos @ S/ 18.50</span>
+                </div>
+                <span class="font-mono text-emerald-600 font-bold">+50 un</span>
+              </div>
+              <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Venta Mostrador Turno Mañana</span>
+                  <span class="text-slate-500">Boletas correlativas B001-4190 al 4205</span>
+                </div>
+                <span class="font-mono text-rose-600 font-bold">-18 un</span>
+              </div>
+              <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Traslado a Sucursal #2 (Surco)</span>
+                  <span class="text-slate-500">Guía de remisión electrónica T001-0082</span>
+                </div>
+                <span class="font-mono text-amber-600 font-bold">-10 un</span>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+              <div>
+                <span class="text-slate-500 block">Stock Disponible en Tienda:</span>
+                <span class="font-bold text-slate-900 font-mono text-base">22 sacos (110 kg)</span>
+              </div>
+              <div class="text-right">
+                <span class="text-slate-500 block">Valorización en Almacén:</span>
+                <span class="font-bold text-emerald-600 font-mono text-base">S/ 407.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 text-xs font-bold text-blue-700">
+            <span>📦 Inventario & Kardex Valorizado</span>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+            Cada producto ubicado, <span class="text-blue-600">cada centavo justificado</span>
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+            Se acabaron los inventarios de fin de mes que duraban días enteros. Con Yamassi tienes conteo en tiempo real, alertas de stock mínimo y kardex formal listo para SUNAT.
+          </p>
+
+          <div class="space-y-4 pt-2">
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Alertas automáticas de reposición (Stock Mínimo)</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Define el stock de seguridad de cada producto y Yamassi te avisará antes de que te quedes sin mercadería clave.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Toma de inventario rápida con celular</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Usa la cámara de cualquier teléfono como pistola lectora para auditar estantes y góndolas en minutos.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Múltiples almacenes y transferencias internas</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Gestiona almacén principal, trastienda y góndolas con guías de remisión electrónicas entre sedes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SECCIÓN VENCIMIENTOS Y LOTES (#alertas) -->
+  <section id="alertas" class="scroll-mt-24 container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/20 px-3.5 py-1 text-xs font-bold text-amber-700">
+          <span>⏰ Alertas de Vencimiento & Lotes</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+          Cero productos botados a la basura <span class="text-amber-600">por fechas vencidas</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          En un minimarket, los lácteos, embutidos y panificados son dinero congelado. El semáforo de vencimientos de Yamassi te avisa con 30, 15 y 7 días de anticipación para armar promociones o devolver a proveedores.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">🟢</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Semáforo de caducidad</h4>
+            <p class="text-xs text-slate-600 mt-1">Panel visual que clasifica tus productos en verde, amarillo y rojo según los días restantes.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">🔄</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Rotación FIFO automática</h4>
+            <p class="text-xs text-slate-600 mt-1">Lo primero que vence es lo primero que se recomienda vender en mostrador.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">🏷️</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Combos y liquidaciones</h4>
+            <p class="text-xs text-slate-600 mt-1">Crea descuentos de última hora para rematar productos prontos a vencer y recuperar tu capital.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">↩️</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Devolución a proveedores</h4>
+            <p class="text-xs text-slate-600 mt-1">Genera reportes de canje para entregar a los distribuidores que aceptan cambios de mercadería.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="font-bold text-slate-900 text-sm">Semáforo Preventivo de Vencimientos</div>
+            <span class="rounded-full bg-rose-100 text-rose-800 text-xs px-2.5 py-0.5 font-bold">3 Alertas Críticas</span>
+          </div>
+
+          <div class="mt-4 space-y-3">
+            <!-- Item Crítico -->
+            <div class="rounded-xl border border-rose-200 bg-rose-50/60 p-3.5 flex items-center justify-between text-xs">
+              <div>
+                <span class="font-bold text-rose-900 block">Yogurt Gloria Fresa 1L (12 un)</span>
+                <span class="text-rose-700">Vence en 4 días (12 Oct) · Lote: L24-09</span>
+              </div>
+              <span class="px-2 py-1 rounded bg-rose-600 text-white font-bold">¡Rematar 2x1!</span>
+            </div>
+
+            <!-- Item Atención -->
+            <div class="rounded-xl border border-amber-200 bg-amber-50/60 p-3.5 flex items-center justify-between text-xs">
+              <div>
+                <span class="font-bold text-amber-900 block">Pan de Molde Unión Integral (8 un)</span>
+                <span class="text-amber-700">Vence en 9 días (17 Oct) · Lote: UN-11</span>
+              </div>
+              <span class="px-2 py-1 rounded bg-amber-200 text-amber-900 font-semibold">Exhibir al frente</span>
+            </div>
+
+            <!-- Item OK -->
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50/60 p-3.5 flex items-center justify-between text-xs">
+              <div>
+                <span class="font-bold text-emerald-900 block">Atún Primor Trozos en Aceite (48 un)</span>
+                <span class="text-emerald-700">Vence en 14 meses (Dic 2027) · Lote: PR-88</span>
+              </div>
+              <span class="px-2 py-1 rounded bg-emerald-200 text-emerald-900 font-semibold">Óptimo</span>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700">
+            <strong>Ahorro estimado mensual:</strong> Evitar el descarte de sólo 5 productos perecibles por semana ahorra en promedio más de <strong>S/ 480 al mes</strong> en un minimarket estándar.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SECCIÓN PROVEEDORES (#proveedores) -->
+  <section id="proveedores" class="scroll-mt-24 bg-slate-50 py-20 border-y border-slate-200/80">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6">
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm">Órdenes de Compra y Cuentas por Pagar</h4>
+                <p class="text-xs text-slate-500">Distribuidora Continental S.A.C.</p>
+              </div>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 font-bold">XML Cargado OK</span>
+            </div>
+
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Factura de Proveedor recibida:</span>
+                <span class="font-mono font-bold">F001-0089123</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Condición de pago:</span>
+                <span class="font-semibold text-amber-700">Crédito 15 días (Vence en 6 días)</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Monto total de compra:</span>
+                <span class="font-mono font-bold">S/ 3,420.00</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Actualización automática de precios:</span>
+                <span class="text-emerald-600 font-bold">34 productos actualizados</span>
+              </div>
+            </div>
+
+            <div class="mt-4 rounded-xl bg-blue-50 border border-blue-200 p-3 text-xs text-blue-900">
+              <strong>Importación automática de XML:</strong> Sube el archivo XML que te envía tu distribuidor y Yamassi creará o sumará los productos al almacén sin que tengas que tipear uno por uno.
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-teal-500/10 border border-teal-500/20 px-3.5 py-1 text-xs font-bold text-teal-700">
+            <span>🤝 Gestión de Proveedores & Compras</span>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+            Compara precios de compra y <span class="text-teal-600">mantén tus márgenes intactos</span>
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+            ¿Tu distribuidor subió el precio del aceite o el azúcar? Yamassi detecta automáticamente las variaciones de costo para que actualices tus precios de venta al instante y nunca vendas a pérdida.
+          </p>
+
+          <ul class="space-y-4 pt-2">
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Historial de cotizaciones por proveedor</strong>
+                <span class="text-slate-600 text-sm">Descubre quién te vende más barato cada marca y negocia mejores condiciones de compra.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Calendario de pagos a distribuidores</strong>
+                <span class="text-slate-600 text-sm">Evita atrasos o cortes de crédito de proveedores como Alicorp, Gloria o Backus con alertas de pago.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Recepción rápida con pistola lectora</strong>
+                <span class="text-slate-600 text-sm">Verifica bulto por bulto lo que te deja el camión para evitar mercadería faltante antes de firmar la guía.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,349 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<div class={`space-y-24 py-20 ${className}`}>
+  <!-- 1. SECCIÓN COMANDAS (#comandas) -->
+  <section id="comandas" class="scroll-mt-24 container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/20 px-3.5 py-1 text-xs font-bold text-amber-700">
+          <span>⚡ Comandas Instantáneas</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+          Del mozo a la cocina y barra <span class="text-amber-600">en menos de 1 segundo</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Olvídate de mozos corriendo con papelitos manchados o comandas perdidas. Con Yamassi, cada pedido se envía automáticamente a su estación correspondiente: cocina caliente, cevichería o barra de tragos.
+        </p>
+
+        <ul class="space-y-4 pt-2">
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Impresión térmica o pantalla KDS inteligente</strong>
+              <span class="text-slate-600 text-sm">Compatible con impresoras de red/Bluetooth o tablets en cocina para marcar platos listos.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Modificadores y notas especiales para el chef</strong>
+              <span class="text-slate-600 text-sm">"Sin cebolla", "Término medio", "Tártara aparte". Todo llega claro para evitar platos devueltos.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Tiempos de preparación y alertas de retraso</strong>
+              <span class="text-slate-600 text-sm">Monitorea el tiempo promedio desde la toma del pedido hasta la mesa para mejorar la rotación.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-3">
+              <span class="h-10 w-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold text-lg">🍳</span>
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm">Comandera de Cocina · Estación Caliente</h4>
+                <p class="text-xs text-slate-500">Orden #042 · Mesa 5 (4 pax)</p>
+              </div>
+            </div>
+            <span class="rounded-full bg-amber-100 text-amber-800 text-xs px-2.5 py-1 font-semibold animate-pulse">04:12 min en cola</span>
+          </div>
+
+          <div class="mt-5 space-y-3">
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">1x Lomo Saltado Especial</p>
+                <p class="text-xs text-amber-700 font-medium">Nota: Término 3/4 · Papas bien crocantes</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-xs font-bold">Marchando</span>
+            </div>
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">1x Fettuccine a la Huancaína con Lomo</p>
+                <p class="text-xs text-slate-500">Sin picante extra</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-xs font-bold">Marchando</span>
+            </div>
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">1x Arroz con Mariscos</p>
+                <p class="text-xs text-slate-500">Separado a estación Fritura y Salteado</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700 text-xs font-semibold">Listo</span>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Mozo: Roberto Quispe (Tablet 02)</span>
+            <span class="text-emerald-600 font-bold">Impreso en Ticketera Cocina OK</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SECCIÓN MESAS (#mesas) -->
+  <section id="mesas" class="scroll-mt-24 bg-slate-50 py-20 border-y border-slate-200/80">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 order-2 lg:order-1">
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <span class="font-bold text-slate-900 text-sm">Mapa Gráfico de Salón y Terraza</span>
+              <div class="flex gap-2 text-xs">
+                <span class="flex items-center gap-1 text-emerald-700 font-medium"><span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span> Libre</span>
+                <span class="flex items-center gap-1 text-rose-700 font-medium"><span class="h-2.5 w-2.5 rounded-full bg-rose-500"></span> Ocupada</span>
+                <span class="flex items-center gap-1 text-amber-700 font-medium"><span class="h-2.5 w-2.5 rounded-full bg-amber-500"></span> Cuenta</span>
+              </div>
+            </div>
+
+            <!-- Grid de mesas visual -->
+            <div class="mt-6 grid grid-cols-3 gap-3 text-center">
+              <div class="rounded-2xl border-2 border-rose-300 bg-rose-50/60 p-3.5">
+                <div class="font-bold text-rose-900 text-sm">Mesa 1</div>
+                <div class="text-[11px] text-rose-700 mt-1">4 pax · S/ 142</div>
+                <div class="mt-2 text-[10px] font-bold bg-rose-200 text-rose-800 rounded px-1.5 py-0.5">Ocupada</div>
+              </div>
+              <div class="rounded-2xl border-2 border-emerald-300 bg-emerald-50/60 p-3.5">
+                <div class="font-bold text-emerald-900 text-sm">Mesa 2</div>
+                <div class="text-[11px] text-emerald-700 mt-1">2 pax disponible</div>
+                <div class="mt-2 text-[10px] font-bold bg-emerald-200 text-emerald-800 rounded px-1.5 py-0.5">Libre</div>
+              </div>
+              <div class="rounded-2xl border-2 border-amber-300 bg-amber-50/60 p-3.5">
+                <div class="font-bold text-amber-900 text-sm">Mesa 3</div>
+                <div class="text-[11px] text-amber-700 mt-1">6 pax · S/ 285</div>
+                <div class="mt-2 text-[10px] font-bold bg-amber-200 text-amber-800 rounded px-1.5 py-0.5">Pide Cuenta</div>
+              </div>
+              <div class="rounded-2xl border-2 border-rose-300 bg-rose-50/60 p-3.5">
+                <div class="font-bold text-rose-900 text-sm">Mesa 4</div>
+                <div class="text-[11px] text-rose-700 mt-1">2 pax · S/ 88</div>
+                <div class="mt-2 text-[10px] font-bold bg-rose-200 text-rose-800 rounded px-1.5 py-0.5">Ocupada</div>
+              </div>
+              <div class="rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-3.5">
+                <div class="font-bold text-slate-700 text-sm">Mesa 5 + 6</div>
+                <div class="text-[11px] text-slate-500 mt-1">Mesa Unida (10 pax)</div>
+                <div class="mt-2 text-[10px] font-bold bg-slate-200 text-slate-700 rounded px-1.5 py-0.5">Grupo Grande</div>
+              </div>
+              <div class="rounded-2xl border-2 border-emerald-300 bg-emerald-50/60 p-3.5">
+                <div class="font-bold text-emerald-900 text-sm">Mesa 7</div>
+                <div class="text-[11px] text-emerald-700 mt-1">4 pax disponible</div>
+                <div class="mt-2 text-[10px] font-bold bg-emerald-200 text-emerald-800 rounded px-1.5 py-0.5">Libre</div>
+              </div>
+            </div>
+
+            <div class="mt-6 p-3 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900 flex items-center justify-between">
+              <span>💡 ¿Mesa compartida o amigos dividiendo cuenta?</span>
+              <span class="font-bold text-blue-700">Separar por items o partes iguales</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 text-xs font-bold text-blue-700">
+            <span>🪑 Gestión de Salón, Mesas & Barra</span>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+            Visualiza tu salón en vivo y <span class="text-blue-600">divide cuentas sin dolor</span>
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+            Nada frena más una venta en fin de semana que una mesa de amigos pidiendo pagar por separado. Con Yamassi divides cuentas en 2 clics por platos consumidos o montos iguales.
+          </p>
+
+          <div class="space-y-4 pt-2">
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Mover o juntar mesas con un toque</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">¿Los clientes cambiaron de mesa o armaron grupo? Pasa todos los pedidos sin perder el hilo de las comandas ni duplicar platos.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Pre-cuenta inmediata con código QR</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Imprime el ticket de pre-cuenta para que el cliente revise su consumo antes de emitir la boleta o factura definitiva.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Múltiples ambientes (Salón, Segundo piso, Terraza, Barra)</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Configura tantos ambientes como tenga tu local y asigna mozos específicos a cada área.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SECCIÓN CAJA Y POS (#caja) -->
+  <section id="caja" class="scroll-mt-24 container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-bold text-emerald-700">
+          <span>💰 Control de Caja & Arqueos Ciegos</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+          Caja blindada contra faltantes y <span class="text-emerald-600">facturación SUNAT sin multas</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Evita pérdidas y confusiones con arqueos de caja ciegos por turno. Acepta Yape, Plin, tarjetas y efectivo con propinas desglosadas con claridad para tu equipo.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">🔒</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Arqueo de caja ciego</h4>
+            <p class="text-xs text-slate-600 mt-1">El cajero declara lo que tiene en físico sin ver el sistema. Se detectan faltantes y sobrantes al centavo.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">📲</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Yape & Plin integrados</h4>
+            <p class="text-xs text-slate-600 mt-1">Verificación rápida de comprobantes digitales de billeteras para no dejar pasar capturas falsas.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">📑</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Boletas y Facturas SUNAT</h4>
+            <p class="text-xs text-slate-600 mt-1">Emisión directa y homologada. Consulta RUC y DNI automática con un clic.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">👥</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Propinas por mozo</h4>
+            <p class="text-xs text-slate-600 mt-1">Reporte exacto de propinas en tarjeta y efectivo para repartir equitativamente entre salón y cocina.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="font-bold text-slate-900 text-sm">Resumen de Cierre de Turno · Caja Central</div>
+            <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 font-bold">Cuadre Perfecto</span>
+          </div>
+
+          <div class="mt-4 space-y-3">
+            <div class="flex justify-between items-center text-sm py-1.5 border-b border-slate-100">
+              <span class="text-slate-600">Efectivo en caja (soles):</span>
+              <span class="font-mono font-bold text-slate-900">S/ 1,420.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm py-1.5 border-b border-slate-100">
+              <span class="text-slate-600">Billeteras digitales (Yape / Plin):</span>
+              <span class="font-mono font-bold text-slate-900">S/ 2,180.50</span>
+            </div>
+            <div class="flex justify-between items-center text-sm py-1.5 border-b border-slate-100">
+              <span class="text-slate-600">Tarjetas crédito / débito (POS):</span>
+              <span class="font-mono font-bold text-slate-900">S/ 3,650.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm py-1.5 border-b border-slate-100">
+              <span class="text-slate-600">Propinas registradas en tarjeta:</span>
+              <span class="font-mono font-bold text-emerald-600">+ S/ 285.00</span>
+            </div>
+            <div class="flex justify-between items-center text-base py-2 font-bold bg-slate-50 px-3 rounded-xl">
+              <span class="text-[#0b1f4d]">Total Venta Bruta Turno:</span>
+              <span class="font-mono text-emerald-600 text-lg">S/ 7,535.50</span>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-xs text-emerald-900">
+            <div class="font-bold flex items-center gap-1.5">
+              <span>✓ Comprobantes SUNAT transmitidos:</span>
+              <span>84 boletas · 16 facturas</span>
+            </div>
+            <p class="mt-1 text-emerald-700">Todas las operaciones validadas con el OSE sin rechazos ni colas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SECCIÓN RECETAS & INSUMOS (#recetas) -->
+  <section id="recetas" class="scroll-mt-24 bg-slate-50 py-20 border-y border-slate-200/80">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6">
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm">Escandallo: Ceviche Mixto Tradicional</h4>
+                <p class="text-xs text-slate-500">Receta estándar por porción</p>
+              </div>
+              <span class="rounded-full bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 font-bold">Margen: 68%</span>
+            </div>
+
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Filete de corvina fresca (180g)</span>
+                <span class="font-mono">Costo: S/ 8.50</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Mixtura de mariscos cocidos (120g)</span>
+                <span class="font-mono">Costo: S/ 4.20</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Limón sutil, ají limo y culantro</span>
+                <span class="font-mono">Costo: S/ 1.10</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100 text-slate-700">
+                <span>Guarnición (camote glaseado, choclo desgranado)</span>
+                <span class="font-mono">Costo: S/ 1.00</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center text-xs">
+              <div>
+                <span class="text-slate-500 block">Costo total de insumos:</span>
+                <span class="font-bold text-slate-900 font-mono text-sm">S/ 14.80</span>
+              </div>
+              <div class="text-right">
+                <span class="text-slate-500 block">Precio de venta en carta:</span>
+                <span class="font-bold text-emerald-600 font-mono text-base">S/ 46.00</span>
+              </div>
+            </div>
+
+            <div class="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-900">
+              <strong>Descuento automático de inventario:</strong> Cada vez que se marcha este plato, el sistema descuenta automáticamente los 180g de corvina y 120g de mixtura del stock de almacén central.
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-rose-500/10 border border-rose-500/20 px-3.5 py-1 text-xs font-bold text-rose-700">
+            <span>🥩 Control de Insumos & Escandallos</span>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+            Descubre exactamente <span class="text-rose-600">cuánto te cuesta cada plato</span>
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+            El secreto de los restaurantes más rentables es no desperdiciar insumos. Con el costeo de recetas de Yamassi, sabrás cuál es tu plato estrella con más margen y reducirás mermas en cocina.
+          </p>
+
+          <ul class="space-y-4 pt-2">
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Descuento de stock en gramos, kilos y unidades</strong>
+                <span class="text-slate-600 text-sm">Controla cortes de carne, kilos de pollo, mariscos, licores y botellas por trago vendido.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Alertas de insumos críticos antes de la noche</strong>
+                <span class="text-slate-600 text-sm">El sistema te avisa qué insumos están por agotarse para hacer pedidos a proveedores a tiempo.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Mermas y desperdicios bajo control</strong>
+                <span class="text-slate-600 text-sm">Registra platos devueltos, productos vencidos o mermas de producción para no perder dinero.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

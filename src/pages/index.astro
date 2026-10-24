@@ -1,0 +1,53 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { SiteHeader } from "@/components/ui/site-header";
+import { HeroSection } from "@/components/blocks/hero-section";
+import { FeaturesSection } from "@/components/blocks/features-section";
+import { SocialProof } from "@/components/blocks/social-proof";
+import { AyniSegmentationAccordion } from "@/components/ui/interactive-image-accordion";
+import { CopilotoSection } from "@/components/blocks/copiloto-section";
+import { ConfianzaSection } from "@/components/blocks/confianza-section";
+import { EsenciaSection } from "@/components/blocks/esencia-section";
+import { AyniPricing } from "@/components/ui/pricing";
+import { TrustClosing } from "@/components/blocks/trust-closing";
+import { SiteFooter } from "@/components/blocks/site-footer";
+---
+
+<Layout>
+  <main id="inicio" class="relative min-h-screen bg-white">
+    {/* Navigation */}
+    <SiteHeader client:load />
+
+    {/* 1 · HERO — all-in-one suite (cinematic scroll expansion + rotating headline) */}
+    <HeroSection client:load />
+
+    {/* 2 · PRODUCT SUITE (sticky bento scroll reveal) */}
+    <FeaturesSection client:visible />
+
+    {/* 3 · SOCIAL PROOF STATS (Componente TSX estático) */}
+    <SocialProof />
+
+    {/* 4 · INDUSTRY SEGMENTATION ACCORDION */}
+    <AyniSegmentationAccordion client:visible />
+
+    {/* 5 · CO-PILOTO IA (Spline 3D + Spotlight + capabilities) */}
+    <CopilotoSection client:visible />
+
+    {/* 6 · TRUST (Mockup + floating chips + pillars) (Componente TSX estático) */}
+    <ConfianzaSection />
+
+    {/* 7 · ESENCIA — Andean principles (Yanantin, Masintin, Ayni) (Componente TSX estático) */}
+    <EsenciaSection />
+
+    {/* 8 · PRICING (NumberFlow + annual/monthly toggle + cut reveal) */}
+    <AyniPricing client:visible />
+
+    {/* 9 · FAQ + FINAL CTA (Componente TSX estático con details/summary) */}
+    <TrustClosing />
+
+    {/* 10 · SITE FOOTER (Componente TSX estático) */}
+    <SiteFooter />
+  </main>
+</Layout>

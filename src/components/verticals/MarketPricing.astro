@@ -1,0 +1,226 @@
+---
+import { TIENDA_URL } from "@/lib/site";
+
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+
+const MARKET_BASE_FEATURES = [
+  "Ventas ilimitadas",
+  "Productos ilimitados",
+  "Reportes de ventas",
+  "Reportes de ganancias",
+  "Productos más vendidos",
+  "Hasta 10 colaboradores",
+  "Soporte prioritario",
+];
+
+const MARKET_ELITE_FEATURES = [
+  "Ahorra un 37%",
+  "Se parte de soporte VIP",
+  "Ventas ilimitadas",
+  "Productos ilimitados",
+  "Reportes de ventas",
+  "Reportes de ganancias",
+  "Productos más vendidos",
+  "Hasta 10 colaboradores",
+  "Soporte prioritario",
+];
+---
+
+<section id="precios" class={`scroll-mt-24 py-20 bg-slate-50 border-t border-slate-200/80 ${className}`}>
+  <div class="container mx-auto px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-bold text-emerald-700">
+        <span>🏷️ Planes Transparentes para Retail</span>
+      </div>
+      <h2 class="mt-4 font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+        Planes diseñados para tu minimarket o tienda
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed text-balance">
+        Productos y ventas ilimitadas, reportes completos y colaboradores. Elige cómo pagar y ahorra hasta un 38% con el plan anual.
+      </p>
+    </div>
+
+    <div class="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+      <!-- PLAN 1: Plan Básico -->
+      <div class="rounded-3xl border border-slate-200 bg-white p-7 sm:p-8 shadow-sm flex flex-col justify-between transition-all hover:shadow-xl">
+        <div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-purple-700">PAGO MENSUAL</span>
+            <span class="rounded-full bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-xs font-bold text-rose-600">
+              -24%
+            </span>
+          </div>
+
+          <h3 class="mt-3 text-3xl font-extrabold text-slate-900">Plan Básico</h3>
+
+          <div class="mt-4">
+            <span class="text-xs text-slate-400 line-through">S/ 20.90/mes</span>
+            <div class="flex items-baseline gap-1 mt-0.5">
+              <span class="text-3xl sm:text-4xl font-black text-slate-900">S/ 15.90</span>
+              <span class="text-xs text-slate-500 font-medium">/mes</span>
+            </div>
+            <p class="mt-1 text-xs text-slate-500">Sin permanencia, cancela cuando quieras</p>
+          </div>
+
+          <!-- Chip de ahorro -->
+          <div class="mt-4 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 px-3 py-1 text-xs font-bold text-emerald-700">
+            <span>🎉</span>
+            <span>Ahorras S/ 5.00</span>
+          </div>
+
+          <p class="mt-4 text-xs sm:text-sm text-slate-600 leading-relaxed min-h-[44px]">
+            Lleva la gestión de tu negocio al siguiente nivel con el Plan Básico de Yamassi. Disfruta de una suscripción mensual que te permite vender sin límites.
+          </p>
+
+          <!-- Lista de Beneficios -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <ul class="space-y-3 text-xs sm:text-[13px] text-slate-700">
+              {MARKET_BASE_FEATURES.map((feature) => (
+                <li class="flex items-center gap-2.5">
+                  <span class="text-emerald-500 font-bold">✓</span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-4">
+          <a
+            href={TIENDA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#4c1d95] hover:bg-[#3b0764] py-3.5 px-4 text-sm font-bold text-white shadow-md transition-colors"
+          >
+            <span>💬 Elegir Plan Básico</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PLAN 2: Plan Estándar (RECOMENDADO - TARJETA MORADA DESTACADA) -->
+      <div class="relative rounded-3xl bg-gradient-to-b from-[#3b0764] via-[#4c1d95] to-[#3b0764] text-white p-7 sm:p-8 shadow-2xl flex flex-col justify-between transition-all hover:shadow-2xl md:scale-100 lg:scale-105 z-10 border-2 border-amber-400/80">
+        <!-- Badge Recomendado Superior -->
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-4 py-1 text-xs font-extrabold uppercase tracking-wider text-slate-950 shadow-md">
+          RECOMENDADO
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-200">PAGO SEMESTRAL</span>
+            <span class="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-bold text-white">
+              -24%
+            </span>
+          </div>
+
+          <h3 class="mt-3 text-3xl font-extrabold text-white">Plan Estándar</h3>
+
+          <div class="mt-4">
+            <span class="text-xs text-white/50 line-through">S/ 16.90/mes</span>
+            <div class="flex items-baseline gap-1 mt-0.5">
+              <span class="text-3xl sm:text-4xl font-black text-white">S/ 12.90</span>
+              <span class="text-xs text-white/70 font-medium">/mes</span>
+            </div>
+            <p class="mt-1 text-xs text-white/80">Se cobra S/ 77.40 cada 6 meses</p>
+          </div>
+
+          <!-- Chip de ahorro -->
+          <div class="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/25 px-3 py-1 text-xs font-bold text-emerald-300">
+            <span>🎉</span>
+            <span>Ahorras S/ 24.00</span>
+          </div>
+
+          <p class="mt-4 text-xs sm:text-sm text-white/85 leading-relaxed min-h-[44px]">
+            Ahorra hasta un 18.87%. Disfruta de una suscripción semestral que te permite vender sin límites y acceder a todas las funciones del sistema.
+          </p>
+
+          <!-- Lista de Beneficios -->
+          <div class="mt-6 pt-6 border-t border-white/15">
+            <ul class="space-y-3 text-xs sm:text-[13px] text-white/90">
+              {MARKET_BASE_FEATURES.map((feature) => (
+                <li class="flex items-center gap-2.5">
+                  <span class="text-emerald-300 font-bold">✓</span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-4">
+          <a
+            href={TIENDA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-400 hover:bg-amber-300 py-3.5 px-4 text-sm font-extrabold text-slate-950 shadow-lg shadow-amber-400/25 transition-transform hover:scale-102"
+          >
+            <span>💬 Elegir Plan Estándar</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PLAN 3: Plan Élite -->
+      <div class="rounded-3xl border border-slate-200 bg-white p-7 sm:p-8 shadow-sm flex flex-col justify-between transition-all hover:shadow-xl md:col-span-2 md:max-w-md md:mx-auto lg:col-span-1 lg:max-w-none w-full">
+        <div>
+          <div class="flex items-center justify-between">
+            <div class="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-2.5 py-0.5 text-xs font-bold text-white shadow-xs">
+              <span>⭐</span>
+              <span>AHORRA 37%</span>
+            </div>
+            <span class="rounded-full bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-xs font-bold text-rose-600">
+              -34%
+            </span>
+          </div>
+
+          <h3 class="mt-3 text-3xl font-extrabold text-slate-900">Plan Élite</h3>
+          <span class="text-xs font-bold uppercase tracking-wider text-purple-700">PAGO ANUAL</span>
+
+          <div class="mt-3">
+            <span class="text-xs text-slate-400 line-through">S/ 14.90/mes</span>
+            <div class="flex items-baseline gap-1 mt-0.5">
+              <span class="text-3xl sm:text-4xl font-black text-slate-900">S/ 9.90</span>
+              <span class="text-xs text-slate-500 font-medium">/mes</span>
+            </div>
+            <p class="mt-1 text-xs text-slate-500">Se cobra S/ 118.80 al año</p>
+          </div>
+
+          <!-- Chip de ahorro -->
+          <div class="mt-4 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 px-3 py-1 text-xs font-bold text-emerald-700">
+            <span>🎉</span>
+            <span>Ahorras S/ 60.00</span>
+          </div>
+
+          <p class="mt-4 text-xs sm:text-sm text-slate-600 leading-relaxed min-h-[44px]">
+            Ahorra hasta S/ 72.00 Anual. La tarifa mensual más baja garantizada. Máximo ahorro anual con toda la potencia del sistema.
+          </p>
+
+          <!-- Lista de Beneficios -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <ul class="space-y-3 text-xs sm:text-[13px] text-slate-700">
+              {MARKET_ELITE_FEATURES.map((feature, idx) => (
+                <li class="flex items-center gap-2.5">
+                  <span class="text-emerald-500 font-bold">✓</span>
+                  <span class={idx === 0 || idx === 1 ? "font-semibold text-slate-900" : ""}>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-4">
+          <a
+            href={TIENDA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-slate-50 hover:bg-slate-100 py-3.5 px-4 text-sm font-bold text-slate-800 transition-colors shadow-xs"
+          >
+            <span>✓ Tu plan actual</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,141 @@
+---
+export const prerender = true;
+
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { SiteHeader } from "@/components/ui/site-header";
+import { SiteFooter } from "@/components/blocks/site-footer";
+import { BookOpen, Calendar, Clock, ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
+
+const posts = await getCollection("blog");
+// Sort by publication date descending
+posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+---
+
+<Layout
+  title="Blog Yamassi — Guías de POS, Facturación SUNAT y Gestión Comercial para Pymes en Perú"
+  description="Artículos, guías prácticas y normativas tributarias sobre sistemas punto de venta (POS), facturación electrónica SUNAT, inventario y crecimiento para negocios en Perú."
+>
+  <main class="min-h-screen bg-slate-50 text-slate-900">
+    <!-- Header de navegación -->
+    <SiteHeader client:load />
+
+    <!-- Hero del Blog -->
+    <header class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#0b1f4d] via-[#112264] to-[#080c14] text-white">
+      <div class="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-96 w-[600px] rounded-full bg-emerald-500/20 blur-[130px]" aria-hidden="true"></div>
+      
+      <div class="container relative mx-auto px-4 text-center max-w-4xl">
+        <div class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-bold text-emerald-300">
+          <Sparkles class="w-3.5 h-3.5" />
+          <span>Centro de Aprendizaje & Guías Comerciales</span>
+        </div>
+
+        <h1 class="mt-6 font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-balance leading-tight">
+          Conocimiento práctico para <span class="bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300 bg-clip-text text-transparent">hacer crecer tu negocio</span> en el Perú
+        </h1>
+
+        <p class="mt-5 text-base sm:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed text-balance">
+          Guías oficiales, consejos de facturación electrónica SUNAT, control de inventario y optimización de punto de venta escritos por especialistas en comercio peruano.
+        </p>
+      </div>
+    </header>
+
+    <!-- Lista de Artículos -->
+    <section class="py-16 sm:py-24">
+      <div class="container mx-auto px-4 max-w-6xl">
+        <div class="flex items-center justify-between pb-6 border-b border-slate-200 mb-10">
+          <div>
+            <h2 class="text-2xl font-bold text-[#0b1f4d]">Artículos Publicados</h2>
+            <p class="text-sm text-slate-500 mt-1">Información actualizada para 2025 - 2026</p>
+          </div>
+          <span class="text-xs font-semibold px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-200">
+            {posts.length} {posts.length === 1 ? "artículo" : "artículos"}
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {posts.map((post) => {
+            const slug = post.id.replace(/\.md$/, "");
+            const formattedDate = new Intl.DateTimeFormat("es-PE", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            }).format(new Date(post.data.pubDate));
+
+            return (
+              <article class="group flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-emerald-500/40">
+                <div>
+                  <div class="flex items-center justify-between gap-3 text-xs">
+                    <span class="rounded-full bg-emerald-500/10 px-3 py-1 font-bold text-emerald-700">
+                      {post.data.category}
+                    </span>
+                    <span class="flex items-center gap-1.5 text-slate-400">
+                      <Clock class="w-3.5 h-3.5" />
+                      {post.data.readingTime}
+                    </span>
+                  </div>
+
+                  <h3 class="mt-5 font-serif text-xl sm:text-2xl font-bold text-[#0b1f4d] group-hover:text-emerald-700 transition-colors leading-snug">
+                    <a href={`/blog/${slug}`} class="focus:outline-hidden">
+                      {post.data.title}
+                    </a>
+                  </h3>
+
+                  <p class="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed line-clamp-3">
+                    {post.data.description}
+                  </p>
+
+                  <div class="mt-5 flex flex-wrap gap-1.5">
+                    {post.data.tags.map((tag) => (
+                      <span class="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div class="mt-8 pt-5 border-t border-slate-100 flex items-center justify-between">
+                  <div class="flex items-center gap-2 text-xs text-slate-500">
+                    <Calendar class="w-3.5 h-3.5 text-slate-400" />
+                    <time datetime={post.data.pubDate.toString()}>{formattedDate}</time>
+                  </div>
+
+                  <a
+                    href={`/blog/${slug}`}
+                    class="inline-flex items-center gap-1 text-sm font-bold text-emerald-600 group-hover:text-emerald-700 group-hover:translate-x-0.5 transition-all"
+                  >
+                    <span>Leer guía</span>
+                    <ArrowRight class="w-4 h-4" />
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- Banner de Registro Gratuito -->
+    <section class="bg-gradient-to-r from-[#0b1f4d] to-[#112264] py-14 text-white">
+      <div class="container mx-auto px-4 max-w-4xl text-center">
+        <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white">
+          Digitaliza tu punto de venta e inventario hoy mismo
+        </h3>
+        <p class="mt-3 text-sm sm:text-base text-white/80 max-w-xl mx-auto">
+          Yamassi es gratis para empezar. Emite boletas y facturas SUNAT y controla tu caja sin contratos ni tarjetas de crédito.
+        </p>
+        <div class="mt-6">
+          <a
+            href="/login"
+            class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-7 py-3 text-sm font-bold text-white shadow-lg transition-transform hover:scale-105"
+          >
+            Empezar gratis con Yamassi
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <SiteFooter />
+  </main>
+</Layout>

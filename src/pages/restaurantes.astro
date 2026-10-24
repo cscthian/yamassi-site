@@ -1,0 +1,48 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { SiteHeader } from "@/components/ui/site-header";
+import RestaurantHero from "@/components/verticals/RestaurantHero.astro";
+import RestaurantFeatures from "@/components/verticals/RestaurantFeatures.astro";
+import RestaurantPricing from "@/components/verticals/RestaurantPricing.astro";
+import RestaurantFaq from "@/components/verticals/RestaurantFaq.astro";
+import VerticalCta from "@/components/verticals/VerticalCta.astro";
+import { SiteFooter } from "@/components/blocks/site-footer";
+---
+
+<Layout
+  title="Yamassi Restaurantes — Sistema de Control de Caja, Comandas y Mesas"
+  description="Software gastronómico para restaurantes, pollerías y cafeterías en Perú. Comandas a cocina en tiempo real, división de cuentas, control de recetas y facturación SUNAT."
+>
+  <main id="inicio" class="relative min-h-screen bg-white">
+    {/* Navigation con opciones específicas de Restaurantes */}
+    <SiteHeader client:load vertical="restaurantes" />
+
+    {/* Hero gastronómico */}
+    <RestaurantHero />
+
+    {/* Características y módulos de restaurantes */}
+    <RestaurantFeatures />
+
+    {/* Planes y precios gastronómicos */}
+    <RestaurantPricing />
+
+    {/* Preguntas frecuentes */}
+    <RestaurantFaq />
+
+    {/* Llamado a la acción final */}
+    <VerticalCta
+      badge="Empieza 100% gratis para restaurantes"
+      title="Lleva tu restaurante al siguiente nivel y"
+      highlightedText="olvídate de los errores en hora punta"
+      description="Únete a cientos de restaurantes, cafeterías y pollerías en todo el Perú que agilizaron su atención y duplicaron la rotación de sus mesas con Yamassi."
+      primaryCtaText="Empezar gratis con Yamassi"
+      primaryCtaHref="/login"
+      note="Sin tarjeta de crédito · Soporte en Perú · Migración de tu carta sin costo"
+    />
+
+    {/* Footer institucional */}
+    <SiteFooter />
+  </main>
+</Layout>

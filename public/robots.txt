@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# LLM and AI Crawlers Context
+# https://yamassi.com/llms.txt
+
+Sitemap: https://yamassi.com/sitemap-index.xml
+Sitemap: https://yamassi.com/sitemap.xml
+Host: https://yamassi.com

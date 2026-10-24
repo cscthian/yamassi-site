@@ -1,0 +1,180 @@
+---
+import "../styles/global.css";
+import { SITE_URL } from "@/lib/site";
+import { YamassiLogo } from "@/components/ui/yamassi-logo";
+import { SiteFooter } from "@/components/blocks/site-footer";
+import {
+  ShieldCheck,
+  ArrowLeft,
+  Printer,
+  FileText,
+  Calendar,
+  CheckCircle,
+} from "lucide-react";
+
+interface Props {
+  title: string;
+  description: string;
+  documentType?: string;
+  effectiveDate?: string;
+  version?: string;
+}
+
+const {
+  title,
+  description,
+  documentType = "Documento Legal Oficial",
+  effectiveDate = "15 de Febrero de 2025",
+  version = "Versión 2.4",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-PE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1f4d" />
+    <title>{title} — Yamassi</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={SITE_URL} />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XE7W6ZHQC"
+    ></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XE7W6ZHQC"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag("js", new Date());
+      gtag("config", "G-4XE7W6ZHQC");
+    </script>
+  </head>
+  <body
+    class="min-h-screen bg-[#fcfdfd] text-slate-800 antialiased selection:bg-emerald-100 selection:text-emerald-900"
+  >
+    <!-- Barra Superior Formal -->
+    <header
+      class="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur-md"
+    >
+      <div
+        class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6"
+      >
+        <div class="flex items-center gap-4">
+          <a
+            href="/"
+            class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-[#0b1f4d] transition-colors"
+            title="Volver a la página principal"
+          >
+            <ArrowLeft class="w-4 h-4" />
+            <span class="hidden sm:inline">Volver al inicio</span>
+          </a>
+          <div class="h-4 w-px bg-slate-200"></div>
+          <a href="/" aria-label="Yamassi Inicio">
+            <YamassiLogo />
+          </a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div
+            class="hidden md:flex items-center gap-2 rounded-full bg-slate-100 border border-slate-200 px-3 py-1 text-xs text-slate-600"
+          >
+            <ShieldCheck class="w-3.5 h-3.5 text-emerald-600" />
+            <span>Marco Legal República del Perú</span>
+          </div>
+
+          <a
+            href="/"
+            class="inline-flex items-center rounded-xl bg-[#0b1f4d] px-3.5 py-1.5 text-xs font-bold text-white hover:bg-[#112264] transition-colors"
+          >
+            Ir a Yamassi
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Encabezado Institucional del Documento -->
+    <div
+      class="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white py-12 sm:py-16"
+    >
+      <div class="container mx-auto px-4 max-w-4xl text-center">
+        <div
+          class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/80 px-3.5 py-1 text-xs font-semibold text-blue-800"
+        >
+          <FileText class="w-3.5 h-3.5" />
+          <span>{documentType}</span>
+        </div>
+
+        <h1
+          class="mt-4 font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] tracking-tight leading-tight"
+        >
+          {title}
+        </h1>
+
+        <p
+          class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed"
+        >
+          {description}
+        </p>
+
+        <!-- Metadata formal -->
+        <div
+          class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500"
+        >
+          <span class="flex items-center gap-1.5">
+            <Calendar class="w-3.5 h-3.5 text-emerald-600" />
+            Última actualización: <strong>{effectiveDate}</strong>
+          </span>
+          <span class="text-slate-300">•</span>
+          <span
+            class="rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-700"
+          >
+            {version}
+          </span>
+          <span class="text-slate-300">•</span>
+          <span class="text-emerald-700 font-semibold flex items-center gap-1">
+            <CheckCircle class="w-3 h-3" />
+            Vigente y Vinculante
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor Principal del Documento en Estilo Formal Clásico -->
+    <main class="py-12 sm:py-16">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div
+          class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-12 lg:p-16 shadow-xs"
+        >
+          <slot />
+        </div>
+
+        <!-- Sello de Firma y Validez Institucional -->
+        <div
+          class="mt-10 rounded-2xl border border-slate-200 bg-slate-50/70 p-6 sm:p-8 text-center text-xs text-slate-500 max-w-2xl mx-auto leading-relaxed"
+        >
+          <div
+            class="flex items-center justify-center gap-2 font-bold text-slate-700 text-sm"
+          >
+            <ShieldCheck class="w-4 h-4 text-emerald-600" />
+            <span>Yamassi — Ayni · Yanantin · Masintin</span>
+          </div>
+          <p class="mt-2">
+            Plataforma Cloud de Gestión Comercial y Facturación Electrónica
+            Homologada ante SUNAT. El presente documento rige las relaciones
+            contractuales, privacidad de información y condiciones de servicio
+            en todo el territorio de la República del Perú.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Formal -->
+    <SiteFooter />
+  </body>
+</html>

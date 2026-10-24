@@ -1,0 +1,351 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<div class={`space-y-24 py-20 ${className}`}>
+  <!-- 1. SECCIÓN ODONTOGRAMA DIGITAL (#odontograma) -->
+  <section id="odontograma" class="scroll-mt-24 container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full bg-sky-500/10 border border-sky-500/20 px-3.5 py-1 text-xs font-bold text-sky-700">
+          <span>🦷 Odontograma Digital MINSA</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+          Odontograma interactivo <span class="text-sky-600">conforme a la norma técnica</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Diseñado por y para odontólogos peruanos. Registra hallazgos por cada cara dental en segundos: caries (rojo), tratamientos realizados (azul), endodoncias, implantes, sellantes y extracciones con la simbología oficial del Colegio Odontológico del Perú (COP) y MINSA.
+        </p>
+
+        <ul class="space-y-4 pt-2">
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Odontograma inicial vs. Odontograma de evolución</strong>
+              <span class="text-slate-600 text-sm">Visualiza el estado con el que llegó el paciente y compáralo con el resultado final del tratamiento.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Odontograma para adultos y Odontopediatría</strong>
+              <span class="text-slate-600 text-sm">Cambia en un clic entre dentición permanente (32 piezas) y dentición temporal (20 piezas de leche).</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+            <div>
+              <strong class="text-slate-900 block text-sm sm:text-base">Generación automática del presupuesto</strong>
+              <span class="text-slate-600 text-sm">Al marcar las piezas a tratar, el sistema genera automáticamente el presupuesto estimado sin doble digitación.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-3">
+              <span class="h-10 w-10 rounded-xl bg-sky-500/10 text-sky-600 flex items-center justify-center font-bold text-lg">🦷</span>
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm">Odontograma Inicial (FDI Standard)</h4>
+                <p class="text-xs text-slate-500">Paciente: Mateo Salazar (12 años) · Dentición mixta</p>
+              </div>
+            </div>
+            <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 font-bold">Norma MINSA</span>
+          </div>
+
+          <div class="mt-5 space-y-3">
+            <div class="rounded-xl border border-rose-100 bg-rose-50/50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">Pieza 46 (Primer Molar Inferior Derecho)</p>
+                <p class="text-xs text-rose-700 font-medium">Caries Oclusal profunda + Sensibilidad térmica</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold">Tratamiento sugerido: Resina 3M</span>
+            </div>
+            <div class="rounded-xl border border-blue-100 bg-blue-50/50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">Pieza 11 y 21 (Incisivos Centrales)</p>
+                <p class="text-xs text-blue-700 font-medium">Borde incisal con desgaste leve · Limpieza profiláctica</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 text-xs font-bold">Realizado</span>
+            </div>
+            <div class="rounded-xl border border-amber-100 bg-amber-50/50 p-3.5 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-slate-800 text-sm">Pieza 75 (Segundo Molar Temporal)</p>
+                <p class="text-xs text-amber-700 font-medium">Exfoliación en proceso · Pulpectomía previa</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold">Control</span>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Firma digital del odontólogo colegiado registrada</span>
+            <span class="text-sky-600 font-bold">Exportable a PDF para el paciente</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SECCIÓN AGENDA & WHATSAPP (#agenda) -->
+  <section id="agenda" class="scroll-mt-24 bg-slate-50 py-20 border-y border-slate-200/80">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 order-2 lg:order-1">
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <span class="font-bold text-slate-900 text-sm">Agenda Odontológica · Hoy, 3 Sillones Activos</span>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 font-bold">WhatsApp Automatizado</span>
+            </div>
+
+            <div class="mt-4 space-y-3 text-xs">
+              <!-- Cita 1 -->
+              <div class="p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/70 flex justify-between items-center">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-emerald-950 text-sm">09:00 AM · Dra. Fiorella (Ortodoncia)</span>
+                    <span class="rounded bg-emerald-200 text-emerald-800 px-1.5 py-0.5 text-[10px] font-bold">Confirmada WhatsApp</span>
+                  </div>
+                  <p class="text-emerald-800 mt-1">Paciente: Camila R. · Ajuste mensual de brackets · Sillón 1</p>
+                </div>
+                <span class="font-bold text-emerald-700">En atención</span>
+              </div>
+
+              <!-- Cita 2 -->
+              <div class="p-3.5 rounded-xl border border-blue-200 bg-blue-50/70 flex justify-between items-center">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-blue-950 text-sm">10:30 AM · Dr. Alejandro (Implantología)</span>
+                    <span class="rounded bg-blue-200 text-blue-800 px-1.5 py-0.5 text-[10px] font-bold">Confirmada</span>
+                  </div>
+                  <p class="text-blue-800 mt-1">Paciente: Jorge P. · Colocación de implante pieza 36 · Sillón 2</p>
+                </div>
+                <span class="font-bold text-blue-700">En sala</span>
+              </div>
+
+              <!-- Cita 3 -->
+              <div class="p-3.5 rounded-xl border border-amber-200 bg-amber-50/70 flex justify-between items-center">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-amber-950 text-sm">12:00 PM · Dr. Gonzalo (Endodoncia)</span>
+                    <span class="rounded bg-amber-200 text-amber-800 px-1.5 py-0.5 text-[10px] font-bold">Recordatorio enviado</span>
+                  </div>
+                  <p class="text-amber-800 mt-1">Paciente: Lucía M. · Segunda sesión conducto molar</p>
+                </div>
+                <span class="font-bold text-amber-700">Por llegar</span>
+              </div>
+            </div>
+
+            <div class="mt-5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 flex items-center justify-between">
+              <span>📲 Mensaje automático enviado 24h antes:</span>
+              <span class="font-semibold text-emerald-700">"Hola Camila, confirmamos tu cita..."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-bold text-emerald-700">
+            <span>📅 Agenda Inteligente & WhatsApp</span>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+            Reduce el ausentismo al 5% con <span class="text-emerald-600">recordatorios automáticos</span>
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+            Las citas que se cancelan a última hora son dinero perdido para tu clínica. Yamassi envía recordatorios por WhatsApp 24 horas y 2 horas antes con botón para confirmar o reprogramar.
+          </p>
+
+          <div class="space-y-4 pt-2">
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Múltiples sillones dentales y especialistas</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Organiza tu clínica por odontólogo (ortodoncista, endodoncista, cirujano) y por unidad dental para nunca cruzar horarios.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Confirmación de citas en 1 clic</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Cuando el paciente responde por WhatsApp, el color de la cita cambia automáticamente a verde en la pantalla de recepción.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4">
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Lista de espera inteligente</h4>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1">Si un paciente cancela, el sistema te sugiere pacientes en espera para rellenar el hueco de inmediato.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SECCIÓN HISTORIAS CLÍNICAS & RADIOGRAFÍAS (#historias) -->
+  <section id="historias" class="scroll-mt-24 container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 text-xs font-bold text-blue-700">
+          <span>📁 Historias Clínicas 100% Digitales</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+          Expediente clínico seguro, <span class="text-blue-600">radiografías y consentimientos</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Dile adiós a los archivadores de cartón y las radiografías físicas traspapeladas. Toda la información médica y legal de tus pacientes protegida en la nube con acceso seguro desde cualquier dispositivo.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">📋</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Anamnesis completa</h4>
+            <p class="text-xs text-slate-600 mt-1">Alergias a penicilina o anestésicos, diabetes, hipertensión y antecedentes médicos relevantes.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">✍️</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Consentimiento informado</h4>
+            <p class="text-xs text-slate-600 mt-1">Firma digital o captura en tablet para cirugías, endodoncias e implantes con validez jurídica.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">🩻</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Radiografías y fotos</h4>
+            <p class="text-xs text-slate-600 mt-1">Sube radiografías periapicales, panorámicas y fotos del antes/después directamente a la ficha.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <span class="text-2xl">🔒</span>
+            <h4 class="font-bold text-slate-900 text-sm mt-2">Privacidad de datos de salud</h4>
+            <p class="text-xs text-slate-600 mt-1">Cumplimiento con la Ley de Protección de Datos Personales (LPDP) con respaldos diarios.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="font-bold text-slate-900 text-sm">Ficha Clínica Digital #0841</div>
+            <span class="rounded-full bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 font-bold">Firma Digital Registrada</span>
+          </div>
+
+          <div class="mt-4 space-y-3">
+            <div class="rounded-xl bg-slate-50 p-3 text-xs border border-slate-100">
+              <span class="font-bold text-slate-800 block">Alertas Médicas Importantes:</span>
+              <div class="flex gap-2 mt-1">
+                <span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[11px]">⚠️ Alérgico a Penicilina</span>
+                <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[11px]">Hipertensión controlada</span>
+              </div>
+            </div>
+
+            <div class="rounded-xl bg-slate-50 p-3 text-xs border border-slate-100 space-y-2">
+              <span class="font-bold text-slate-800 block">Galería Clínica y Diagnóstica:</span>
+              <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                <div class="p-2 rounded-lg bg-white border border-slate-200 text-slate-700">
+                  <div class="text-lg">🩻</div>
+                  <span class="font-medium mt-1 block">Panorámica 2026.png</span>
+                </div>
+                <div class="p-2 rounded-lg bg-white border border-slate-200 text-slate-700">
+                  <div class="text-lg">🦷</div>
+                  <span class="font-medium mt-1 block">Periapical Pza 46.jpg</span>
+                </div>
+                <div class="p-2 rounded-lg bg-white border border-slate-200 text-slate-700">
+                  <div class="text-lg">📸</div>
+                  <span class="font-medium mt-1 block">Foto Antes/Después</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-xs text-emerald-900">
+              <strong>Consentimiento Cirugía Terceros Molares:</strong> Firmado digitalmente en pantalla táctil el 04/10/2026 a las 11:20 am con DNI verificado ante RENIEC.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SECCIÓN PRESUPUESTOS, CAJA Y COMISIONES (#caja) -->
+  <section id="caja" class="scroll-mt-24 bg-slate-50 py-20 border-y border-slate-200/80">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6">
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm">Liquidación de Honorarios Médicos</h4>
+                <p class="text-xs text-slate-500">Periodo: Primera Quincena Octubre 2026</p>
+              </div>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 font-bold">Cálculo Automático</span>
+            </div>
+
+            <div class="mt-4 space-y-2.5 text-xs">
+              <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Dra. Claudia Ramos (Ortodoncista)</span>
+                  <span class="text-slate-500">22 controles de brackets · Comisión: 50%</span>
+                </div>
+                <span class="font-mono font-bold text-slate-900">S/ 2,420.00</span>
+              </div>
+              <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Dr. Renzo Alva (Cirujano Maxilofacial)</span>
+                  <span class="text-slate-500">6 cirugías terceros molares · Comisión: 60%</span>
+                </div>
+                <span class="font-mono font-bold text-slate-900">S/ 3,180.00</span>
+              </div>
+              <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Dra. Patricia S. (Odontopediatría)</span>
+                  <span class="text-slate-500">14 atenciones integrales · Comisión: 45%</span>
+                </div>
+                <span class="font-mono font-bold text-slate-900">S/ 1,890.00</span>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-3 border-t border-slate-200 flex justify-between items-center text-xs">
+              <div>
+                <span class="text-slate-500 block">Total Honorarios a Liquidar:</span>
+                <span class="font-bold text-slate-900 font-mono text-base">S/ 7,490.00</span>
+              </div>
+              <div class="text-right">
+                <span class="text-slate-500 block">Margen Neto para la Clínica:</span>
+                <span class="font-bold text-emerald-600 font-mono text-base">S/ 8,920.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-bold text-emerald-700">
+            <span>💳 Presupuestos, Caja y Liquidación</span>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0b1f4d] leading-tight">
+            Presupuestos claros que convierten y <span class="text-emerald-600">cero disputas con doctores</span>
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+            Muestra a tus pacientes presupuestos estéticos con pagos por fases o cuotas. Al cobrar, Yamassi calcula automáticamente la comisión del especialista sin hojas de cálculo confusas.
+          </p>
+
+          <ul class="space-y-4 pt-2">
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Presupuesto por fases de tratamiento</strong>
+                <span class="text-slate-600 text-sm">Fase 1 (Saneamiento), Fase 2 (Endodoncia), Fase 3 (Prótesis). El paciente abona por cita conforme avanza.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Cálculo de comisiones con deducción de laboratorio</strong>
+                <span class="text-slate-600 text-sm">Configura si el costo del laboratorio dental (coronas, prótesis) se deduce antes o después del porcentaje del doctor.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">✓</span>
+              <div>
+                <strong class="text-slate-900 block text-sm sm:text-base">Boletas y Facturas Electrónicas SUNAT</strong>
+                <span class="text-slate-600 text-sm">Emite comprobantes electrónicos con concepto de servicios odontológicos homologados por SUNAT.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
