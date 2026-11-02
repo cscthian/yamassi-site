@@ -38,6 +38,15 @@ export const API_URL: string =
   import.meta.env.PUBLIC_API_URL ||
   (IS_DEV ? "http://localhost:8000/api" : "https://api.yamassi.com/api");
 
+// URLs de las APIs de catálogo externo (sin autenticación AllowAny)
+export const API_PRODUCTOS_URL: string =
+  import.meta.env.PUBLIC_API_PRODUCTOS_URL ||
+  "https://apiresbar.yamassi.com/api/catalogo/externo/lista-public/";
+
+export const API_CATEGORIAS_URL: string =
+  import.meta.env.PUBLIC_API_CATEGORIAS_URL ||
+  "https://apiresbar.yamassi.com/api/catalogo/externo/categorias/";
+
 // Datos institucionales
 export const SITE_NAME: string =
   import.meta.env.PUBLIC_SITE_NAME || "Yamassi";

@@ -22,9 +22,28 @@ export default defineConfig({
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        'nanostores',
+        '@nanostores/react',
+        'lucide-react',
+        'framer-motion',
+        'clsx',
+        'tailwind-merge',
+      ],
+    },
     server: {
       watch: {
         usePolling: true,
+      },
+      proxy: {
+        '/api/catalogo/externo': {
+          target: 'https://apiresbar.yamassi.com',
+          changeOrigin: true,
+          secure: true,
+        },
       },
     },
   },

@@ -49,91 +49,117 @@ export const StickyScroll = ({
   });
 
   return (
-    <motion.div
-      ref={ref}
-      animate={{
-        backgroundColor: backgroundColors[activeCard % backgroundColors.length],
-      }}
-      transition={{ duration: 0.6 }}
-      className="relative flex flex-col gap-6 rounded-[32px] px-5 py-6 sm:px-8 lg:flex-row lg:justify-center lg:gap-10 lg:px-12 lg:py-16"
-    >
-      {/* Visual panel — pinned at the top on mobile, on the right on desktop */}
+    <>
+      {/* MOBILE & TABLET (< lg): Compact, app-like feature cards with 100% visibility */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:hidden">
+        {content.map((item, index) => (
+          <div
+            key={item.title + index}
+            className="flex flex-col overflow-hidden rounded-3xl bg-[#0b1f4d] p-5 ring-1 ring-white/10 shadow-xl"
+          >
+            <div className="flex items-center gap-3">
+              {item.icon && (
+                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-emerald-300 ring-1 ring-white/15">
+                  {item.icon}
+                </span>
+              )}
+              <h3 className="font-serif text-xl font-black text-white">
+                {item.title}
+              </h3>
+            </div>
+            <p className="mt-2.5 text-sm leading-relaxed text-slate-300">
+              {item.description}
+            </p>
+            {item.content && (
+              <div
+                style={{
+                  background: linearGradients[index % linearGradients.length],
+                }}
+                className="mt-4 h-48 w-full overflow-hidden rounded-2xl shadow-lg ring-1 ring-white/10"
+              >
+                <div className="h-full w-full origin-center scale-[0.85]">
+                  {item.content}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* DESKTOP (lg+): Sticky scroll reveal */}
       <motion.div
+        ref={ref}
         animate={{
-          background: linearGradients[activeCard % linearGradients.length],
+          backgroundColor: backgroundColors[activeCard % backgroundColors.length],
         }}
         transition={{ duration: 0.6 }}
-        className={cn(
-          "sticky top-20 z-10 order-first h-60 w-full self-start overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10 sm:h-72",
-          "lg:order-last lg:top-[calc(50vh-11rem)] lg:h-[22rem] lg:w-[26rem] lg:flex-shrink-0",
-          contentClassName
-        )}
+        className="relative hidden lg:flex lg:flex-row lg:justify-center lg:gap-10 rounded-[32px] lg:px-12 lg:py-16"
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCard}
-            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.96 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="h-full w-full origin-center scale-[0.8] sm:scale-100"
-          >
-            {content[activeCard].content ?? null}
-          </motion.div>
-        </AnimatePresence>
-        {/* Progress dots */}
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5 lg:hidden">
-          {content.map((_, i) => (
-            <span
-              key={i}
-              className={cn(
-                "h-1.5 rounded-full bg-white transition-all duration-300",
-                i === activeCard ? "w-5 opacity-100" : "w-1.5 opacity-50"
-              )}
-            />
-          ))}
+        {/* Visual panel — pinned on the right on desktop */}
+        <motion.div
+          animate={{
+            background: linearGradients[activeCard % linearGradients.length],
+          }}
+          transition={{ duration: 0.6 }}
+          className={cn(
+            "sticky z-10 self-start overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10",
+            "lg:order-last lg:top-[calc(50vh-11rem)] lg:h-[22rem] lg:w-[26rem] lg:flex-shrink-0",
+            contentClassName
+          )}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCard}
+              initial={{ opacity: 0, y: 20, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.96 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="h-full w-full origin-center"
+            >
+              {content[activeCard].content ?? null}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        <div className="relative flex max-w-2xl flex-1 items-start">
+          <div className="w-full">
+            {content.map((item, index) => (
+              <div
+                key={item.title + index}
+                className="flex min-h-[55vh] flex-col justify-center py-10"
+              >
+                <motion.div
+                  animate={{
+                    opacity: activeCard === index ? 1 : 0.3,
+                    x: activeCard === index ? 0 : -8,
+                  }}
+                  transition={{ duration: 0.4 }}
+                  className="flex items-center gap-3"
+                >
+                  {item.icon && (
+                    <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-emerald-300 ring-1 ring-white/15">
+                      {item.icon}
+                    </span>
+                  )}
+                  <h3 className="font-serif text-3xl font-black text-white">
+                    {item.title}
+                  </h3>
+                </motion.div>
+                <motion.p
+                  animate={{
+                    opacity: activeCard === index ? 1 : 0.3,
+                    y: activeCard === index ? 0 : 6,
+                  }}
+                  transition={{ duration: 0.4 }}
+                  className="mt-6 max-w-md text-lg leading-relaxed text-slate-300"
+                >
+                  {item.description}
+                </motion.p>
+              </div>
+            ))}
+          </div>
         </div>
       </motion.div>
-
-      <div className="relative flex max-w-2xl flex-1 items-start">
-        <div className="w-full">
-          {content.map((item, index) => (
-            <div
-              key={item.title + index}
-              className="flex min-h-[55vh] flex-col justify-center py-8 lg:min-h-[60vh] lg:py-10"
-            >
-              <motion.div
-                animate={{
-                  opacity: activeCard === index ? 1 : 0.3,
-                  x: activeCard === index ? 0 : -8,
-                }}
-                transition={{ duration: 0.4 }}
-                className="flex items-center gap-3"
-              >
-                {item.icon && (
-                  <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-emerald-300 ring-1 ring-white/15">
-                    {item.icon}
-                  </span>
-                )}
-                <h3 className="font-serif text-2xl font-black text-white md:text-3xl">
-                  {item.title}
-                </h3>
-              </motion.div>
-              <motion.p
-                animate={{
-                  opacity: activeCard === index ? 1 : 0.3,
-                  y: activeCard === index ? 0 : 6,
-                }}
-                transition={{ duration: 0.4 }}
-                className="mt-5 max-w-md text-base leading-relaxed text-slate-300 lg:mt-6 lg:text-lg"
-              >
-                {item.description}
-              </motion.p>
-            </div>
-          ))}
-          <div className="h-[20vh] lg:hidden" />
-        </div>
-      </div>
-    </motion.div>
+    </>
   );
 };

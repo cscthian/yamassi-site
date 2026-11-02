@@ -6,6 +6,7 @@ export async function generateSitemapXml(): Promise<string> {
 
   const staticRoutes = [
     { url: "", changefreq: "weekly", priority: "1.0" },
+    { url: "/tienda", changefreq: "daily", priority: "0.9" },
     { url: "/market", changefreq: "weekly", priority: "0.9" },
     { url: "/restaurantes", changefreq: "weekly", priority: "0.9" },
     { url: "/odontologia", changefreq: "weekly", priority: "0.9" },

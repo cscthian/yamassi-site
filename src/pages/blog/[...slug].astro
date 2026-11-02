@@ -103,11 +103,11 @@ const breadcrumbSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
-  <main class="min-h-screen bg-slate-50 text-slate-900">
+  <main class="min-h-screen bg-slate-50 text-slate-900 overflow-x-clip">
     <SiteHeader client:load />
 
     <!-- Article Header -->
-    <header class="relative pt-32 pb-16 bg-gradient-to-b from-[#0b1f4d] via-[#112264] to-[#080c14] text-white">
+    <header class="relative pt-24 pb-14 sm:pt-32 sm:pb-16 bg-gradient-to-b from-[#0b1f4d] via-[#112264] to-[#080c14] text-white overflow-hidden">
       <div class="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-96 w-[600px] rounded-full bg-emerald-500/20 blur-[130px]" aria-hidden="true"></div>
 
       <div class="container relative mx-auto px-4 max-w-4xl">
@@ -162,10 +162,10 @@ const breadcrumbSchema = {
     </header>
 
     <!-- Main Content -->
-    <article class="py-14 sm:py-20">
+    <article class="py-10 sm:py-20 overflow-x-clip">
       <div class="container mx-auto px-4 max-w-3xl">
         <!-- Markdown Body -->
-        <div class="prose-formal bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-12 shadow-sm">
+        <div class="prose-formal bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-12 shadow-sm overflow-hidden">
           <Content />
         </div>
 

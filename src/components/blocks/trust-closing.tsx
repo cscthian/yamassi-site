@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { HelpCircle, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const faqs = [
@@ -24,18 +24,21 @@ const faqs = [
   },
 ];
 
-function FaqRow({ q, a }: { q: string; a: string }) {
+function FaqRow({ q, a, defaultOpen = false }: { q: string; a: string; defaultOpen?: boolean }) {
   return (
-    <details className="group border-b border-border">
-      <summary className="flex w-full items-center justify-between gap-4 py-5 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        <span className="text-base font-semibold text-foreground md:text-lg">
+    <details
+      open={defaultOpen}
+      className="group rounded-2xl border border-slate-200/90 bg-slate-50/60 px-5 transition-all duration-200 hover:border-primary/30 open:border-primary/30 open:bg-white open:shadow-soft"
+    >
+      <summary className="flex w-full items-center justify-between gap-4 py-4 sm:py-5 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <span className="text-base font-bold text-slate-900 md:text-lg">
           {q}
         </span>
-        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-border text-primary transition-transform duration-300 group-open:rotate-45">
+        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-primary transition-all duration-300 group-open:rotate-45 group-open:border-primary group-open:bg-primary group-open:text-white">
           <Plus className="h-4 w-4" />
         </span>
       </summary>
-      <div className="pb-5 pr-10 text-sm leading-relaxed text-muted-foreground md:text-base">
+      <div className="pb-5 pr-4 sm:pr-10 text-sm leading-relaxed text-slate-600 md:text-base">
         {a}
       </div>
     </details>
@@ -46,15 +49,24 @@ export function TrustClosing() {
   return (
     <>
       {/* FAQ */}
-      <section id="faq" className="w-full bg-white py-20 md:py-28 scroll-mt-20">
+      <section id="faq" className="w-full bg-white py-14 md:py-20 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl">
-            <h2 className="text-center font-serif text-3xl font-black tracking-tight text-foreground md:text-4xl">
-              Preguntas frecuentes
-            </h2>
-            <div className="mt-10">
-              {faqs.map((faq) => (
-                <FaqRow key={faq.q} {...faq} />
+            <div className="text-center">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+                <HelpCircle className="h-3.5 w-3.5 text-ayni-green" />
+                Resolvemos tus dudas
+              </span>
+              <h2 className="mt-3 font-serif text-3xl font-black tracking-tight text-foreground md:text-4xl">
+                Preguntas frecuentes
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                Todo lo que necesitas saber antes de empezar gratis con Yamassi.
+              </p>
+            </div>
+            <div className="mt-8 space-y-3">
+              {faqs.map((faq, idx) => (
+                <FaqRow key={faq.q} {...faq} defaultOpen={idx === 0} />
               ))}
             </div>
           </div>
@@ -62,23 +74,23 @@ export function TrustClosing() {
       </section>
 
       {/* Final CTA */}
-      <section id="demo" className="w-full bg-white pb-24">
+      <section id="demo" className="w-full bg-white pb-16 md:pb-24">
         <div className="container mx-auto px-4">
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-primary to-[#0b1f4d] px-8 py-16 text-center md:px-16 md:py-24 shadow-2xl">
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-primary to-[#0b1f4d] px-6 py-12 text-center sm:px-10 md:px-16 md:py-20 shadow-2xl">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.28),transparent_60%)]" />
             <div className="relative z-10 mx-auto max-w-2xl">
-              <h2 className="font-serif text-4xl font-black leading-tight tracking-tight text-white md:text-6xl text-balance">
+              <h2 className="font-serif text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl text-balance">
                 Ordena tu negocio hoy, en una sola app
               </h2>
-              <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/80">
+              <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
                 Ventas, stock y facturación SUNAT desde el primer día. Yamassi es
                 gratis: úsalo sin costo y solo pagas al superar los límites gratuitos.
               </p>
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
                 <Button
                   variant="glow"
                   size="xl"
-                  className="h-16 px-9 text-lg font-bold"
+                  className="h-14 w-full sm:w-auto sm:h-16 px-8 text-base sm:text-lg font-bold"
                   asChild
                 >
                   <a href="/login">Empieza con Yamassi gratis</a>
@@ -86,13 +98,13 @@ export function TrustClosing() {
                 <Button
                   variant="outline"
                   size="xl"
-                  className="border-white/30 bg-transparent text-white hover:bg-white hover:text-primary"
+                  className="h-12 w-full sm:w-auto sm:h-16 border-white/30 bg-transparent text-white hover:bg-white hover:text-primary"
                   asChild
                 >
-                  <a href="#funciones">Hablar con un asesor</a>
+                  <a href="#funciones">Ver funciones</a>
                 </Button>
               </div>
-              <p className="mt-6 text-sm text-white/60">
+              <p className="mt-5 text-xs sm:text-sm text-white/60">
                 Sin tarjeta de crédito · Soporte humano en el Perú · Cancela
                 cuando quieras
               </p>

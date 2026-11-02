@@ -99,6 +99,13 @@ const jsonLd = {
     />
     <meta name="author" content="Yamassi" />
     <link rel="canonical" href={SITE_URL} />
+    <!-- Preload critical hero video for instant playback and caching -->
+    <link
+      rel="preload"
+      href="/hero_page.webm"
+      as="video"
+      type="video/webm"
+    />
     <link rel="icon" type="image/png" href="/icon.png" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
     <meta name="robots" content="index, follow, max-image-preview:large" />

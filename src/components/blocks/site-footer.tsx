@@ -31,6 +31,7 @@ export function SiteFooter() {
             <a href="/#funciones" className="hover:text-white transition-colors">Funciones</a>
             <a href="/#rubros" className="hover:text-white transition-colors">Rubros</a>
             <a href="/#precios" className="hover:text-white transition-colors">Precios</a>
+            <a href="/docs" className="hover:text-white transition-colors">Documentación</a>
             <a href="/blog" className="hover:text-white transition-colors">Blog & Guías</a>
             <a href="/info/politicas-privacidad" className="hover:text-white transition-colors">Políticas de Privacidad</a>
             <a href="/info/terminos-condiciones-uso" className="hover:text-white transition-colors">Términos de Uso</a>

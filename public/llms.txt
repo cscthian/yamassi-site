@@ -59,6 +59,7 @@ El sistema opera 100% como Web App en la nube, eliminando la necesidad de instal
 ## Enlaces Clave del Ecosistema
 
 - Sitio Web Oficial: https://yamassi.com/
+- Catálogo y Tienda Oficial Hardware POS: https://yamassi.com/tienda
 - Acceso / Inicio de Sesión: https://yamassi.com/login
 - Módulo Tienda: https://tienda.yamassi.com/
 - Módulo Restobar: https://restobar.yamassi.com/

@@ -119,7 +119,7 @@ export function CopilotoSection() {
                 </a>
               </Button>
               <span className="text-sm text-white/50">
-                Incluido en el plan Empresa · Habla en peruano, 24/7
+                Incluido en el plan Empresa
               </span>
             </div>
           </motion.div>

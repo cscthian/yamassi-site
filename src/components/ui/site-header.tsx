@@ -22,6 +22,7 @@ import {
   BookOpen,
   ChevronRight,
   Sparkles,
+  ShoppingBag,
   type LucideIcon,
 } from "lucide-react";
 
@@ -99,7 +100,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
         }`}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <a href="/" aria-label="Yamassi inicio" onClick={() => setMobileMenuOpen(false)}>
+          <a href="/" aria-label="Yamassi inicio" onClick={() => setMobileMenuOpen(false)} className="shrink-0">
             <YamassiLogo
               inverted={!scrolled && !mobileMenuOpen}
               className={`transition-[filter,color] duration-300 ${
@@ -110,10 +111,21 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
             />
           </a>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <a
+              href="/tienda"
+              className={`hidden text-sm font-semibold transition-colors 2xl:inline whitespace-nowrap ${
+                scrolled || mobileMenuOpen
+                  ? "text-slate-700 hover:text-emerald-600"
+                  : "text-white/80 hover:text-white"
+              }`}
+            >
+              Tienda POS
+            </a>
+
             <a
               href="/login"
-              className={`hidden text-sm font-medium transition-colors sm:inline ${
+              className={`hidden text-sm font-medium transition-colors sm:inline whitespace-nowrap ${
                 scrolled || mobileMenuOpen
                   ? "text-muted-foreground hover:text-primary"
                   : "text-white/80 hover:text-white"
@@ -124,11 +136,11 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
 
             <PruebaGratisMenu buttonSize="sm" label="Empieza gratis" />
 
-            {/* Mobile menu toggle (visible only on < lg) */}
+            {/* Mobile menu toggle (visible only on < xl) */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className={`lg:hidden flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${
+              className={`xl:hidden flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${
                 scrolled || mobileMenuOpen
                   ? "border-slate-200 bg-slate-100 text-slate-800 hover:bg-slate-200"
                   : "border-white/20 bg-white/10 text-white hover:bg-white/20 backdrop-blur-md"
@@ -142,7 +154,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
         </div>
       </motion.header>
 
-      {/* Mobile Drawer (visible only on < lg) */}
+      {/* Mobile Drawer (visible only on < xl) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -150,7 +162,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="fixed inset-x-0 top-16 z-40 lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-white/10 bg-[#0b1f4d]/98 backdrop-blur-2xl p-5 text-white shadow-2xl"
+            className="fixed inset-x-0 top-16 z-40 xl:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-white/10 bg-[#0b1f4d]/98 backdrop-blur-2xl p-5 text-white shadow-2xl"
           >
             {/* Secciones de navegación */}
             <div className="space-y-1">
@@ -231,6 +243,19 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
                 <ChevronRight className="h-4 w-4 text-white/40" />
               </a>
               <a
+                href="/docs"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-500/20 text-teal-300">
+                    <BookOpen className="h-4 w-4" />
+                  </span>
+                  <span>Documentación</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-white/40" />
+              </a>
+              <a
                 href="/blog"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
@@ -239,7 +264,20 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
                   <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300">
                     <BookOpen className="h-4 w-4" />
                   </span>
-                  <span>Blog & Guías SEO</span>
+                  <span>Blog & Guías</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-white/40" />
+              </a>
+              <a
+                href="/tienda"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-300">
+                    <ShoppingBag className="h-4 w-4" />
+                  </span>
+                  <span>Tienda Hardware POS</span>
                 </div>
                 <ChevronRight className="h-4 w-4 text-white/40" />
               </a>

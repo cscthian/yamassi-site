@@ -17,4 +17,17 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+const docs = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/docs' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    rubro: z.enum(['pos', 'restobar', 'reservas', 'odontologia']),
+    section: z.string().default('General'),
+    order: z.number().default(1),
+    pubDate: z.coerce.date().optional(),
+    updatedDate: z.coerce.date().optional(),
+  }),
+});
+
+export const collections = { blog, docs };

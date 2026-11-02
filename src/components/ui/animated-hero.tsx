@@ -39,7 +39,7 @@ export function AnimatedHeadline({
 
   return (
     <h2
-      className={`font-serif text-4xl md:text-6xl font-black tracking-tight text-center text-white ${
+      className={`font-serif text-[1.75rem] leading-tight sm:text-4xl md:text-6xl font-black tracking-tight text-center text-white ${
         className ?? ""
       }`}
     >

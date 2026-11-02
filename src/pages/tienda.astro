@@ -1,0 +1,148 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { SiteHeader } from "@/components/ui/site-header";
+import { SiteFooter } from "@/components/blocks/site-footer";
+import { TiendaAppHeader } from "@/components/tienda/TiendaAppHeader";
+import { TiendaProductGrid } from "@/components/tienda/TiendaProductGrid";
+import { TiendaPagination } from "@/components/tienda/TiendaPagination";
+import { TiendaProductModal } from "@/components/tienda/TiendaProductModal";
+import { SITE_URL } from "@/lib/site";
+import type { ProductoCatalogo, Categoria } from "@/types/catalog";
+import { PRODUCTOS_MOCK, CATEGORIAS_MOCK } from "@/data/mockCatalog";
+import { Sparkles, ShoppingBag } from "lucide-react";
+
+const pageTitle = "Tienda Yamassi — Catálogo de Equipos POS, Ticketeras y Lectores de Barras";
+const pageDescription = "Catálogo oficial de hardware y equipos POS Yamassi: Ticketeras térmicas de 57mm y 80mm, lectores de código de barra 2D y accesorios homologados para comercio en Perú.";
+
+// Precarga directa desde las APIs oficiales en tiempo de construcción (SSG Node.js)
+let products: ProductoCatalogo[] = PRODUCTOS_MOCK;
+let categories: Categoria[] = CATEGORIAS_MOCK;
+
+try {
+  const [resProd, resCat] = await Promise.all([
+    fetch("https://apiresbar.yamassi.com/api/catalogo/externo/lista-public/", {
+      headers: { Accept: "application/json" },
+    }),
+    fetch("https://apiresbar.yamassi.com/api/catalogo/externo/categorias/", {
+      headers: { Accept: "application/json" },
+    }),
+  ]);
+
+  if (resProd.ok) {
+    const dataProd = await resProd.json();
+    if (Array.isArray(dataProd.results) && dataProd.results.length > 0) {
+      products = dataProd.results;
+    }
+  }
+
+  if (resCat.ok) {
+    const dataCat = await resCat.json();
+    if (Array.isArray(dataCat) && dataCat.length > 0) {
+      categories = [
+        { id: "", nombre: "Todas las categorías", slug: "", order: 0, is_active: true },
+        ...dataCat,
+      ];
+    }
+  }
+} catch (e) {
+  console.info("[Tienda Yamassi] Build usando catálogo de respaldo sincronizado.");
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": `${SITE_URL}/`,
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tienda POS Yamassi",
+          "item": `${SITE_URL}/tienda`,
+        },
+      ],
+    },
+    {
+      "@type": "Store",
+      "name": "Tienda Yamassi - Hardware & Software POS",
+      "url": `${SITE_URL}/tienda`,
+      "description": pageDescription,
+      "currenciesAccepted": "PEN",
+      "paymentAccepted": "Efectivo, Transferencia BCP/BBVA/Interbank, Yape, Plin",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Perú",
+      },
+    },
+  ],
+};
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <main class="min-h-screen bg-slate-50 text-slate-900">
+    <!-- Header de navegación principal (idéntico al resto de la web) -->
+    <SiteHeader client:load />
+
+    <!-- Cabecera con la paleta y diseño oficial de Yamassi (Fondo azul marino #0b1f4d con perfecto contraste) -->
+    <header class="relative pt-32 pb-14 overflow-hidden bg-gradient-to-b from-[#0b1f4d] via-[#112264] to-[#080c14] text-white">
+      {/* Destello esmeralda de fondo característico del sitio */}
+      <div
+        class="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-96 w-[600px] rounded-full bg-emerald-500/20 blur-[130px]"
+        aria-hidden="true"
+      ></div>
+
+      <div class="container relative mx-auto px-4 max-w-5xl text-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-bold text-emerald-300 mb-4 shadow-inner">
+          <ShoppingBag class="w-3.5 h-3.5" />
+          <span>Equipos & Hardware Homologado</span>
+        </div>
+
+        <h1 class="font-serif text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          Catálogo <span class="bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300 bg-clip-text text-transparent">Tienda Yamassi</span>
+        </h1>
+
+        <p class="mt-3 text-sm sm:text-base text-white/80 max-w-2xl mx-auto leading-relaxed">
+          Ticketeras térmicas y lectores de código de barra probados y configurados para vender con Yamassi POS en Perú.
+        </p>
+      </div>
+    </header>
+
+    <!-- Sección de Catálogo: Filtros estilo App + Rejilla de Productos -->
+    <section class="py-8 sm:py-12 bg-slate-50">
+      <div class="container mx-auto px-3 sm:px-6 max-w-5xl">
+        {/* Cabecera estilo App: Buscador clásico + Combo de Categorías + Ordenamiento */}
+        <TiendaAppHeader
+          client:load
+          initialCategories={categories}
+          initialCount={products.length}
+        />
+
+        {/* Rejilla de Productos */}
+        <TiendaProductGrid
+          client:load
+          initialProducts={products}
+          initialCategories={categories}
+        />
+
+        {/* Paginación */}
+        <TiendaPagination client:load />
+      </div>
+    </section>
+
+    <!-- Modal de Vista Rápida del Producto -->
+    <TiendaProductModal client:load />
+
+    <!-- Footer institucional -->
+    <SiteFooter client:visible />
+  </main>
+</Layout>
