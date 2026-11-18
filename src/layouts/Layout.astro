@@ -5,27 +5,76 @@ import { SITE_URL } from "@/lib/site";
 interface Props {
   title?: string;
   description?: string;
+  /** Social card title/description; default to the page title/description. */
+  ogTitle?: string;
+  ogDescription?: string;
+  /** Absolute or root-relative image for social cards (1200×630). */
+  ogImage?: string;
+  ogImageAlt?: string;
+  keywords?: string;
+  /** Page-specific JSON-LD nodes. Replace the home page's product/FAQ nodes (Organization is always kept). */
+  schema?: Record<string, unknown>[];
+  /** The home hero video is preloaded by default; other pages can opt out. */
+  preloadVideo?: boolean;
+  /** Preload the page's main (LCP) image. */
+  preloadImage?: string;
+  themeColor?: string;
 }
 
+const DEFAULT_TITLE = "Yamassi - Software de caja registradora para negocios Perú";
+const DEFAULT_DESCRIPTION =
+  "Yamassi reúne todo en un solo lugar: ventas (POS), control de stock, gestión de proveedores y facturación electrónica homologada con SUNAT. Una sola app, en español y con soporte real. El sistema que los emprendedores peruanos merecen.";
+
 const {
-  title = "Yamassi - Software de caja registradora para negocios Perú",
-  description = "Yamassi reúne todo en un solo lugar: ventas (POS), control de stock, gestión de proveedores y facturación electrónica homologada con SUNAT. Una sola app, en español y con soporte real. El sistema que los emprendedores peruanos merecen.",
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  ogImage,
+  ogImageAlt,
+  keywords = "software POS Perú, punto de venta, facturación electrónica SUNAT, control de inventario, gestión de proveedores, sistema para bodegas, sistema para restaurantes, sistema para farmacias, software de ventas Perú, boletas y facturas electrónicas, ERP para pymes Perú",
+  schema,
+  preloadVideo = true,
+  preloadImage,
+  themeColor = "#1E3A8A",
 } = Astro.props;
+
+// Pages that set their own title/description share them on social cards too.
+const ogTitle =
+  Astro.props.ogTitle ??
+  (Astro.props.title ? title : "Yamassi — POS, Facturación Electrónica e Inventario, todo en un solo lugar");
+const ogDescription =
+  Astro.props.ogDescription ??
+  (Astro.props.description
+    ? description
+    : "Ventas, stock, proveedores y facturación SUNAT en una sola app. En español, con soporte real en el Perú. Prueba gratis sin tarjeta.");
+const twitterTitle = Astro.props.ogTitle ?? (Astro.props.title ? title : "Yamassi — Todo tu negocio en un solo lugar");
+const twitterDescription =
+  Astro.props.ogDescription ??
+  (Astro.props.description
+    ? description
+    : "POS, inventario, proveedores y facturación electrónica SUNAT. Una sola app, en español, con soporte real.");
+
+// Each page is canonical to itself (not to the home page).
+const canonicalUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const ogImageUrl = ogImage ? new URL(ogImage, SITE_URL).href : undefined;
+
+const organization = {
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
+  name: "Yamassi",
+  url: SITE_URL,
+  logo: `${SITE_URL}/yamassi.png`,
+  slogan: "Ayni · Yanantin · Masintin — Crecer juntos, en equilibrio",
+  description:
+    "Yamassi es un software de gestión peruano que reúne punto de venta (POS), control de inventario, gestión de proveedores y facturación electrónica homologada con SUNAT en una sola plataforma. Su nombre y su forma de trabajar se inspiran en tres principios de la cosmovisión andina: Yanantin, Masintin y Ayni.",
+  areaServed: { "@type": "Country", name: "Perú" },
+  knowsLanguage: "es-PE",
+  sameAs: ["https://www.tiktok.com/@yamassioficial", "https://www.facebook.com/yamassioficial"],
+};
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
-      name: "Yamassi",
-      url: SITE_URL,
-      slogan: "Ayni · Yanantin · Masintin — Crecer juntos, en equilibrio",
-      description:
-        "Yamassi es un software de gestión peruano que reúne punto de venta (POS), control de inventario, gestión de proveedores y facturación electrónica homologada con SUNAT en una sola plataforma. Su nombre y su forma de trabajar se inspiran en tres principios de la cosmovisión andina: Yanantin, Masintin y Ayni.",
-      areaServed: { "@type": "Country", name: "Perú" },
-      knowsLanguage: "es-PE",
-    },
+  "@graph": schema ? [organization, ...schema] : [
+    organization,
     {
       "@type": "SoftwareApplication",
       name: "Yamassi",
@@ -90,50 +139,37 @@ const jsonLd = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1E3A8A" />
+    <meta name="theme-color" content={themeColor} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta
-      name="keywords"
-      content="software POS Perú, punto de venta, facturación electrónica SUNAT, control de inventario, gestión de proveedores, sistema para bodegas, sistema para restaurantes, sistema para farmacias, software de ventas Perú, boletas y facturas electrónicas, ERP para pymes Perú"
-    />
+    <meta name="keywords" content={keywords} />
     <meta name="author" content="Yamassi" />
-    <link rel="canonical" href={SITE_URL} />
-    <!-- Preload critical hero video for instant playback and caching -->
-    <link
-      rel="preload"
-      href="/hero_page.webm"
-      as="video"
-      type="video/webm"
-    />
+    <link rel="canonical" href={canonicalUrl} />
+    {preloadVideo && (
+      <link rel="preload" href="/hero_page.webm" as="video" type="video/webm" />
+    )}
+    {preloadImage && <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />}
     <link rel="icon" type="image/png" href="/icon.png" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
 
     <!-- Open Graph -->
-    <meta
-      property="og:title"
-      content="Yamassi — POS, Facturación Electrónica e Inventario, todo en un solo lugar"
-    />
-    <meta
-      property="og:description"
-      content="Ventas, stock, proveedores y facturación SUNAT en una sola app. En español, con soporte real en el Perú. Prueba gratis sin tarjeta."
-    />
-    <meta property="og:url" content={SITE_URL} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="Yamassi" />
     <meta property="og:locale" content="es_PE" />
     <meta property="og:type" content="website" />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta property="og:image:width" content="1200" />}
+    {ogImageUrl && <meta property="og:image:height" content="630" />}
+    {ogImageUrl && ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Yamassi — Todo tu negocio en un solo lugar"
-    />
-    <meta
-      name="twitter:description"
-      content="POS, inventario, proveedores y facturación electrónica SUNAT. Una sola app, en español, con soporte real."
-    />
+    <meta name="twitter:title" content={twitterTitle} />
+    <meta name="twitter:description" content={twitterDescription} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
     <!-- Google Fonts: DM Sans & Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

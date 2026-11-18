@@ -23,3 +23,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local reference material (not part of the site)
+ai-voice-agent-landing-page-v1/
+Planes landing — textos actualizados.md
+princingtxt.txt

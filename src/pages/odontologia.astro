@@ -3,46 +3,112 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import { SiteHeader } from "@/components/ui/site-header";
-import OdontoHero from "@/components/verticals/OdontoHero.astro";
-import OdontoFeatures from "@/components/verticals/OdontoFeatures.astro";
-import OdontoPricing from "@/components/verticals/OdontoPricing.astro";
-import OdontoFaq from "@/components/verticals/OdontoFaq.astro";
-import VerticalCta from "@/components/verticals/VerticalCta.astro";
+import OdontoLanding, { ODONTO_FAQ, ODONTO_PLANS } from "@/components/verticals/OdontoLanding";
 import { SiteFooter } from "@/components/blocks/site-footer";
+import { SITE_URL } from "@/lib/site";
+
+const pageUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const appUrl = "https://odonto.yamassi.com/";
+
+const title = "Odonto Yamassi — Software dental para consultorios y clínicas en Perú";
+const description =
+  "Software dental hecho en Perú: odontograma digital norma MINSA, historias clínicas y consentimientos, agenda con recordatorios por WhatsApp, cuentas de tratamiento y caja. Consultorio de hasta 2 sillones desde S/ 89 al mes, con 2 meses gratis.";
+
+// Plain-text plan descriptions for structured data (only what is available today).
+const offers = ODONTO_PLANS.map((plan) => ({
+  "@type": "Offer",
+  name: plan.name,
+  price: String(plan.price),
+  priceCurrency: "PEN",
+  url: pageUrl + "#precios",
+  availability: "https://schema.org/InStock",
+  description: `${plan.capacity}. ${plan.text}`,
+  priceSpecification: {
+    "@type": "UnitPriceSpecification",
+    price: String(plan.price),
+    priceCurrency: "PEN",
+    unitText: plan.period.replace(/^\/\s*/, ""),
+  },
+}));
+
+const schema = [
+  {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: title,
+    description,
+    inLanguage: "es-PE",
+    isPartOf: { "@id": `${SITE_URL}/#organization` },
+    about: { "@id": `${pageUrl}#software` },
+    primaryImageOfPage: `${SITE_URL}/img/odonto-yamassi-og.jpg`,
+  },
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${pageUrl}#software`,
+    name: "Odonto Yamassi",
+    alternateName: ["Yamassi Dental", "Yamassi Odontología"],
+    url: pageUrl,
+    installUrl: appUrl,
+    image: `${SITE_URL}/img/odonto-yamassi-og.jpg`,
+    applicationCategory: "HealthApplication",
+    applicationSubCategory: "Software dental para consultorios y clínicas odontológicas",
+    operatingSystem: "Web (navegador en PC, laptop, tablet o celular)",
+    inLanguage: "es-PE",
+    areaServed: { "@type": "Country", name: "Perú" },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    description:
+      "Odonto Yamassi es un software dental peruano en la nube para consultorios y clínicas odontológicas: odontograma digital para adultos y niños, historias clínicas y consentimientos informados, agenda por sillón con recordatorios por WhatsApp, cuentas de tratamiento, presupuestos por paciente y caja con arqueo. El plan Consultorio Solo incluye hasta 2 sillones.",
+    featureList: [
+      "Odontograma digital ilimitado para adultos y niños (norma MINSA)",
+      "Historias clínicas y consentimientos informados en PDF",
+      "Agenda por sillón con recordatorios por WhatsApp en un clic",
+      "Cuentas de tratamiento y presupuestos por paciente",
+      "Caja con arqueo, cobros, adelantos y devoluciones",
+      "Equipo con roles y permisos: recepción, asistente y caja",
+    ],
+    offers,
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: ODONTO_FAQ.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+  {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Yamassi", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Odonto Yamassi", item: pageUrl },
+    ],
+  },
+];
 ---
 
 <Layout
-  title="Yamassi Odontología — Software para Clínicas y Consultorios Dentales en el Perú"
-  description="Software odontológico completo: odontograma interactivo norma MINSA, agenda médica con recordatorios WhatsApp, historias clínicas digitales, presupuestos por fases y facturación electrónica."
+  title={title}
+  description={description}
+  ogTitle="Odonto Yamassi — Tu consultorio dental en orden"
+  ogDescription="Odontograma, historias clínicas, agenda con recordatorios por WhatsApp y caja. Hasta 2 sillones desde S/ 89 al mes. 2 meses gratis, sin tarjeta."
+  ogImage="/img/odonto-yamassi-og.jpg"
+  ogImageAlt="Odonto Yamassi: odontóloga atendiendo a un paciente en un consultorio dental"
+  keywords="software dental Perú, software odontológico, sistema para consultorio dental, odontograma digital, odontograma MINSA, historia clínica odontológica, agenda dental WhatsApp, software para clínica dental, programa para dentistas, Odonto Yamassi"
+  schema={schema}
+  preloadVideo={false}
+  preloadImage="/img/odonto-yamassi-hero.webp"
+  themeColor="#021D4A"
 >
-  <main id="inicio" class="relative min-h-screen bg-white">
-    {/* Navigation con opciones específicas de Odontología */}
+  <main id="inicio" class="relative min-h-screen overflow-x-clip bg-white">
+    {/* Navegación original de Yamassi con opciones de Odontología */}
     <SiteHeader client:load vertical="odontologia" />
 
-    {/* Hero odontológico */}
-    <OdontoHero />
-
-    {/* Módulos clínicos: Odontograma, Agenda WhatsApp, Historias y Presupuestos */}
-    <OdontoFeatures />
-
-    {/* Planes y precios clínicos */}
-    <OdontoPricing />
-
-    {/* Preguntas frecuentes clínicas */}
-    <OdontoFaq />
-
-    {/* Llamado a la acción final */}
-    <VerticalCta
-      badge="Empieza 100% gratis para consultorios dentales"
-      title="Digitaliza tu clínica dental hoy y"
-      highlightedText="ofrece la mejor experiencia a tus pacientes"
-      description="Únete a decenas de odontólogos y clínicas en todo el Perú que profesionalizaron su atención, redujeron faltas a citas y organizaron sus finanzas con Yamassi."
-      primaryCtaText="Empezar gratis con Yamassi"
-      primaryCtaHref="/login"
-      note="Sin tarjeta de crédito · Soporte en Perú · Cumplimiento con norma técnica MINSA"
-    />
+    {/* Landing Odonto Yamassi */}
+    <OdontoLanding client:load />
 
     {/* Footer institucional */}
-    <SiteFooter />
+    <SiteFooter variant="odonto" />
   </main>
 </Layout>

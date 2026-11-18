@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 
 import { YamassiLogo } from "@/components/ui/yamassi-logo";
+import { OdontoYamassiWordmark } from "@/components/ui/odonto-yamassi-logo";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { PruebaGratisMenu } from "@/components/ui/prueba-gratis-menu";
 
@@ -78,6 +79,16 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
   const activeItems = navItems || VERTICAL_NAV_ITEMS[vertical] || VERTICAL_NAV_ITEMS.home;
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Sub-brand: the Yamassi mark flips into the Odonto Yamassi mark on arrival.
+  const subBrand = vertical === "odontologia";
+  const [showSubBrand, setShowSubBrand] = useState(false);
+
+  useEffect(() => {
+    if (!subBrand) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const id = window.setTimeout(() => setShowSubBrand(true), reduced ? 0 : 900);
+    return () => window.clearTimeout(id);
+  }, [subBrand]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -100,15 +111,80 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
         }`}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <a href="/" aria-label="Yamassi inicio" onClick={() => setMobileMenuOpen(false)} className="shrink-0">
-            <YamassiLogo
-              inverted={!scrolled && !mobileMenuOpen}
-              className={`transition-[filter,color] duration-300 ${
-                scrolled || mobileMenuOpen
-                  ? "[filter:drop-shadow(0_1px_1px_rgba(15,23,42,0.10))]"
-                  : "[filter:drop-shadow(0_2px_10px_rgba(8,12,20,0.55))]"
-              }`}
-            />
+          <a
+            href={subBrand ? "/odontologia" : "/"}
+            aria-label={subBrand ? "Odonto Yamassi inicio" : "Yamassi inicio"}
+            onClick={() => setMobileMenuOpen(false)}
+            className="shrink-0"
+          >
+            {subBrand ? (
+              <span
+                className={`flex items-center gap-2.5 transition-[filter] duration-300 ${
+                  scrolled || mobileMenuOpen
+                    ? "[filter:drop-shadow(0_1px_1px_rgba(15,23,42,0.10))]"
+                    : "[filter:drop-shadow(0_2px_10px_rgba(8,12,20,0.55))]"
+                }`}
+              >
+                {/* The round mark spins like a wheel and swaps colours halfway. */}
+                <motion.span
+                  className="relative block h-9 w-9 shrink-0"
+                  initial={false}
+                  animate={{ rotate: showSubBrand ? 360 : 0 }}
+                  transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
+                >
+                  <motion.img
+                    src="/yamassi-logo.svg"
+                    alt=""
+                    width={36}
+                    height={36}
+                    className="absolute inset-0 h-9 w-9"
+                    initial={false}
+                    animate={{ opacity: showSubBrand ? 0 : 1 }}
+                    transition={{ delay: showSubBrand ? 0.3 : 0, duration: 0.25 }}
+                  />
+                  <motion.img
+                    src="/yamassi-dental.png"
+                    alt=""
+                    width={36}
+                    height={36}
+                    className="absolute inset-0 h-9 w-9"
+                    initial={false}
+                    animate={{ opacity: showSubBrand ? 1 : 0 }}
+                    transition={{ delay: showSubBrand ? 0.3 : 0, duration: 0.25 }}
+                  />
+                </motion.span>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={showSubBrand ? "odonto" : "yamassi"}
+                    initial={{ opacity: 0, filter: "blur(6px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, filter: "blur(6px)" }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {showSubBrand ? (
+                      <OdontoYamassiWordmark inverted={!scrolled && !mobileMenuOpen} />
+                    ) : (
+                      <span
+                        className={`font-sans text-[1.45rem] font-extrabold leading-none tracking-tight ${
+                          !scrolled && !mobileMenuOpen ? "text-white" : "text-foreground"
+                        }`}
+                      >
+                        Yamassi
+                      </span>
+                    )}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+            ) : (
+              <YamassiLogo
+                inverted={!scrolled && !mobileMenuOpen}
+                className={`transition-[filter,color] duration-300 ${
+                  scrolled || mobileMenuOpen
+                    ? "[filter:drop-shadow(0_1px_1px_rgba(15,23,42,0.10))]"
+                    : "[filter:drop-shadow(0_2px_10px_rgba(8,12,20,0.55))]"
+                }`}
+              />
+            )}
           </a>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">

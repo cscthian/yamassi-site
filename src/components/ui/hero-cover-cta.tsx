@@ -34,6 +34,17 @@ export function HeroCoverCta({ className = "" }: HeroCoverCtaProps) {
           <span>Caja, POS & Minimarkets</span>
         </a>
 
+        <a
+          href="https://odonto.yamassi.com/"
+          className="group inline-flex items-center gap-1.5 rounded-full border border-[#FCD448]/40 bg-[#021D4A]/85 px-2.5 py-1 sm:px-3.5 sm:py-1 text-[10.5px] sm:text-xs font-bold text-[#FCE687] backdrop-blur-md transition-all hover:bg-[#5D43F7]/30 hover:border-[#FCD448] active:scale-95 shadow-[0_4px_16px_rgba(0,0,0,0.45)] min-h-[30px] sm:min-h-[36px]"
+          title="Ver Odonto Yamassi, sistema para clínicas y consultorios dentales"
+        >
+          <span className="flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center rounded-full bg-[#5D43F7]/40 text-[#FCD448]">
+            <Smile className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+          </span>
+          <span>Clínicas Dentales</span>
+        </a>
+
       </div>
 
       {/* 2. Llamada a la acción con el menú interactivo para elegir qué probar ENCIMA (dropDirection="up") */}

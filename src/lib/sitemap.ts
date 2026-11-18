@@ -24,7 +24,7 @@ export async function generateSitemapXml(): Promise<string> {
 ${staticRoutes
   .map(
     (route) => `  <url>
-    <loc>${SITE_URL}${route.url}</loc>
+    <loc>${SITE_URL}${route.url.endsWith(".txt") ? route.url : route.url + "/"}</loc>
     <lastmod>${now}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
@@ -38,7 +38,7 @@ ${posts
       ? new Date(post.data.updatedDate).toISOString()
       : new Date(post.data.pubDate).toISOString();
     return `  <url>
-    <loc>${SITE_URL}/blog/${slug}</loc>
+    <loc>${SITE_URL}/blog/${slug}/</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
