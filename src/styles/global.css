@@ -223,13 +223,55 @@ html {
   }
 }
 
+/* Logos turn once, then rest (same turn as on hover). */
+@keyframes logo-turn {
+  0%,
+  62% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* The call to action colour wash blooms in and out with the sheen. */
+@keyframes wash-bloom {
+  0%,
+  50% {
+    opacity: 0;
+  }
+  72% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (hover: none) {
+  .touch-spin {
+    animation: logo-turn 5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  .touch-wash {
+    animation: wash-bloom 5s ease-in-out infinite;
+  }
+
   .touch-ken-burns {
     animation: ken-burns 8s ease-in-out infinite alternate;
   }
 
   .touch-sheen {
     animation: sheen-sweep 5s ease-in-out infinite;
+  }
+}
+
+@media (hover: none) and (prefers-reduced-motion: reduce) {
+  .touch-spin,
+  .touch-wash,
+  .touch-sheen,
+  .touch-ken-burns {
+    animation: none;
   }
 }
 

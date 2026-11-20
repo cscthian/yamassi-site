@@ -33,6 +33,10 @@ export const CITAS_URL: string =
   import.meta.env.PUBLIC_CITAS_URL ||
   (IS_DEV ? "http://localhost:3003/" : "https://citas.yamassi.com/");
 
+// URL de la plataforma Odonto Yamassi (Consultorios y clínicas dentales)
+export const ODONTO_URL: string =
+  import.meta.env.PUBLIC_ODONTO_URL || "https://odonto.yamassi.com/";
+
 // URL de la API backend central
 export const API_URL: string =
   import.meta.env.PUBLIC_API_URL ||

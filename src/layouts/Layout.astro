@@ -19,6 +19,8 @@ interface Props {
   /** Preload the page's main (LCP) image. */
   preloadImage?: string;
   themeColor?: string;
+  /** Keep the page out of search results (e.g. the sign-in chooser). */
+  noindex?: boolean;
 }
 
 const DEFAULT_TITLE = "Yamassi - Software de caja registradora para negocios Perú";
@@ -35,6 +37,7 @@ const {
   preloadVideo = true,
   preloadImage,
   themeColor = "#1E3A8A",
+  noindex = false,
 } = Astro.props;
 
 // Pages that set their own title/description share them on social cards too.
@@ -151,7 +154,7 @@ const jsonLd = {
     {preloadImage && <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />}
     <link rel="icon" type="image/png" href="/icon.png" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
 
     <!-- Open Graph -->
     <meta property="og:title" content={ogTitle} />

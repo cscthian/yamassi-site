@@ -1,11 +1,11 @@
 import { Star } from "lucide-react";
 import { YamassiLogo } from "@/components/ui/yamassi-logo";
-import { OdontoYamassiLogo } from "@/components/ui/odonto-yamassi-logo";
+import { SubBrandLogo, type SubBrandId } from "@/components/ui/sub-brand-logo";
 import { cn } from "@/lib/utils";
 
 interface SiteFooterProps {
-  /** "odonto" repaints the footer in the Odonto Yamassi sub-brand colours. */
-  variant?: "default" | "odonto";
+  /** Sub-brand variants repaint the footer in that vertical's colours. */
+  variant?: "default" | "odonto" | "restobar" | "tienda";
 }
 
 const THEMES = {
@@ -21,6 +21,24 @@ const THEMES = {
     accentHover: "hover:text-[#FCE687]",
     divider: "border-[#5D43F7]/40",
   },
+  restobar: {
+    footer: "bg-gradient-to-b from-[#0B0F14] via-[#1a0a0c] to-[#4a0008]",
+    accent: "text-[#F6D365]",
+    accentHover: "hover:text-[#FBE7A1]",
+    divider: "border-[#C1121F]/40",
+  },
+  tienda: {
+    footer: "bg-gradient-to-b from-[#0F172A] via-[#1E1B4B] to-[#2e1065]",
+    accent: "text-[#34D399]",
+    accentHover: "hover:text-[#A7F3D0]",
+    divider: "border-[#9333EA]/40",
+  },
+};
+
+const SUB_BRAND: Partial<Record<NonNullable<SiteFooterProps["variant"]>, SubBrandId>> = {
+  odonto: "odontologia",
+  restobar: "restaurantes",
+  tienda: "market",
 };
 
 export function SiteFooter({ variant = "default" }: SiteFooterProps) {
@@ -29,8 +47,8 @@ export function SiteFooter({ variant = "default" }: SiteFooterProps) {
     <footer className={cn("py-14 text-white", t.footer)}>
       <div className="container mx-auto flex flex-col items-center justify-between gap-8 px-4 md:flex-row md:items-start">
         <div className="text-center md:text-left">
-          {variant === "odonto" ? (
-            <OdontoYamassiLogo inverted className="justify-center md:justify-start" />
+          {SUB_BRAND[variant] ? (
+            <SubBrandLogo brand={SUB_BRAND[variant]!} inverted className="justify-center md:justify-start" />
           ) : (
             <YamassiLogo inverted />
           )}

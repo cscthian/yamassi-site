@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutGrid,
   Store,
-  Tag,
   ShieldCheck,
   HelpCircle,
   UtensilsCrossed,
@@ -17,57 +16,91 @@ import {
   CalendarCheck,
   ClipboardList,
   CreditCard,
-  Menu,
-  X,
   BookOpen,
-  ChevronRight,
-  Sparkles,
+  Newspaper,
   ShoppingBag,
+  Tag,
+  LogIn,
   type LucideIcon,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { YamassiLogo } from "@/components/ui/yamassi-logo";
-import { OdontoYamassiWordmark } from "@/components/ui/odonto-yamassi-logo";
-import { NavBar } from "@/components/ui/tubelight-navbar";
+import { SUB_BRANDS, SubBrandWordmark, isSubBrand, type SubBrandId } from "@/components/ui/sub-brand-logo";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { PruebaGratisMenu } from "@/components/ui/prueba-gratis-menu";
 
 export interface NavItem {
   name: string;
   url: string;
   icon: LucideIcon;
+  description?: string;
 }
 
 export type HeaderVertical = "home" | "restaurantes" | "market" | "odontologia";
 
+/** Sections of each page, shown under "Funciones" (pricing has its own link). */
 export const VERTICAL_NAV_ITEMS: Record<HeaderVertical, NavItem[]> = {
   home: [
-    { name: "Funciones", url: "#funciones", icon: LayoutGrid },
-    { name: "Rubros", url: "#rubros", icon: Store },
-    { name: "Precios", url: "#precios", icon: Tag },
-    { name: "Confianza", url: "#confianza", icon: ShieldCheck },
-    { name: "Preguntas", url: "#faq", icon: HelpCircle },
+    { name: "Funciones", url: "/#funciones", icon: LayoutGrid, description: "Ventas, caja, inventario y facturación SUNAT." },
+    { name: "Rubros", url: "/#rubros", icon: Store, description: "Soluciones para tiendas, restaurantes y consultorios." },
+    { name: "Confianza", url: "/#confianza", icon: ShieldCheck, description: "Soporte en Perú y tu información segura." },
+    { name: "Preguntas", url: "/#faq", icon: HelpCircle, description: "Respuestas claras antes de empezar." },
   ],
   restaurantes: [
-    { name: "Comandas", url: "#comandas", icon: UtensilsCrossed },
-    { name: "Mesas", url: "#mesas", icon: LayoutGrid },
-    { name: "Caja & POS", url: "#caja", icon: Receipt },
-    { name: "Recetas", url: "#recetas", icon: ChefHat },
-    { name: "Precios", url: "#precios", icon: Tag },
+    { name: "Comandas", url: "#comandas", icon: UtensilsCrossed, description: "Del mozo a cocina y barra en menos de 1 segundo." },
+    { name: "Mesas", url: "#mesas", icon: LayoutGrid, description: "Salón en vivo, juntar mesas y dividir cuentas." },
+    { name: "Caja & POS", url: "#caja", icon: Receipt, description: "Arqueo ciego, Yape, Plin y boletas SUNAT." },
+    { name: "Recetas", url: "#recetas", icon: ChefHat, description: "Costo por plato, insumos y mermas." },
   ],
   market: [
-    { name: "POS Rápido", url: "#pos", icon: ScanBarcode },
-    { name: "Inventario", url: "#inventario", icon: Layers },
-    { name: "Vencimientos", url: "#alertas", icon: AlertTriangle },
-    { name: "Proveedores", url: "#proveedores", icon: Truck },
-    { name: "Precios", url: "#precios", icon: Tag },
+    { name: "POS rápido", url: "#pos", icon: ScanBarcode, description: "Escáner, balanza y cobro en segundos." },
+    { name: "Inventario", url: "#inventario", icon: Layers, description: "Kardex valorizado y stock mínimo." },
+    { name: "Vencimientos", url: "#alertas", icon: AlertTriangle, description: "Semáforo de caducidad por lote." },
+    { name: "Proveedores", url: "#proveedores", icon: Truck, description: "Compras, XML y pagos a distribuidores." },
   ],
   odontologia: [
-    { name: "Odontograma", url: "#odontograma", icon: Smile },
-    { name: "Agenda WhatsApp", url: "#agenda", icon: CalendarCheck },
-    { name: "Historias", url: "#historias", icon: ClipboardList },
-    { name: "Caja y Cuotas", url: "#caja", icon: CreditCard },
-    { name: "Precios", url: "#precios", icon: Tag },
+    { name: "Odontograma", url: "#odontograma", icon: Smile, description: "Odontograma digital norma MINSA." },
+    { name: "Agenda WhatsApp", url: "#agenda", icon: CalendarCheck, description: "Citas por sillón y recordatorios en 1 clic." },
+    { name: "Historias", url: "#historias", icon: ClipboardList, description: "Historias clínicas y consentimientos." },
+    { name: "Caja y cuotas", url: "#caja", icon: CreditCard, description: "Cuentas de tratamiento y arqueo." },
   ],
+};
+
+const PRICING_URL: Record<HeaderVertical, string> = {
+  home: "/#precios",
+  restaurantes: "#precios",
+  market: "#precios",
+  odontologia: "#precios",
+};
+
+/** Sub-brand solutions, drawn with their own marks. */
+const SOLUTIONS: { id: SubBrandId; text: string }[] = [
+  { id: "restaurantes", text: "Restaurantes, pollerías, cafeterías y bares." },
+  { id: "market", text: "Bodegas, minimarkets y tiendas." },
+  { id: "odontologia", text: "Consultorios y clínicas dentales." },
+];
+
+const RESOURCES: NavItem[] = [
+  { name: "Documentación", url: "/docs/", icon: BookOpen, description: "Guías paso a paso de cada sistema." },
+  { name: "Blog & Guías", url: "/blog/", icon: Newspaper, description: "Consejos para hacer crecer tu negocio." },
+  { name: "Tienda Hardware POS", url: "/tienda/", icon: ShoppingBag, description: "Impresoras, lectoras y equipos POS." },
+];
+
+/** Accent colours of the header per brand. */
+const ACCENT: Record<HeaderVertical, { ink: string; soft: string }> = {
+  home: { ink: "#059669", soft: "#ECFDF5" },
+  restaurantes: { ink: "#C1121F", soft: "#FDF2F2" },
+  market: { ink: "#059669", soft: "#ECFDF5" },
+  odontologia: { ink: "#5D43F7", soft: "#F2F0FF" },
 };
 
 export interface SiteHeaderProps {
@@ -75,55 +108,92 @@ export interface SiteHeaderProps {
   navItems?: NavItem[];
 }
 
+/** Same-page anchors scroll smoothly (and open the home hero first). */
+function onAnchor(e: MouseEvent<HTMLAnchorElement>, url: string, done?: () => void) {
+  done?.();
+  const hash = url.startsWith("/#") && window.location.pathname === "/" ? url.slice(1) : url.startsWith("#") ? url : null;
+  if (!hash) return;
+  const target = document.querySelector(hash);
+  if (!target) return;
+  e.preventDefault();
+  window.dispatchEvent(new CustomEvent("expandHero"));
+  setTimeout(() => target.scrollIntoView({ behavior: "smooth" }), 80);
+  history.pushState(null, "", hash);
+}
+
+/** Each dropdown sits centred under its own trigger. */
+const DROPDOWN =
+  "ym-nav-viewport absolute left-1/2 top-full z-50 mt-3 -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-slate-900 shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] md:absolute md:left-1/2 md:top-full";
+
+const NAV_CSS = `
+.ym-nav-viewport{animation:ym-nav-in .18s ease-out}
+.ym-popover[data-state=open]{animation:ym-nav-in .16s ease-out}
+@keyframes ym-nav-in{from{opacity:0;transform:translateY(-4px) scale(.98)}to{opacity:1;transform:none}}
+.ym-nav-link{color:var(--ym-fg);border-radius:999px}
+.ym-nav-link:hover,.ym-nav-link[data-state=open]{color:var(--ym-hover);background:var(--ym-hover-bg)}
+.ym-drop-item:hover,.ym-drop-item:focus-visible{background:var(--ym-soft)}
+.ym-drop-item:hover .ym-drop-title{color:var(--ym-ink)}
+.ym-drop-ico{color:var(--ym-ink);background:var(--ym-soft)}
+@media (prefers-reduced-motion:reduce){.ym-nav-viewport,.ym-popover[data-state=open]{animation:none}}
+`;
+
 export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
-  const activeItems = navItems || VERTICAL_NAV_ITEMS[vertical] || VERTICAL_NAV_ITEMS.home;
+  const sections = navItems || VERTICAL_NAV_ITEMS[vertical] || VERTICAL_NAV_ITEMS.home;
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // Sub-brand: the Yamassi mark flips into the Odonto Yamassi mark on arrival.
-  const subBrand = vertical === "odontologia";
+  const [mobileOpen, setMobileOpen] = useState(false);
+  // Sub-brand: the Yamassi mark spins into the vertical's own mark on arrival.
+  const subBrandId = isSubBrand(vertical) ? vertical : null;
+  const sb = subBrandId ? SUB_BRANDS[subBrandId] : null;
   const [showSubBrand, setShowSubBrand] = useState(false);
+  const accent = ACCENT[vertical] || ACCENT.home;
+  const solid = scrolled || mobileOpen;
 
   useEffect(() => {
-    if (!subBrand) return;
+    if (!subBrandId) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const id = window.setTimeout(() => setShowSubBrand(true), reduced ? 0 : 900);
     return () => window.clearTimeout(id);
-  }, [subBrand]);
+  }, [subBrandId]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const vars = {
+    "--ym-fg": "#334155",
+    "--ym-hover": accent.ink,
+    "--ym-hover-bg": accent.soft,
+    "--ym-ink": accent.ink,
+    "--ym-soft": accent.soft,
+  } as CSSProperties;
+
+  const dropItem = "ym-drop-item flex select-none items-start gap-3 rounded-xl p-3 leading-none no-underline outline-none transition-colors";
+
   return (
-    <>
-      {/* Top bar: logo + primary CTA + mobile hamburger */}
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-          scrolled || mobileMenuOpen
-            ? "border-b border-border bg-white/95 backdrop-blur-xl shadow-xs"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <a
-            href={subBrand ? "/odontologia" : "/"}
-            aria-label={subBrand ? "Odonto Yamassi inicio" : "Yamassi inicio"}
-            onClick={() => setMobileMenuOpen(false)}
-            className="shrink-0"
-          >
-            {subBrand ? (
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      style={vars}
+      className={cn(
+        "fixed inset-x-0 top-0 z-40 transition-all duration-300",
+        solid ? "border-b border-border bg-white/95 backdrop-blur-xl shadow-xs" : "bg-transparent"
+      )}
+    >
+      <style dangerouslySetInnerHTML={{ __html: NAV_CSS }} />
+      <div className="container mx-auto grid h-16 grid-cols-[1fr_auto] items-center gap-4 px-4 lg:grid-cols-[1fr_auto_1fr]">
+        {/* Left: logo */}
+        <div className="flex min-w-0 items-center">
+          <a href={sb ? sb.home + "/" : "/"} aria-label={sb ? sb.name + " inicio" : "Yamassi inicio"} className="shrink-0">
+            {subBrandId && sb ? (
               <span
-                className={`flex items-center gap-2.5 transition-[filter] duration-300 ${
-                  scrolled || mobileMenuOpen
-                    ? "[filter:drop-shadow(0_1px_1px_rgba(15,23,42,0.10))]"
-                    : "[filter:drop-shadow(0_2px_10px_rgba(8,12,20,0.55))]"
-                }`}
+                className={cn(
+                  "flex items-center gap-2.5 transition-[filter] duration-300",
+                  solid ? "[filter:drop-shadow(0_1px_1px_rgba(15,23,42,0.10))]" : "[filter:drop-shadow(0_2px_10px_rgba(8,12,20,0.55))]"
+                )}
               >
                 {/* The round mark spins like a wheel and swaps colours halfway. */}
                 <motion.span
@@ -143,7 +213,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
                     transition={{ delay: showSubBrand ? 0.3 : 0, duration: 0.25 }}
                   />
                   <motion.img
-                    src="/yamassi-dental.png"
+                    src={sb.mark}
                     alt=""
                     width={36}
                     height={36}
@@ -155,20 +225,16 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
                 </motion.span>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
-                    key={showSubBrand ? "odonto" : "yamassi"}
+                    key={showSubBrand ? subBrandId : "yamassi"}
                     initial={{ opacity: 0, filter: "blur(6px)" }}
                     animate={{ opacity: 1, filter: "blur(0px)" }}
                     exit={{ opacity: 0, filter: "blur(6px)" }}
                     transition={{ duration: 0.3 }}
                   >
                     {showSubBrand ? (
-                      <OdontoYamassiWordmark inverted={!scrolled && !mobileMenuOpen} />
+                      <SubBrandWordmark brand={subBrandId} inverted={!solid} />
                     ) : (
-                      <span
-                        className={`font-sans text-[1.45rem] font-extrabold leading-none tracking-tight ${
-                          !scrolled && !mobileMenuOpen ? "text-white" : "text-foreground"
-                        }`}
-                      >
+                      <span className={cn("font-sans text-[1.45rem] font-extrabold leading-none tracking-tight", solid ? "text-foreground" : "text-white")}>
                         Yamassi
                       </span>
                     )}
@@ -177,214 +243,248 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
               </span>
             ) : (
               <YamassiLogo
-                inverted={!scrolled && !mobileMenuOpen}
-                className={`transition-[filter,color] duration-300 ${
-                  scrolled || mobileMenuOpen
-                    ? "[filter:drop-shadow(0_1px_1px_rgba(15,23,42,0.10))]"
-                    : "[filter:drop-shadow(0_2px_10px_rgba(8,12,20,0.55))]"
-                }`}
+                inverted={!solid}
+                className={cn(
+                  "transition-[filter,color] duration-300",
+                  solid ? "[filter:drop-shadow(0_1px_1px_rgba(15,23,42,0.10))]" : "[filter:drop-shadow(0_2px_10px_rgba(8,12,20,0.55))]"
+                )}
               />
             )}
           </a>
-
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <a
-              href="/tienda"
-              className={`hidden text-sm font-semibold transition-colors 2xl:inline whitespace-nowrap ${
-                scrolled || mobileMenuOpen
-                  ? "text-slate-700 hover:text-emerald-600"
-                  : "text-white/80 hover:text-white"
-              }`}
-            >
-              Tienda POS
-            </a>
-
-            <a
-              href="/login"
-              className={`hidden text-sm font-medium transition-colors sm:inline whitespace-nowrap ${
-                scrolled || mobileMenuOpen
-                  ? "text-muted-foreground hover:text-primary"
-                  : "text-white/80 hover:text-white"
-              }`}
-            >
-              Iniciar sesión
-            </a>
-
-            <PruebaGratisMenu buttonSize="sm" label="Empieza gratis" />
-
-            {/* Mobile menu toggle (visible only on < xl) */}
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className={`xl:hidden flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${
-                scrolled || mobileMenuOpen
-                  ? "border-slate-200 bg-slate-100 text-slate-800 hover:bg-slate-200"
-                  : "border-white/20 bg-white/10 text-white hover:bg-white/20 backdrop-blur-md"
-              }`}
-              aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
         </div>
-      </motion.header>
 
-      {/* Mobile Drawer (visible only on < xl) */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            className="fixed inset-x-0 top-16 z-40 xl:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-white/10 bg-[#0b1f4d]/98 backdrop-blur-2xl p-5 text-white shadow-2xl"
+        {/* Center: everything grouped in one pill (desktop) */}
+        <div className="max-lg:hidden rounded-full border border-slate-200/80 bg-white/90 p-1 pl-2 shadow-[0_10px_30px_-12px_rgba(15,23,42,0.35)] backdrop-blur-xl">
+          <NavigationMenu viewport={false}>
+            <NavigationMenuList>
+              <NavigationMenuItem className="relative">
+                <NavigationMenuTrigger className="ym-nav-link bg-transparent">Funciones</NavigationMenuTrigger>
+                <NavigationMenuContent className={DROPDOWN}>
+                  <ul className="grid w-[520px] grid-cols-2 gap-1 p-2">
+                    {sections.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <li key={item.url}>
+                          <NavigationMenuLink asChild>
+                            <a href={item.url} onClick={(e) => onAnchor(e, item.url)} className={dropItem}>
+                              <span className="ym-drop-ico flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                                <Icon className="h-4 w-4" aria-hidden="true" />
+                              </span>
+                              <span className="space-y-1">
+                                <span className="ym-drop-title block text-sm font-semibold leading-none transition-colors">{item.name}</span>
+                                {item.description ? (
+                                  <span className="line-clamp-2 block text-[13px] leading-snug text-slate-500">{item.description}</span>
+                                ) : null}
+                              </span>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <a
+                    href={PRICING_URL[vertical]}
+                    onClick={(e) => onAnchor(e, PRICING_URL[vertical])}
+                    className="ym-nav-link inline-flex h-9 items-center rounded-md px-3 text-sm font-medium transition-colors"
+                  >
+                    Precios
+                  </a>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem className="relative">
+                <NavigationMenuTrigger className="ym-nav-link bg-transparent">Soluciones</NavigationMenuTrigger>
+                <NavigationMenuContent className={DROPDOWN}>
+                  <ul className="grid w-[340px] gap-1 p-2">
+                    {SOLUTIONS.map((s) => {
+                      const b = SUB_BRANDS[s.id];
+                      const current = s.id === subBrandId;
+                      return (
+                        <li key={s.id}>
+                          <NavigationMenuLink asChild active={current}>
+                            <a
+                              href={b.home + "/"}
+                              aria-current={current ? "page" : undefined}
+                              className={cn(dropItem, "items-center")}
+                              style={current ? { background: accent.soft } : undefined}
+                            >
+                              <img src={b.mark} alt="" width={36} height={36} className="h-9 w-9 shrink-0" />
+                              <span className="space-y-1">
+                                <span className="block text-sm font-bold leading-none" style={{ color: b.ink }}>
+                                  {b.lines[0]} <span style={{ color: b.accent }}>{b.lines[1]}</span>
+                                </span>
+                                <span className="block text-[13px] leading-snug text-slate-500">{s.text}</span>
+                              </span>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem className="relative">
+                <NavigationMenuTrigger className="ym-nav-link bg-transparent">Recursos</NavigationMenuTrigger>
+                <NavigationMenuContent className={DROPDOWN}>
+                  <ul className="grid w-[320px] gap-1 p-2">
+                    {/* Documentation has its own top-level link on desktop. */}
+                    {RESOURCES.filter((r) => r.url !== "/docs/").map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <li key={item.url}>
+                          <NavigationMenuLink asChild>
+                            <a href={item.url} className={dropItem}>
+                              <span className="ym-drop-ico flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                                <Icon className="h-4 w-4" aria-hidden="true" />
+                              </span>
+                              <span className="space-y-1">
+                                <span className="ym-drop-title block text-sm font-semibold leading-none transition-colors">{item.name}</span>
+                                <span className="block text-[13px] leading-snug text-slate-500">{item.description}</span>
+                              </span>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <a href="/docs/" className="ym-nav-link inline-flex h-9 items-center rounded-md px-3 text-sm font-medium transition-colors">
+                    Documentación
+                  </a>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem aria-hidden="true">
+                <span className="mx-1 block h-5 w-px bg-slate-200" />
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <a href="/login/" className="ym-nav-link inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium transition-colors">
+                    Iniciar sesión
+                  </a>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <PruebaGratisMenu label="Empieza gratis" />
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+
+        {/* Right side (phones and tablets) */}
+        <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3 lg:hidden">
+          <a
+            href="/login/"
+            className={cn(
+              "hidden whitespace-nowrap text-sm font-medium transition-colors sm:inline lg:hidden",
+              solid ? "text-slate-600 hover:text-slate-900" : "text-white/80 hover:text-white"
+            )}
           >
-            {/* Secciones de navegación */}
-            <div className="space-y-1">
-              <p className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-emerald-400">
-                Navegación
+            Iniciar sesión
+          </a>
+
+          <PruebaGratisMenu label="Empieza gratis" />
+
+          {/* Mobile menu */}
+          <Popover open={mobileOpen} onOpenChange={setMobileOpen}>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "group flex h-9 w-9 items-center justify-center rounded-xl border transition-colors lg:hidden",
+                  solid
+                    ? "border-slate-200 bg-slate-100 text-slate-800 hover:bg-slate-200"
+                    : "border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
+                )}
+                aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+              >
+                <svg className="pointer-events-none" width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M4 12L20 12" className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]" />
+                  <path d="M4 12H20" className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45" />
+                  <path d="M4 12H20" className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]" />
+                </svg>
+              </button>
+            </PopoverTrigger>
+            <PopoverContent
+              align="end"
+              sideOffset={12}
+              style={vars}
+              className="max-h-[calc(100dvh-5.5rem)] w-[min(20rem,calc(100vw-2rem))] overflow-y-auto p-1.5 lg:hidden"
+            >
+              <p className="px-2.5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: accent.ink }}>
+                Funciones
               </p>
-              {activeItems.map((item) => {
+              {sections.map((item) => {
                 const Icon = item.icon;
                 return (
                   <a
-                    key={item.name}
+                    key={item.url}
                     href={item.url}
-                    onClick={(e) => {
-                      setMobileMenuOpen(false);
-                      if (item.url.startsWith("#")) {
-                        window.dispatchEvent(new CustomEvent("expandHero"));
-                        const target = document.querySelector(item.url);
-                        if (target) {
-                          e.preventDefault();
-                          setTimeout(() => {
-                            target.scrollIntoView({ behavior: "smooth" });
-                          }, 120);
-                          history.pushState(null, "", item.url);
-                        }
-                      }
-                    }}
-                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-white transition-colors"
+                    onClick={(e) => onAnchor(e, item.url, () => setMobileOpen(false))}
+                    className="ym-drop-item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium"
                   >
-                    <Icon className="h-4 w-4 text-emerald-300" />
-                    <span>{item.name}</span>
+                    <Icon className="h-4 w-4" style={{ color: accent.ink }} aria-hidden="true" />
+                    {item.name}
                   </a>
                 );
               })}
-            </div>
+              <a
+                href={PRICING_URL[vertical]}
+                onClick={(e) => onAnchor(e, PRICING_URL[vertical], () => setMobileOpen(false))}
+                className="ym-drop-item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium"
+              >
+                <Tag className="h-4 w-4" style={{ color: accent.ink }} aria-hidden="true" />
+                Precios
+              </a>
 
-            {/* Soluciones por rubro */}
-            <div className="mt-4 pt-3 border-t border-white/10 space-y-1">
-              <p className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-emerald-400">
-                Soluciones por rubro
+              <div role="separator" className="my-1.5 h-px bg-slate-200" />
+              <p className="px-2.5 pb-1 pt-1 text-[11px] font-bold uppercase tracking-wider" style={{ color: accent.ink }}>
+                Soluciones
               </p>
-              <a
-                href="/restaurantes"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/20 text-amber-300">
-                    <UtensilsCrossed className="h-4 w-4" />
-                  </span>
-                  <span>Restaurantes & Comandas</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-white/40" />
-              </a>
-              <a
-                href="/market"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-300">
-                    <Store className="h-4 w-4" />
-                  </span>
-                  <span>Caja, POS & Minimarkets</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-white/40" />
-              </a>
-              <a
-                href="/odontologia"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500/20 text-sky-300">
-                    <Smile className="h-4 w-4" />
-                  </span>
-                  <span>Clínica Odontológica</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-white/40" />
-              </a>
-              <a
-                href="/docs"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-500/20 text-teal-300">
-                    <BookOpen className="h-4 w-4" />
-                  </span>
-                  <span>Documentación</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-white/40" />
-              </a>
-              <a
-                href="/blog"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300">
-                    <BookOpen className="h-4 w-4" />
-                  </span>
-                  <span>Blog & Guías</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-white/40" />
-              </a>
-              <a
-                href="/tienda"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-300">
-                    <ShoppingBag className="h-4 w-4" />
-                  </span>
-                  <span>Tienda Hardware POS</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-white/40" />
-              </a>
-            </div>
+              {SOLUTIONS.map((s) => {
+                const b = SUB_BRANDS[s.id];
+                return (
+                  <a key={s.id} href={b.home + "/"} className="ym-drop-item flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-semibold" style={{ color: b.ink }}>
+                    <img src={b.mark} alt="" width={24} height={24} className="h-6 w-6" />
+                    <span>
+                      {b.lines[0]} <span style={{ color: b.accent }}>{b.lines[1]}</span>
+                    </span>
+                  </a>
+                );
+              })}
 
-            {/* Acciones inferiores */}
-            <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
-              <a
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-center rounded-xl border border-white/20 bg-white/5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
-              >
+              <div role="separator" className="my-1.5 h-px bg-slate-200" />
+              {RESOURCES.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a key={item.url} href={item.url} className="ym-drop-item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium">
+                    <Icon className="h-4 w-4" style={{ color: accent.ink }} aria-hidden="true" />
+                    {item.name}
+                  </a>
+                );
+              })}
+              <a href="/login/" className="ym-drop-item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium sm:hidden">
+                <LogIn className="h-4 w-4" style={{ color: accent.ink }} aria-hidden="true" />
                 Iniciar sesión
               </a>
-              <a
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-center rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 py-3 text-sm font-bold text-white shadow-lg"
-              >
-                Empieza gratis hoy
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Tubelight section nav (visible only on desktop >= lg) */}
-      <NavBar items={activeItems} />
-    </>
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
+    </motion.header>
   );
 }
 
 export default SiteHeader;
-

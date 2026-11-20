@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 interface MagnetizeButtonProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href?: string;
+  /** Render a <button> (e.g. to open a menu) instead of a link. */
+  as?: "a" | "button";
+  type?: "button" | "submit";
   particleCount?: number;
   children: React.ReactNode;
 }
@@ -22,12 +25,13 @@ interface Particle {
  * Yamassi's green ("gratis"/success) palette. Rendered as an anchor so it works as a
  * conversion CTA link. Particles snap toward the center on hover / touch.
  */
-function MagnetizeButton({
+const MagnetizeButton = React.forwardRef<HTMLElement, MagnetizeButtonProps>(function MagnetizeButton({
   className,
   particleCount = 12,
   children,
+  as = "a",
   ...props
-}: MagnetizeButtonProps) {
+}, ref) {
   const [isAttracting, setIsAttracting] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
   const particlesControl = useAnimation();
@@ -59,8 +63,10 @@ function MagnetizeButton({
     }));
   }, [particlesControl, particles]);
 
+  const Tag = as as React.ElementType;
   return (
-    <a
+    <Tag
+      ref={ref}
       className={cn(
         "group relative inline-flex h-16 min-w-40 touch-none items-center justify-center overflow-hidden rounded-full px-9 text-lg font-bold transition-all duration-300",
         "bg-accent text-accent-foreground shadow-glow-green",
@@ -79,12 +85,12 @@ function MagnetizeButton({
       {/* Indigo/violet wash that fades in on hover (kept within brand palette) */}
       <span
         aria-hidden
-        className="absolute inset-0 z-0 bg-gradient-to-r from-indigo-600 via-violet-600 to-emerald-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="touch-wash absolute inset-0 z-0 bg-gradient-to-r from-indigo-600 via-violet-600 to-emerald-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
       />
       {/* Diagonal sheen sweep */}
       <span
         aria-hidden
-        className="absolute inset-0 z-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+        className="touch-sheen absolute inset-0 z-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
       />
       {particles.map((_, index) => (
         <motion.div
@@ -102,8 +108,8 @@ function MagnetizeButton({
       <span className="relative z-10 flex items-center justify-center gap-2">
         {children}
       </span>
-    </a>
+    </Tag>
   );
-}
+});
 
 export { MagnetizeButton };

@@ -3,46 +3,115 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import { SiteHeader } from "@/components/ui/site-header";
-import RestaurantHero from "@/components/verticals/RestaurantHero.astro";
-import RestaurantFeatures from "@/components/verticals/RestaurantFeatures.astro";
-import RestaurantPricing from "@/components/verticals/RestaurantPricing.astro";
-import RestaurantFaq from "@/components/verticals/RestaurantFaq.astro";
-import VerticalCta from "@/components/verticals/VerticalCta.astro";
+import RestobarLanding, { RESTOBAR_FAQ, RESTOBAR_PLANS } from "@/components/verticals/RestobarLanding";
 import { SiteFooter } from "@/components/blocks/site-footer";
+import { SITE_URL } from "@/lib/site";
+import { SUB_BRANDS } from "@/components/ui/sub-brand-logo";
+
+const RESTOBAR_URL = SUB_BRANDS.restaurantes.app;
+
+const pageUrl = new URL(Astro.url.pathname, SITE_URL).href;
+
+const title = "Yamassi Restobar — Sistema de comandas, mesas y caja para restaurantes en Perú";
+const description =
+  "Software para restaurantes, pollerías, cevicherías y cafeterías en Perú: comandas a cocina y barra en tiempo real, mapa de mesas, división de cuentas, arqueo ciego, control de recetas y facturación SUNAT. Desde S/ 14.90 al mes.";
+
+const offers = RESTOBAR_PLANS.map((plan) => ({
+  "@type": "Offer",
+  name: plan.name,
+  price: plan.price.toFixed(2),
+  priceCurrency: "PEN",
+  url: pageUrl + "#precios",
+  availability: "https://schema.org/InStock",
+  description: [plan.capacity, plan.text, plan.billing].filter(Boolean).join(". "),
+  priceSpecification: {
+    "@type": "UnitPriceSpecification",
+    price: plan.price.toFixed(2),
+    priceCurrency: "PEN",
+    unitText: "mes",
+  },
+}));
+
+const schema = [
+  {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: title,
+    description,
+    inLanguage: "es-PE",
+    isPartOf: { "@id": `${SITE_URL}/#organization` },
+    about: { "@id": `${pageUrl}#software` },
+    primaryImageOfPage: `${SITE_URL}/img/yamassi-restobar-og.jpg`,
+  },
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${pageUrl}#software`,
+    name: "Yamassi Restobar",
+    alternateName: ["Yamassi Restaurantes", "Yamassi Comandas"],
+    url: pageUrl,
+    installUrl: RESTOBAR_URL,
+    image: `${SITE_URL}/img/yamassi-restobar-og.jpg`,
+    applicationCategory: "BusinessApplication",
+    applicationSubCategory: "Sistema de comandas y punto de venta para restaurantes",
+    operatingSystem: "Web (navegador en PC, laptop, tablet o celular)",
+    inLanguage: "es-PE",
+    areaServed: { "@type": "Country", name: "Perú" },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    description:
+      "Yamassi Restobar es un software peruano en la nube para restaurantes, pollerías, cevicherías, cafeterías y bares: comandas desde el celular o tablet del mozo, monitor de cocina y barra (KDS), mapa de salones y mesas, división de cuentas, arqueo ciego por turno, control de recetas y facturación electrónica SUNAT.",
+    featureList: [
+      "Toma de comandas para mozos desde cualquier celular o tablet",
+      "Monitor de cocina y barra (KDS) en tiempo real con alertas",
+      "Gestión visual de salones, mesas, barras y pedidos delivery",
+      "División de cuentas por plato o en partes iguales",
+      "Apertura, cierre y arqueo ciego de caja por turno",
+      "Cobro con efectivo, tarjetas, Yape y Plin",
+      "Costeo de recetas (escandallos) y descuento de insumos",
+      "Boletas y facturas electrónicas SUNAT",
+    ],
+    offers,
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: RESTOBAR_FAQ.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+  {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Yamassi", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Yamassi Restobar", item: pageUrl },
+    ],
+  },
+];
 ---
 
 <Layout
-  title="Yamassi Restaurantes — Sistema de Control de Caja, Comandas y Mesas"
-  description="Software gastronómico para restaurantes, pollerías y cafeterías en Perú. Comandas a cocina en tiempo real, división de cuentas, control de recetas y facturación SUNAT."
+  title={title}
+  description={description}
+  ogTitle="Yamassi Restobar — Comandas y caja que no se cuelgan en hora punta"
+  ogDescription="Comandas a cocina y barra, mesas, división de cuentas, arqueo ciego y facturación SUNAT. Desde S/ 14.90 al mes, sin tarjeta para empezar."
+  keywords="sistema para restaurantes Perú, software para restaurantes, sistema de comandas, comandas digitales, POS restaurante, sistema para pollerías, sistema para cevicherías, software para cafeterías, KDS cocina, división de cuentas, facturación electrónica restaurante, Yamassi Restobar"
+  ogImage="/img/yamassi-restobar-og.jpg"
+  ogImageAlt="Yamassi Restobar: moza sirviendo platos peruanos a una mesa en un restaurante"
+  schema={schema}
+  preloadVideo={false}
+  preloadImage="/img/yamassi-restobar-hero.webp"
+  themeColor="#0B0F14"
 >
-  <main id="inicio" class="relative min-h-screen bg-white">
-    {/* Navigation con opciones específicas de Restaurantes */}
+  <main id="inicio" class="relative min-h-screen overflow-x-clip bg-white">
+    {/* Navegación original de Yamassi con opciones de Restaurantes */}
     <SiteHeader client:load vertical="restaurantes" />
 
-    {/* Hero gastronómico */}
-    <RestaurantHero />
-
-    {/* Características y módulos de restaurantes */}
-    <RestaurantFeatures />
-
-    {/* Planes y precios gastronómicos */}
-    <RestaurantPricing />
-
-    {/* Preguntas frecuentes */}
-    <RestaurantFaq />
-
-    {/* Llamado a la acción final */}
-    <VerticalCta
-      badge="Empieza 100% gratis para restaurantes"
-      title="Lleva tu restaurante al siguiente nivel y"
-      highlightedText="olvídate de los errores en hora punta"
-      description="Únete a cientos de restaurantes, cafeterías y pollerías en todo el Perú que agilizaron su atención y duplicaron la rotación de sus mesas con Yamassi."
-      primaryCtaText="Empezar gratis con Yamassi"
-      primaryCtaHref="/login"
-      note="Sin tarjeta de crédito · Soporte en Perú · Migración de tu carta sin costo"
-    />
+    {/* Landing Yamassi Restobar */}
+    <RestobarLanding client:load />
 
     {/* Footer institucional */}
-    <SiteFooter />
+    <SiteFooter variant="restobar" />
   </main>
 </Layout>

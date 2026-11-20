@@ -106,6 +106,10 @@ export type CnlPlanFeature = { text: string; soon?: boolean }
 
 export type CnlPlan = {
   name: string
+  /** Previous price, shown struck through. */
+  was?: number
+  /** Small line under the price, e.g. "Se cobra S/ 77.40 cada 6 meses". */
+  billing?: string
   /** Small mono label above the name, e.g. "Hasta 2 sillones". */
   capacity?: string
   badge?: string
@@ -122,7 +126,15 @@ export type CnlPricing = { kicker?: string; title: string; text?: string; plans:
 
 export type CnlModulePoint = { title: string; text: string; soon?: boolean }
 
-export type CnlModule = { id?: string; tag: string; title: string; text: string; points: CnlModulePoint[] }
+export type CnlModule = {
+  id?: string
+  tag: string
+  title: string
+  text: string
+  points: CnlModulePoint[]
+  /** A product screen beside the text (the module then spans the full width). */
+  visual?: React.ReactNode
+}
 
 export type CnlModules = { kicker?: string; title: string; text?: string; items: CnlModule[] }
 
@@ -149,7 +161,80 @@ export type CnlPaletteInput = { bg?: string; night?: string; accent?: string; ag
 
 export type CnlTalkRequest = { name: string; email: string; company: string; volume: string; message: string }
 
+/** Interface words that depend on the business (defaults: dental clinic). */
+export type CnlCopy = {
+  live: string
+  centerTabs: [string, string, string]
+  centerLabel: string
+  heads: { create: string; policies: string; simulate: string; deploy: string }
+  infoTitle: string
+  infoText: string
+  ruleEm: string
+  sensitivity: [string, string, string]
+  ruleTail: string
+  personasTitle: string
+  personasText: string
+  simBusy: string
+  simAgain: string
+  simRun: string
+  simCount: string
+  outcomes: { resolved: string; handoff: string; flagged: string }
+  tags: { resolved: string; handoff: string; flagged: string }
+  checks: [string, string, string]
+  checkDocs: string
+  golive: string
+  memoryTitle: string
+  moodTitle: string
+  emailExample: string
+  dialogTitle: string
+  dialogText: string
+  dialogCompany: string
+  dialogVolume: string
+  dialogPlaceholder: string
+  dialogDone: string
+  guideHref: string
+}
+
+const DEFAULT_COPY: CnlCopy = {
+  live: "citas hoy",
+  centerTabs: ["Consultorio", "Clínica", "Multisede"],
+  centerLabel: "Tipo de centro",
+  heads: { create: "Configura tu centro", policies: "Roles y permisos", simulate: "Agenda de prueba", deploy: "Empieza a atender" },
+  infoTitle: "Agrega tu información",
+  infoText: "Tu lista de tratamientos, precios y plantillas del consultorio",
+  ruleEm: "Cada cobro, adelanto o devolución",
+  sensitivity: ["Flexible: el equipo decide", "Equilibrado", "Estricto: todo pasa por el doctor"],
+  ruleTail: " queda registrado en el arqueo del día.",
+  personasTitle: "Tipos de paciente",
+  personasText: "Elige qué pacientes llegan a tu agenda",
+  simBusy: "Agendando…",
+  simAgain: "Simular otra vez",
+  simRun: "Simular 500 citas",
+  simCount: "Citas simuladas",
+  outcomes: { resolved: "Atendidas", handoff: "Reprogramadas", flagged: "Por confirmar" },
+  tags: { resolved: "atendida", handoff: "reprogramada", flagged: "por confirmar" },
+  checks: ["Creando tus sillones", "Preparando la agenda", "Abriendo la caja del día"],
+  checkDocs: "documento",
+  golive: "Listo · tu consultorio está en línea",
+  memoryTitle: "Historia clínica",
+  moodTitle: "Ánimo del paciente",
+  emailExample: "tu@consultorio.com",
+  dialogTitle: "Hablemos de tu clínica",
+  dialogText: "Cuéntanos de tu consultorio y te ayudamos a elegir el plan y a activar tu centro.",
+  dialogCompany: "Consultorio o clínica",
+  dialogVolume: "Sillones",
+  dialogPlaceholder: "Especialidades, cuántos doctores, el sistema que usas hoy…",
+  dialogDone: "te responda y active tu centro.",
+  guideHref: "/docs/odontologia/introduccion-yamassi-odontologia",
+}
+
+const CopyCtx = React.createContext<CnlCopy>(DEFAULT_COPY)
+
 export interface CairnAgentsLandingProps {
+  /** Business-specific interface words; defaults to a dental clinic. */
+  copy?: Partial<CnlCopy>
+  /** Drawn inside the hero window instead of the photo; gets the active scenario. */
+  heroScene?: (active: number) => React.ReactNode
   brand?: string
   /** Replaces the cairn mark. */
   logo?: React.ReactNode
@@ -457,10 +542,10 @@ function stepLocal(p: number, n: number, i: number) {
   return clamp(p * n - i, 0, 1)
 }
 
-function sensitivityLabel(v: number) {
-  if (v < 34) return "Flexible: el equipo decide"
-  if (v < 67) return "Equilibrado"
-  return "Estricto: todo pasa por el doctor"
+function sensitivityLabel(v: number, labels: [string, string, string]) {
+  if (v < 34) return labels[0]
+  if (v < 67) return labels[1]
+  return labels[2]
 }
 
 function mulberry32(seed: number) {
@@ -668,6 +753,7 @@ const CNL_CSS = `
 .cnl-vista{position:relative;overflow:hidden;border-radius:14px;background:#33403f;isolation:isolate;contain:paint}
 .cnl-vista-media{position:absolute;left:0;right:0;top:-8%;bottom:-8%;will-change:transform}
 .cnl-vista-drift{position:absolute;inset:0;will-change:transform}
+.cnl-scene-layer{position:absolute;inset:0}
 .cnl-ridges,.cnl-img{position:absolute;inset:0;width:100%;height:100%;display:block;max-width:none}
 .cnl-img{object-fit:cover;opacity:0;transition:opacity 1.1s ease}
 .cnl-img[data-ok=true]{opacity:1}
@@ -1015,6 +1101,11 @@ const CNL_CSS = `
 .cnl-mod li.is-soon>i{background:transparent;border:1px dashed var(--cnl-card-mute)}
 .cnl-mod li b{display:block;font-size:14px;font-weight:600}
 .cnl-mod li span{display:block;margin-top:3px;font-size:13.5px;line-height:1.6;color:var(--cnl-card-mute)}
+.cnl-mod{scroll-margin-top:110px}
+.cnl-mods.has-visual{grid-template-columns:1fr;gap:24px}
+.cnl-mod.has-visual{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;padding:36px}
+.cnl-mod.has-visual:nth-child(even) .cnl-mod-visual{order:-1}
+.cnl-mod-visual{position:relative;display:grid;place-items:center;min-height:380px;padding:32px 24px;border-radius:16px;background:var(--scr-bg,#0b1f4d);overflow:hidden}
 .cnl-faq{padding:120px 24px 40px;max-width:880px;margin:0 auto}
 .cnl-faq-list{margin-top:48px;border-top:1px solid var(--cnl-line)}
 .cnl-faq-item{border-bottom:1px solid var(--cnl-line)}
@@ -1039,6 +1130,10 @@ const CNL_CSS = `
 .cnl-plan.is-featured .cnl-price small,.cnl-plan.is-featured .cnl-price span{color:rgba(255,255,255,.6)}
 .cnl-price b{font-family:var(--cnl-serif);font-weight:400;font-size:68px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .cnl-price span{font-size:13px;color:var(--cnl-card-mute)}
+.cnl-price-was{margin-top:16px;margin-bottom:-8px;font:500 12px/1 var(--cnl-mono);color:var(--cnl-card-mute)}
+.cnl-price-was s{text-decoration-thickness:1.5px}
+.cnl-plan.is-featured .cnl-price-was,.cnl-plan.is-featured .cnl-price-bill{color:rgba(255,255,255,.62)}
+.cnl-price-bill{margin-top:10px;font-size:12.5px;line-height:1.5;color:var(--cnl-card-mute)}
 .cnl-plan ul{margin-top:24px;padding-top:22px;border-top:1px solid var(--cnl-card-line);display:flex;flex-direction:column;gap:11px;flex:1}
 .cnl-plan.is-featured ul{border-color:rgba(255,255,255,.12)}
 .cnl-plan li{display:flex;gap:10px;font-size:13.5px;line-height:1.5}
@@ -1055,6 +1150,9 @@ const CNL_CSS = `
 .cnl-plans{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
 .cnl-plan-text{min-height:0}
 .cnl-mods{grid-template-columns:1fr;max-width:640px;margin-left:auto;margin-right:auto}
+.cnl-mod.has-visual{grid-template-columns:1fr;gap:24px;padding:26px 22px}
+.cnl-mod.has-visual:nth-child(even) .cnl-mod-visual{order:0}
+.cnl-mod-visual{min-height:0;padding:22px 14px}
 .cnl-canvas-pin{grid-template-columns:1fr;gap:40px;padding:20px 24px}
 .cnl-canvas-vista{height:600px}
 .cnl-quotes{grid-template-columns:1fr;gap:40px}
@@ -1297,6 +1395,7 @@ function Vista({
   children,
   eager,
   alt,
+  scene,
 }: {
   src?: string
   tones: string[]
@@ -1305,6 +1404,7 @@ function Vista({
   children?: React.ReactNode
   eager?: boolean
   alt?: string
+  scene?: React.ReactNode
 }) {
   const [state, setState] = React.useState("load")
   const img = React.useRef(null as HTMLImageElement | null)
@@ -1330,6 +1430,7 @@ function Vista({
               onError={() => setState("fail")}
             />
           ) : null}
+          {scene ? <div className="cnl-scene-layer">{scene}</div> : null}
         </div>
       </div>
       <div className="cnl-vista-shade" aria-hidden="true" />
@@ -1546,10 +1647,11 @@ function Nav({
 
 /* ------------------------------------------------------------------ hero */
 
-function HeroChat({ scenarios, brand, logo, reduced, liveCalls, onNav }: { scenarios: CnlScenario[]; brand: string; logo?: React.ReactNode; reduced: boolean; liveCalls: number | null; onNav: (href: string | undefined, e?: React.MouseEvent) => void }) {
+function HeroChat({ scenarios, brand, logo, reduced, liveCalls, onNav, onIndex }: { scenarios: CnlScenario[]; brand: string; logo?: React.ReactNode; reduced: boolean; liveCalls: number | null; onNav: (href: string | undefined, e?: React.MouseEvent) => void; onIndex?: (i: number) => void }) {
   const [i, setI] = React.useState(0)
   const [hover, setHover] = React.useState(false)
   const [live, setLive] = React.useState(liveCalls || 0)
+  const cp = React.useContext(CopyCtx)
   const wrap = React.useRef(null as HTMLDivElement | null)
   const alert = React.useRef(null as HTMLDivElement | null)
   const agent = React.useRef(null as HTMLDivElement | null)
@@ -1560,6 +1662,9 @@ function HeroChat({ scenarios, brand, logo, reduced, liveCalls, onNav }: { scena
   const visible = useVisible(wrap, 0.15)
   const n = scenarios.length
   const s = scenarios[i % n]
+  React.useEffect(() => {
+    if (onIndex) onIndex(i % n)
+  }, [i, n, onIndex])
 
   useIso(() => {
     const a = agent.current
@@ -1622,8 +1727,8 @@ function HeroChat({ scenarios, brand, logo, reduced, liveCalls, onNav }: { scena
   return (
     <div className="cnl-chat" ref={wrap} onPointerEnter={() => setHover(true)} onPointerLeave={() => setHover(false)} onFocus={() => setHover(true)} onBlur={() => setHover(false)} data-chat="">
       {liveCalls != null ? (
-        <p className="cnl-live" aria-label={live.toLocaleString("es-PE") + " citas hoy"}>
-          <b>{live.toLocaleString("es-PE")}</b> citas hoy
+        <p className="cnl-live" aria-label={live.toLocaleString("es-PE") + " " + cp.live}>
+          <b>{live.toLocaleString("es-PE")}</b> {cp.live}
         </p>
       ) : null}
       <div className="cnl-b cnl-b-alert" ref={alert} data-depth="1.4">
@@ -1698,6 +1803,7 @@ function Hero({
   reduced,
   liveCalls,
   onNav,
+  scene,
 }: {
   announcement: CnlLink | null
   title: string
@@ -1717,8 +1823,10 @@ function Hero({
   reduced: boolean
   liveCalls: number | null
   onNav: (href: string | undefined, e?: React.MouseEvent) => void
+  scene?: (active: number) => React.ReactNode
 }) {
   const lines = splitTitle(title)
+  const [active, setActive] = React.useState(0)
   return (
     <section className="cnl-hero" data-sec="top">
       <div className="cnl-hero-copy">
@@ -1772,8 +1880,8 @@ function Hero({
         ) : null}
       </div>
       <div className="cnl-hero-stage" data-hero-stage="">
-        <Vista className="cnl-hero-vista" src={image} alt={imageAlt} tones={tones} eager style={{ height: "clamp(460px, calc(" + height + " * 0.66), 860px)" }}>
-          <HeroChat scenarios={scenarios} brand={brand} logo={logo} reduced={reduced} liveCalls={liveCalls} onNav={onNav} />
+        <Vista className="cnl-hero-vista" src={image} alt={imageAlt} tones={tones} eager scene={scene ? scene(active) : undefined} style={{ height: "clamp(460px, calc(" + height + " * 0.66), 860px)" }}>
+          <HeroChat scenarios={scenarios} brand={brand} logo={logo} reduced={reduced} liveCalls={liveCalls} onNav={onNav} onIndex={setActive} />
         </Vista>
       </div>
     </section>
@@ -2005,25 +2113,26 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
     setSim((s) => ({ state: "running", done: 0, runs: s.runs + 1, result }))
   }
 
+  const cp = React.useContext(CopyCtx)
   const tabs = [
-    { label: "Consultorio", icon: "user" as CnlIconName },
-    { label: "Clínica", icon: "chat" as CnlIconName },
-    { label: "Multisede", icon: "multi" as CnlIconName },
+    { label: cp.centerTabs[0], icon: "user" as CnlIconName },
+    { label: cp.centerTabs[1], icon: "chat" as CnlIconName },
+    { label: cp.centerTabs[2], icon: "multi" as CnlIconName },
   ]
   const step = steps[active] || steps[0]
   const panel = step ? step.panel : "create"
-  const heads = { create: "Configura tu centro", policies: "Roles y permisos", simulate: "Agenda de prueba", deploy: "Empieza a atender" }
+  const heads = cp.heads
   const t = sim.result ? tally(sim.result.calls, sim.done) : { done: 0, resolved: 0, handoff: 0, flagged: 0 }
   const feed = sim.result ? sim.result.calls.slice(Math.max(0, t.done - 4), t.done).reverse() : []
   const anyOn = channels.some((c) => c.on)
-  const checks = ["Creando tus sillones", "Cargando " + Math.max(1, files.length) + " documento" + (files.length === 1 ? "" : "s"), "Preparando la agenda", "Abriendo la caja del día"]
+  const checks = [cp.checks[0], "Cargando " + Math.max(1, files.length) + " " + cp.checkDocs + (files.length === 1 ? "" : "s"), cp.checks[1], cp.checks[2]]
   const lines = splitTitle(data.heading || "")
 
   let content: React.ReactNode = null
   if (panel === "create")
     content = (
       <>
-        <div className="cnl-seg" role="tablist" aria-label="Tipo de centro" style={{ "--cnl-i": mode } as React.CSSProperties} data-st="">
+        <div className="cnl-seg" role="tablist" aria-label={cp.centerLabel} style={{ "--cnl-i": mode } as React.CSSProperties} data-st="">
           {tabs.map((tb, k) => (
             <button
               key={tb.label}
@@ -2047,8 +2156,8 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
           ))}
         </div>
         <div className="cnl-lbl" data-st="">
-          <b>Agrega tu información</b>
-          <span>Tu lista de tratamientos, precios y plantillas del consultorio</span>
+          <b>{cp.infoTitle}</b>
+          <span>{cp.infoText}</span>
         </div>
         <label
           className={"cnl-drop" + (over ? " is-over" : "")}
@@ -2136,12 +2245,12 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
         <div className="cnl-range" data-st="">
           <div className="cnl-range-top">
             <b>Nivel de control</b>
-            <span>{sensitivityLabel(sensitivity)}</span>
+            <span>{sensitivityLabel(sensitivity, cp.sensitivity)}</span>
           </div>
           <input type="range" min={0} max={100} value={sensitivity} aria-label="Nivel de control" onChange={(e) => setSensitivity(Number(e.target.value))} />
         </div>
         <p className="cnl-rule" data-st="">
-          {policies.filter((p) => p.on).length} de {policies.length} permisos activos. <em>Cada cobro, adelanto o devolución</em> queda registrado en el arqueo del día.
+          {policies.filter((p) => p.on).length} de {policies.length} permisos activos. <em>{cp.ruleEm}</em>{cp.ruleTail}
         </p>
       </>
     )
@@ -2149,8 +2258,8 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
     content = (
       <>
         <div className="cnl-lbl" data-st="" style={{ marginTop: 0 }}>
-          <b>Tipos de paciente</b>
-          <span>Elige qué pacientes llegan a tu agenda</span>
+          <b>{cp.personasTitle}</b>
+          <span>{cp.personasText}</span>
         </div>
         <div className="cnl-chips" data-st="">
           {data.personas.map((p) => (
@@ -2161,11 +2270,11 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
         </div>
         <button className="cnl-run" data-st="" onClick={run} disabled={sim.state === "running"}>
           <Icon name="bolt" size={14} />
-          {sim.state === "running" ? "Agendando…" : sim.state === "done" ? "Simular otra vez" : "Simular 500 citas"}
+          {sim.state === "running" ? cp.simBusy : sim.state === "done" ? cp.simAgain : cp.simRun}
         </button>
         <div data-st="">
           <div className="cnl-sim-top">
-            <span>Citas simuladas</span>
+            <span>{cp.simCount}</span>
             <b>
               {t.done}
               <span style={{ fontSize: 12, color: "var(--cnl-card-mute)" }}> / 500</span>
@@ -2177,15 +2286,15 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
           <div className="cnl-tiles">
             <div className="cnl-tile">
               <b>{t.done ? ((t.resolved / t.done) * 100).toFixed(1) + "%" : "–"}</b>
-              <span>Atendidas</span>
+              <span>{cp.outcomes.resolved}</span>
             </div>
             <div className="cnl-tile">
               <b>{t.handoff}</b>
-              <span>Reprogramadas</span>
+              <span>{cp.outcomes.handoff}</span>
             </div>
             <div className="cnl-tile">
               <b>{t.flagged}</b>
-              <span>Por confirmar</span>
+              <span>{cp.outcomes.flagged}</span>
             </div>
           </div>
         </div>
@@ -2197,7 +2306,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
                 {c.persona} · {c.intent}
               </span>
               <em className="cnl-tag" data-o={c.outcome}>
-                {c.outcome === "handoff" ? "reprogramada" : c.outcome === "flagged" ? "por confirmar" : "atendida"}
+                {c.outcome === "handoff" ? cp.tags.handoff : c.outcome === "flagged" ? cp.tags.flagged : cp.tags.resolved}
               </em>
               <code>{(c.ms / 1000).toFixed(1)}s</code>
             </li>
@@ -2239,7 +2348,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
         )}
         {live >= 5 ? (
           <div className="cnl-golive" role="status">
-            <b>Listo · tu consultorio está en línea</b>
+            <b>{cp.golive}</b>
             <button onClick={() => setLive(0)}>Reiniciar</button>
           </div>
         ) : null}
@@ -2322,6 +2431,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
 /* ------------------------------------------------------------------ the call */
 
 function Call({ kicker, title, text, data, image, tones, reduced, brand }: { kicker?: string; title: string; text?: string; data: CnlCall; image?: string; tones: string[]; reduced: boolean; brand: string }) {
+  const cp = React.useContext(CopyCtx)
   const { marks, total } = React.useMemo(() => callTimeline(data.lines), [data])
   const [t, setT] = React.useState(0)
   const [playing, setPlaying] = React.useState(false)
@@ -2454,7 +2564,9 @@ function Call({ kicker, title, text, data, image, tones, reduced, brand }: { kic
   const spark = sentimentPath(data.lines, marks, total, t, 238, 64)
   const ended = t >= total - 0.01
   const titleLines = splitTitle(title)
-  const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window
+  // Decided after mount so the server and first client render match.
+  const [canSpeak, setCanSpeak] = React.useState(false)
+  React.useEffect(() => setCanSpeak("speechSynthesis" in window), [])
 
   return (
     <section className="cnl-call" data-sec="demo">
@@ -2535,7 +2647,7 @@ function Call({ kicker, title, text, data, image, tones, reduced, brand }: { kic
             ) : null}
           </div>
           <aside className="cnl-mem" aria-label="Lo que recepción tiene a la mano">
-            <h4>Historia clínica</h4>
+            <h4>{cp.memoryTitle}</h4>
             <ul className="cnl-mem-list">
               {mem.map((m, k) => (
                 <li key={m} className={k >= known ? "is-new" : ""}>
@@ -2544,7 +2656,7 @@ function Call({ kicker, title, text, data, image, tones, reduced, brand }: { kic
                 </li>
               ))}
             </ul>
-            <h4>Ánimo del paciente</h4>
+            <h4>{cp.moodTitle}</h4>
             <div className="cnl-mood">
               <b>{moodLabel(mood)}</b>
               <span>{(mood > 0 ? "+" : "") + mood.toFixed(2)}</span>
@@ -2642,9 +2754,10 @@ function Modules({ data }: { data: CnlModules }) {
           </p>
         ) : null}
       </div>
-      <div className="cnl-mods">
+      <div className={"cnl-mods" + (data.items.some((m) => m.visual) ? " has-visual" : "")}>
         {data.items.map((m, k) => (
-          <article key={m.title} id={m.id} className="cnl-mod" data-reveal="">
+          <article key={m.title} id={m.id} className={"cnl-mod" + (m.visual ? " has-visual" : "")} data-reveal="">
+            <div className="cnl-mod-body">
             <div className="cnl-mod-top">
               <span className="cnl-mod-num">{String(k + 1).padStart(2, "0")}</span>
               <span className="cnl-mod-tag">{m.tag}</span>
@@ -2665,6 +2778,8 @@ function Modules({ data }: { data: CnlModules }) {
                 </li>
               ))}
             </ul>
+            </div>
+            {m.visual ? <div className="cnl-mod-visual">{m.visual}</div> : null}
           </article>
         ))}
       </div>
@@ -2743,11 +2858,17 @@ function Pricing({ data, reduced, onNav }: { data: CnlPricing; reduced: boolean;
             </div>
             <h3>{pl.name}</h3>
             {pl.text ? <p className="cnl-plan-text">{pl.text}</p> : null}
+            {pl.was != null ? (
+              <p className="cnl-price-was">
+                Antes <s>{(pl.currency || "S/") + " " + formatStat(pl.was, pl.was % 1 ? 2 : 0)}</s>
+              </p>
+            ) : null}
             <div className="cnl-price">
               <small>{pl.currency || "S/"}</small>
-              <b>{formatStat(pl.price, 0)}</b>
+              <b>{formatStat(pl.price, pl.price % 1 ? 2 : 0)}</b>
               <span>{pl.period}</span>
             </div>
+            {pl.billing ? <p className="cnl-price-bill">{pl.billing}</p> : null}
             <ul>
               {pl.features.map((f) => (
                 <li key={f.text} className={f.soon ? "is-soon" : ""}>
@@ -2816,6 +2937,7 @@ function Quotes({ kicker, items }: { kicker?: string; items: CnlQuote[] }) {
 /* ------------------------------------------------------------------ cta */
 
 function Cta({ data, image, tones, onSubscribe, onTalk, reduced }: { data: NonNullable<CairnAgentsLandingProps["cta"]>; image?: string; tones: string[]; onSubscribe?: (email: string) => unknown; onTalk: () => void; reduced: boolean }) {
+  const cp = React.useContext(CopyCtx)
   const [email, setEmail] = React.useState("")
   const [state, setState] = React.useState("idle")
   const submit = async (e: React.FormEvent) => {
@@ -2867,7 +2989,7 @@ function Cta({ data, image, tones, onSubscribe, onTalk, reduced }: { data: NonNu
                   id="cnl-cta-email"
                   type="email"
                   autoComplete="email"
-                  placeholder="tu@consultorio.com"
+                  placeholder={cp.emailExample}
                   value={email}
                   aria-invalid={state === "error"}
                   aria-describedby="cnl-cta-msg"
@@ -2909,6 +3031,7 @@ function Cta({ data, image, tones, onSubscribe, onTalk, reduced }: { data: NonNu
 /* ------------------------------------------------------------------ footer */
 
 function Footer({ brand, logo, data, onNav }: { brand: string; logo?: React.ReactNode; data: NonNullable<CairnAgentsLandingProps["footer"]>; onNav: (href: string | undefined, e?: React.MouseEvent) => void }) {
+  const cp = React.useContext(CopyCtx)
   return (
     <footer className="cnl-foot" data-sec="company">
       <div className="cnl-foot-top">
@@ -2946,7 +3069,7 @@ function Footer({ brand, logo, data, onNav }: { brand: string; logo?: React.Reac
         <nav aria-label="Legal">
           <a href="/info/politicas-privacidad">Privacidad</a>
           <a href="/info/terminos-condiciones-uso">Términos</a>
-          <a href="/docs/odontologia/introduccion-yamassi-odontologia">Guía</a>
+          <a href={cp.guideHref}>Guía</a>
         </nav>
       </div>
     </footer>
@@ -2956,6 +3079,7 @@ function Footer({ brand, logo, data, onNav }: { brand: string; logo?: React.Reac
 /* ------------------------------------------------------------------ dialog */
 
 function TalkDialog({ brand, volumes, onClose, onTalk }: { brand: string; volumes: string[]; onClose: () => void; onTalk?: (d: CnlTalkRequest) => unknown }) {
+  const cp = React.useContext(CopyCtx)
   const [f, setF] = React.useState({ name: "", email: "", company: "", volume: volumes[0] || "", message: "" })
   const [tried, setTried] = React.useState(false)
   const [state, setState] = React.useState("idle")
@@ -3018,7 +3142,7 @@ function TalkDialog({ brand, volumes, onClose, onTalk }: { brand: string; volume
             </i>
             <h2 id="cnl-dlg-t">¡Gracias, {f.name.trim().split(" ")[0]}!</h2>
             <p>
-              Abrimos WhatsApp con tus datos para que el equipo de {brand} te responda y active tu centro.
+              Abrimos WhatsApp con tus datos para que el equipo de {brand} {cp.dialogDone}
             </p>
             <div style={{ marginTop: 20 }}>
               <Pill label="Listo" onClick={onClose} />
@@ -3026,24 +3150,24 @@ function TalkDialog({ brand, volumes, onClose, onTalk }: { brand: string; volume
           </div>
         ) : (
           <form onSubmit={submit} noValidate>
-            <h2 id="cnl-dlg-t">Hablemos de tu clínica</h2>
-            <p style={{ marginTop: 8, fontSize: 13.5, color: "var(--cnl-card-mute)", lineHeight: 1.6 }}>Cuéntanos de tu consultorio y te ayudamos a elegir el plan y a activar tu centro.</p>
+            <h2 id="cnl-dlg-t">{cp.dialogTitle}</h2>
+            <p style={{ marginTop: 8, fontSize: 13.5, color: "var(--cnl-card-mute)", lineHeight: 1.6 }}>{cp.dialogText}</p>
             <div className="cnl-fields">
               <label className={"cnl-field" + (tried && bad.name ? " is-bad" : "")}>
                 Nombre
                 <input value={f.name} onChange={set("name")} autoComplete="name" aria-invalid={tried && bad.name} />
               </label>
               <label className={"cnl-field" + (tried && bad.company ? " is-bad" : "")}>
-                Consultorio o clínica
+                {cp.dialogCompany}
                 <input value={f.company} onChange={set("company")} autoComplete="organization" aria-invalid={tried && bad.company} />
               </label>
               <label className={"cnl-field is-wide" + (tried && bad.email ? " is-bad" : "")}>
                 Correo electrónico
                 <input type="email" value={f.email} onChange={set("email")} autoComplete="email" aria-invalid={tried && bad.email} />
-                {tried && bad.email ? <em>Escribe un correo como tu@consultorio.com</em> : null}
+                {tried && bad.email ? <em>Escribe un correo como {cp.emailExample}</em> : null}
               </label>
               <div className="cnl-field is-wide">
-                <span id="cnl-vol-l">Sillones</span>
+                <span id="cnl-vol-l">{cp.dialogVolume}</span>
                 <div className="cnl-vol" role="radiogroup" aria-labelledby="cnl-vol-l">
                   {volumes.map((v) => (
                     <button key={v} type="button" role="radio" aria-checked={f.volume === v} onClick={() => setF((x) => ({ ...x, volume: v }))}>
@@ -3054,7 +3178,7 @@ function TalkDialog({ brand, volumes, onClose, onTalk }: { brand: string; volume
               </div>
               <label className="cnl-field is-wide">
                 ¿Algo más que debamos saber?
-                <textarea value={f.message} onChange={set("message")} placeholder="Especialidades, cuántos doctores, el sistema que usas hoy…" />
+                <textarea value={f.message} onChange={set("message")} placeholder={cp.dialogPlaceholder} />
               </label>
             </div>
             <div className="cnl-dialog-foot">
@@ -3071,6 +3195,8 @@ function TalkDialog({ brand, volumes, onClose, onTalk }: { brand: string; volume
 /* ------------------------------------------------------------------ page */
 
 export default function CairnAgentsLanding({
+  copy,
+  heroScene,
   brand = "Cairn",
   logo,
   nav = DEFAULT_NAV,
@@ -3107,6 +3233,7 @@ export default function CairnAgentsLanding({
   style,
 }: CairnAgentsLandingProps) {
   const pal = resolvePalette(palette)
+  const cp = React.useMemo(() => ({ ...DEFAULT_COPY, ...(copy || {}) }), [copy])
   const img = { ...DEFAULT_IMAGES, ...(images || {}) }
   const reduced = useReduced()
   const rootRef = React.useRef(null as HTMLDivElement | null)
@@ -3228,8 +3355,9 @@ export default function CairnAgentsLanding({
   } as React.CSSProperties
 
   return (
+    <CopyCtx.Provider value={cp}>
     <div ref={rootRef} className={"cnl-root" + (className ? " " + className : "")} data-scheme={scheme} style={vars}>
-      <style>{CNL_CSS}</style>
+      <style dangerouslySetInnerHTML={{ __html: CNL_CSS }} />
       {nav ? <Nav brand={brand} logo={logo} nav={nav} login={login} action={action} onAction={() => setTalk(true)} onNav={go} reduced={reduced} /> : null}
       <main>
         <Hero
@@ -3251,6 +3379,7 @@ export default function CairnAgentsLanding({
           reduced={reduced}
           liveCalls={liveCalls}
           onNav={go}
+          scene={heroScene}
         />
         {logos && logos.length ? <Logos logos={logos} label={logosLabel} /> : null}
         {modules && modules.items.length ? <Modules data={modules} /> : null}
@@ -3265,5 +3394,6 @@ export default function CairnAgentsLanding({
       {footer ? <Footer brand={brand} logo={logo} data={footer} onNav={go} /> : null}
       {talk ? <TalkDialog brand={brand} volumes={volumes} onClose={() => setTalk(false)} onTalk={onTalk} /> : null}
     </div>
+    </CopyCtx.Provider>
   )
 }

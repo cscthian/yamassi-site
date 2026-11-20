@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_TIENDA_URL: string;
   readonly PUBLIC_RESTOBAR_URL: string;
   readonly PUBLIC_CITAS_URL: string;
+  readonly PUBLIC_ODONTO_URL?: string;
   readonly PUBLIC_API_URL: string;
   readonly PUBLIC_SITE_NAME: string;
   readonly PUBLIC_SUPPORT_EMAIL: string;

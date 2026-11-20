@@ -170,12 +170,12 @@ const THEME = `
 export default function OdontoLanding() {
   return (
     <>
-      <style>{THEME}</style>
+      <style dangerouslySetInnerHTML={{ __html: THEME }} />
       <CairnAgentsLanding
         className="cnl-odonto"
         brand="Odonto Yamassi"
-        logo={<img src="/yamassi-dental.png" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
-        heroMark={<img src="/yamassi-dental.png" alt="Odonto Yamassi" width={76} height={76} />}
+        logo={<img src="/yamassi-odonto.svg" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
+        heroMark={<img src="/yamassi-odonto.svg" alt="Odonto Yamassi" width={76} height={76} />}
         palette={{
           bg: "#FFFFFF",
           accent: C.yellow,

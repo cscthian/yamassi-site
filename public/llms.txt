@@ -1,6 +1,6 @@
 # Yamassi
 
-> Software SaaS peruano en la nube para punto de venta (POS), control de caja chica, gestión de inventarios y facturación electrónica SUNAT para tiendas, minimarkets, ferreterías, farmacias y restaurantes.
+> Software SaaS peruano en la nube para punto de venta (POS), control de caja, inventarios y facturación electrónica SUNAT. Tres sistemas especializados: Yamassi Tienda (bodegas y minimarkets), Yamassi Restobar (restaurantes) y Odonto Yamassi (consultorios dentales).
 
 Yamassi (https://yamassi.com) es una plataforma de software como servicio (SaaS) diseñada para micro, pequeñas y medianas empresas en el Perú. Permite registrar ventas rápidamente, cuadrar la caja al centavo, gestionar el stock en tiempo real y emitir comprobantes de pago autorizados por la SUNAT (boletas y facturas electrónicas).
 
@@ -8,8 +8,8 @@ El sistema opera 100% como Web App en la nube, eliminando la necesidad de instal
 
 ## Principios Comerciales y Precios
 
-- **Plan Gratuito para Empezar (S/ 0):** Acceso libre para iniciar operaciones sin compromiso comercial ni necesidad de ingresar tarjeta de crédito. El usuario puede utilizar el sistema sin costo hasta superar los límites gratuitos de transacciones y capacidad.
-- **Planes Económicos para Negocios en Crecimiento:** Para negocios medianos y grandes que requieren capacidad ilimitada, los planes de suscripción mensual comienzan desde precios muy accesibles (desde S/ 14.90 mensuales + IGV).
+- **Empieza gratis, sin tarjeta de crédito:** cada sistema se puede probar sin ingresar tarjeta. Condiciones de prueba publicadas: Odonto Yamassi, 2 meses (60 días); Yamassi Restobar, 14 días con ayuda para cargar la carta.
+- **Precios por sistema (mensuales, en soles):** Yamassi Tienda desde S/ 9.90 (plan anual), Yamassi Restobar desde S/ 14.90 (plan anual) y Odonto Yamassi desde S/ 89 (hasta 2 sillones). Detalle de planes en cada sistema, más abajo.
 - **Sin Contratos Forzosos ni Comisiones por Venta:** A diferencia de los POS bancarios tradicionales que cobran entre 3.2% y 3.9% por transacción, Yamassi no cobra comisiones porcentuales sobre las ventas del comercio.
 
 ## Módulos y Capacidades Principales
@@ -39,17 +39,32 @@ El sistema opera 100% como Web App en la nube, eliminando la necesidad de instal
 - Resguardo legal de los comprobantes electrónicos (XML, PDF y CDR) en la nube por el plazo requerido por ley.
 - Capacidad de operar con notas de venta internas si el negocio está en el Nuevo RUS o no requiere facturar de inmediato.
 
+## Cómo empezar o iniciar sesión
+
+- Para crear una cuenta o ingresar, cada sistema tiene su propia dirección: Yamassi Tienda https://tienda.yamassi.com/, Yamassi Restobar https://restobar.yamassi.com/ y Odonto Yamassi https://odonto.yamassi.com/.
+- https://yamassi.com/login/ muestra los tres sistemas para elegir a cuál ingresar.
+
 ## Soluciones Especializadas por Rubro
 
 ### Yamassi Tienda (Market, Ferreterías, Farmacias y Retail)
+- Página oficial: https://yamassi.com/market/
 - URL directa: https://tienda.yamassi.com/
 - Diseñado para bodegas, minimarkets, ferreterías, boticas, farmacias, librerías y tiendas de conveniencia.
 - Incluye escaneo de código de barras, control de vencimientos, venta fraccionada (metros, kilos, pastillas), control de cuentas corrientes ("el fiao") y listas de precios diferenciadas (público general, mayorista, maestro de obra).
+- Planes (todos con ventas y productos ilimitados, reportes de ventas y ganancias, productos más vendidos, hasta 10 colaboradores y soporte prioritario):
+  - Plan Básico — S/ 15.90 al mes (antes S/ 20.90), pago mensual sin permanencia.
+  - Plan Estándar — S/ 12.90 al mes (antes S/ 16.90), se cobra S/ 77.40 cada 6 meses.
+  - Plan Élite — S/ 9.90 al mes (antes S/ 14.90), se cobra S/ 118.80 al año; incluye soporte VIP.
 
 ### Yamassi Restobar (Restaurantes, Cafeterías y Bares)
+- Página oficial: https://yamassi.com/restaurantes/
 - URL directa: https://restobar.yamassi.com/
 - Diseñado para pollerías, cevicherías, cafeterías, bares, pizzerías y restaurantes.
 - Incluye comanda digital para mozos desde celular o tablet, monitor de cocina y barra (KDS) en tiempo real, mapa interactivo de salones y mesas, división de cuentas entre comensales y control de recetas y mermas.
+- Planes (todos con el 100% de las funciones; solo cambia la forma de pago):
+  - Plan Básico — S/ 19.90 al mes, facturación mensual sin permanencia.
+  - Plan Estándar — S/ 16.90 al mes, total semestral S/ 101.40.
+  - Plan Élite — S/ 14.90 al mes, total anual S/ 179.88.
 
 ### Odonto Yamassi (Consultorios y Clínicas Dentales)
 - Página oficial: https://yamassi.com/odontologia/
@@ -68,16 +83,26 @@ El sistema opera 100% como Web App en la nube, eliminando la necesidad de instal
 - URL directa: https://citas.yamassi.com/
 - Diseñado para consultorios médicos, centros estéticos y servicios con reserva previa. Para odontología, ver Odonto Yamassi.
 
+## Documentación y guías de uso
+
+- Índice de documentación: https://yamassi.com/docs/
+- Yamassi Tienda (POS): https://yamassi.com/docs/pos/introduccion-yamassi-tiendas/ — configuración de caja, escaneo de productos y arqueo de turnos.
+- Yamassi Restobar: https://yamassi.com/docs/restobar/introduccion-yamassi-restobar/ — toma de pedidos, mapa de mesas y comandas a cocina.
+- Odonto Yamassi: https://yamassi.com/docs/odontologia/introduccion-yamassi-odontologia/ — odontograma digital, agenda y presupuestos.
+- Yamassi Reservas: https://yamassi.com/docs/reservas/introduccion-yamassi-reservas/ — agendas para peluquerías, barberías, spas y centros de estética.
+
 ## Enlaces Clave del Ecosistema
 
 - Sitio Web Oficial: https://yamassi.com/
-- Catálogo y Tienda Oficial Hardware POS: https://yamassi.com/tienda
-- Acceso / Inicio de Sesión: https://yamassi.com/login
-- Módulo Tienda: https://tienda.yamassi.com/
-- Módulo Restobar: https://restobar.yamassi.com/
-- Módulo Citas: https://citas.yamassi.com/
+- Catálogo y Tienda Oficial Hardware POS: https://yamassi.com/tienda/
+- Elegir sistema e iniciar sesión: https://yamassi.com/login/
+- Yamassi Tienda: https://yamassi.com/market/ · App: https://tienda.yamassi.com/
+- Yamassi Restobar: https://yamassi.com/restaurantes/ · App: https://restobar.yamassi.com/
 - Odonto Yamassi (software dental): https://yamassi.com/odontologia/ · App: https://odonto.yamassi.com/
-- Blog y Guías Comerciales: https://yamassi.com/blog
+- Yamassi Citas: https://citas.yamassi.com/
+- Documentación: https://yamassi.com/docs/
+- Blog y Guías Comerciales: https://yamassi.com/blog/
 - Términos y Condiciones: https://yamassi.com/info/terminos-condiciones-uso
 - Políticas de Privacidad y SUNAT: https://yamassi.com/info/politicas-privacidad
 - Sitemap XML: https://yamassi.com/sitemap.xml
+- Contacto de ventas (todos los sistemas): WhatsApp +51 944 147 277
