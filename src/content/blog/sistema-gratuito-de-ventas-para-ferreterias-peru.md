@@ -82,7 +82,7 @@ Quedarse sin cemento, arena gruesa, pegamento para PVC o cinta aislante en plena
 - Registras las facturas de compra de tus proveedores mayoristas para actualizar los costos de adquisición y saber con exactitud cuánto ganas en cada producto.
 
 ### 4. Boletas y Facturas Electrónicas SUNAT (Opcional Cuando lo Decidas)
-Si tu ferretería atiende a contratistas con RUC 20 o personas que requieren sustentar gastos de construcción, puedes emitir **Facturas y Boletas Electrónicas homologadas ante la SUNAT** directamente desde la misma pantalla de venta. Y si aún te encuentras en el Nuevo RUS o prefieres emitir notas de venta internas, puedes utilizar el sistema con total libertad.
+Si tu ferretería atiende a contratistas con RUC 20 o personas que requieren sustentar gastos de construcción, puedes emitir **Facturas y Boletas Electrónicas** desde la misma pantalla de venta: Yamassi las firma con el Certificado Digital Tributario de tu empresa y las envía directamente a SUNAT. Y si aún te encuentras en el Nuevo RUS o prefieres emitir notas de venta internas, puedes utilizar el sistema con total libertad.
 
 ---
 

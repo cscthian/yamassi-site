@@ -420,8 +420,9 @@ export default function OdontoLanding() {
       <CairnAgentsLanding
         className="cnl-odonto"
         brand="Odonto Yamassi"
-        logo={<img src="/yamassi-odonto.svg" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
-        heroMark={<img src="/yamassi-odonto.svg" alt="Odonto Yamassi" width={76} height={76} />}
+        mark="/yamassi-odonto-sm.svg"
+        logo={<img src="/yamassi-odonto-sm.svg" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
+        heroMark={<img src="/yamassi-odonto-sm.svg" alt="Odonto Yamassi" width={76} height={76} />}
         palette={{
           bg: "#FFFFFF",
           accent: C.yellow,

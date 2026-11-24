@@ -235,7 +235,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
                   transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
                 >
                   <motion.img
-                    src="/yamassi-logo.svg"
+                    src="/yamassi-logo-sm.svg"
                     alt=""
                     width={36}
                     height={36}

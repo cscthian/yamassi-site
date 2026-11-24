@@ -31,7 +31,7 @@ Existe una confusión habitual entre emprendedores peruanos entre dos conceptos 
 
 Al evaluar alternativas de sistemas de venta en el mercado peruano, asegúrate de verificar estos seis pilares indispensables:
 
-### A. Facturación Electrónica Homologada con SUNAT
+### A. Facturación Electrónica conectada a SUNAT
 En Perú, la normativa tributaria no permite demoras ni errores en la emisión de comprobantes. Tu sistema POS debe:
 - Emitir **Boletas de Venta Electrónicas**, **Facturas Electrónicas**, **Notas de Crédito** y **Guías de Remisión Electrónicas (GRE)**.
 - Transmitir los archivos XML y generar el código hash oficial de SUNAT.

@@ -9,7 +9,7 @@ import { MagnetizeButton } from "@/components/ui/magnetize-button";
 export const PRUEBA_GRATIS_BRANDS: SubBrandId[] = ["market", "restaurantes", "odontologia"];
 
 const BRAND_TEXT: Record<SubBrandId, string> = {
-  market: "Ventas con código de barras, control de stock, vencimientos y boletas SUNAT.",
+  market: "Ventas con código de barras, control de stock, vencimientos y boletas electrónicas.",
   restaurantes: "Comandas a cocina y barra, mapa de mesas, división de cuentas y caja por turno.",
   odontologia: "Odontograma digital, historias clínicas, agenda con WhatsApp y caja.",
 };

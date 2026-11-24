@@ -21,8 +21,8 @@ const pillars = [
   },
   {
     icon: ShieldCheck,
-    title: "Facturación SUNAT (si deseas activarla)",
-    body: "Vende tranquilo con notas de venta internas. Y si en algún momento lo decides, puedes activar la facturación oficial de SUNAT con un clic.",
+    title: "Facturación electrónica (si deseas activarla)",
+    body: "Vende tranquilo con notas de venta internas. Cuando lo decidas, adjuntas el Certificado Digital Tributario de tu empresa y Yamassi envía tus boletas y facturas directamente a SUNAT.",
   },
 ];
 

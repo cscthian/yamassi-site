@@ -73,7 +73,7 @@ export function TiendaAppHeader({ initialCategories, initialCount }: Props) {
               Catálogo Tienda Yamassi
             </h2>
             <p className="text-[11px] text-slate-500 mt-0.5">
-              Equipos de punto de venta e impresoras homologadas en Perú
+              Equipos de punto de venta e impresoras compatibles con Yamassi
             </p>
           </div>
         </div>

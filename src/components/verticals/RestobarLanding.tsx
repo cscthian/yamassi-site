@@ -1,6 +1,7 @@
 import CairnAgentsLanding, { type CnlPlan, type CnlTalkRequest } from "@/components/ui/cairn-agents-landing";
 import { SCREEN_CSS, ScreenCard, ScreenStage, TableMap, type ScreenData } from "@/components/verticals/hero-screens";
 import { SUB_BRANDS } from "@/components/ui/sub-brand-logo";
+import { SUNAT } from "@/lib/site";
 
 const RESTOBAR_URL = SUB_BRANDS.restaurantes.app;
 
@@ -101,8 +102,8 @@ export const RESTOBAR_FAQ: { q: string; a: string }[] = [
     a: "Es sumamente sencillo. Al momento de cobrar la mesa, el cajero puede elegir: (1) dividir el total en partes iguales (ej. entre 4 comensales), o (2) seleccionar plato por plato qué consumió cada persona y emitir boletas o facturas independientes con distintos medios de pago (uno con Yape, otro con tarjeta, otro en efectivo).",
   },
   {
-    q: "¿Las boletas y facturas electrónicas van directo a SUNAT?",
-    a: "Sí. Yamassi está 100% homologado con SUNAT y conectado con OSE. Emite Boletas, Facturas, Notas de Crédito y Guías de Remisión con código QR y CDR aprobado al instante. Además, incluye consulta automática de RUC y DNI.",
+    q: SUNAT.faqQ,
+    a: SUNAT.faqA + " Además, incluye consulta automática de RUC y DNI.",
   },
   {
     q: "¿Cómo me ayuda Yamassi a controlar que los mozos o cajeros no se queden con dinero?",
@@ -239,8 +240,9 @@ export default function RestobarLanding() {
       <CairnAgentsLanding
         className="cnl-restobar"
         brand="Yamassi Restobar"
-        logo={<img src="/yamassi-restobar.svg" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
-        heroMark={<img src="/yamassi-restobar.svg" alt="Yamassi Restobar" width={76} height={76} />}
+        mark="/yamassi-restobar-sm.svg"
+        logo={<img src="/yamassi-restobar-sm.svg" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
+        heroMark={<img src="/yamassi-restobar-sm.svg" alt="Yamassi Restobar" width={76} height={76} />}
         heroScene={(active) => (
           <ScreenStage screens={SCREENS} active={active} overlay label="Pantallas de Yamassi Restobar: comandas, cocina, mesas y cierre de caja" />
         )}
@@ -255,7 +257,7 @@ export default function RestobarLanding() {
         footer={null}
         announcement={{ label: "Desde S/ 14.90 al mes · 100% de funciones", href: "#precios" }}
         title={"Control de caja y comandas\nque no se cuelga en hora punta"}
-        subtitle="Toma pedidos desde tablet o celular, envía comandas automáticas a cocina y barra, divide cuentas en segundos y factura con SUNAT sin errores ni demoras."
+        subtitle="Toma pedidos desde tablet o celular, envía comandas automáticas a cocina y barra, divide cuentas en segundos y emite boletas y facturas electrónicas con tu propio certificado digital."
         primaryAction={{ label: "Empezar con Yamassi gratis", href: RESTOBAR_URL }}
         secondaryAction={{ label: "Ver cómo funcionan las comandas", href: "#comandas" }}
         heroNote="✓ Sin tarjeta de crédito · ✓ Compatible con impresoras térmicas ESC/POS · ✓ Soporte en Perú"
@@ -352,12 +354,12 @@ export default function RestobarLanding() {
               id: "caja",
               visual: <ScreenCard data={SCREENS[3]} />,
               tag: "Control de caja & arqueos ciegos",
-              title: "Caja blindada contra faltantes y facturación SUNAT sin multas",
+              title: "Caja blindada contra faltantes y facturación electrónica en regla",
               text: "Evita pérdidas y confusiones con arqueos de caja ciegos por turno. Acepta Yape, Plin, tarjetas y efectivo con propinas desglosadas con claridad para tu equipo.",
               points: [
                 { title: "Arqueo de caja ciego", text: "El cajero declara lo que tiene en físico sin ver el sistema. Se detectan faltantes y sobrantes al centavo." },
                 { title: "Yape & Plin integrados", text: "Verificación rápida de comprobantes digitales de billeteras para no dejar pasar capturas falsas." },
-                { title: "Boletas y facturas SUNAT", text: "Emisión directa y homologada. Consulta RUC y DNI automática con un clic." },
+                { title: "Boletas y facturas electrónicas", text: "Conexión directa con SUNAT usando el Certificado Digital Tributario de tu empresa. Consulta RUC y DNI automática." },
                 { title: "Propinas por mozo", text: "Reporte exacto de propinas en tarjeta y efectivo para repartir equitativamente entre salón y cocina." },
               ],
             },
@@ -462,7 +464,7 @@ export default function RestobarLanding() {
           kicker: "Sin letra chica",
           title: "Todo tu restaurante,\ndesde el primer día.",
           items: [
-            { value: 0, suffix: " seg", label: "de demora en el envío de comandas a cocina" },
+            { value: 0, text: "Sin límite", label: "de mesas: crea todas las que tu local necesite" },
             { value: 0, prefix: "S/ ", label: "para empezar con el plan gratuito" },
             { value: 1, suffix: " clic", label: "para dividir la cuenta por comensal" },
             { value: 14.9, decimals: 2, prefix: "S/ ", label: "al mes con el Plan Élite, con todas las funciones" },

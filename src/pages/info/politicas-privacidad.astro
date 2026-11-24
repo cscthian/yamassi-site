@@ -48,7 +48,7 @@ import InfoLayout from "@/layouts/InfoLayout.astro";
     </p>
     <ul>
       <li><strong>Emisión de Comprobantes Electrónicos:</strong> Boletas de Venta, Facturas, Notas de Crédito, Notas de Débito y Guías de Remisión Electrónicas (GRE) conforme al estándar UBL 2.1 exigido por SUNAT.</li>
-      <li><strong>Generación de archivos XML y CDR:</strong> Creación de la firma digital con el Certificado Digital Tributario del usuario o a través del Operador de Servicios Electrónicos (OSE) habilitado.</li>
+      <li><strong>Generación de archivos XML y CDR:</strong> Firma digital de cada comprobante con el Certificado Digital Tributario (CDT) que el usuario adjunta en Yamassi, y envío directo a SUNAT. Yamassi no actúa como Operador de Servicios Electrónicos (OSE) ni como Proveedor de Servicios Electrónicos (PSE).</li>
       <li><strong>Custodia y Conservación Legal:</strong> De conformidad con el Código Tributario peruano, Yamassi resguarda los comprobantes electrónicos generados durante el plazo legal de conservación obligatoria (mínimo de cinco años), facilitando su descarga en formatos XML y PDF en cualquier momento.</li>
       <li><strong>Validación automática de RUC y DNI:</strong> Consultas directas a los padrones oficiales de SUNAT y RENIEC para garantizar que los comprobantes se emitan a receptores válidos y evitar reparos tributarios.</li>
     </ul>
@@ -75,11 +75,11 @@ import InfoLayout from "@/layouts/InfoLayout.astro";
 
     <h2>6. Resguardo de Credenciales de Clave SOL y Certificados Digitales</h2>
     <p>
-      Para operar la facturación electrónica, el usuario proporciona las credenciales de su <strong>Usuario Secundario SUNAT</strong> expresamente creado con permisos exclusivos de emisión de comprobantes. Yamassi:
+      Para operar la facturación electrónica, el usuario adjunta el <strong>Certificado Digital Tributario (CDT)</strong> de su empresa y proporciona las credenciales de su <strong>Usuario Secundario SUNAT</strong> expresamente creado con permisos exclusivos de emisión de comprobantes. Yamassi:
     </p>
     <ul>
       <li>Recomienda y orienta al usuario para que <strong>nunca ingrese su Clave SOL principal de administrador</strong>, sino un usuario secundario acotado.</li>
-      <li>Almacena dichas credenciales en un bóveda digital cifrada con acceso restringido exclusivamente al servicio automatizado de firma y envío de comprobantes ante SUNAT.</li>
+      <li>Almacena el certificado y dichas credenciales en una bóveda digital cifrada con acceso restringido exclusivamente al servicio automatizado de firma y envío de comprobantes ante SUNAT.</li>
     </ul>
 
     <h2>7. Modificaciones a las Políticas de Privacidad y Notificación Obligatoria</h2>

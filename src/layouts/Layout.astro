@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, SUNAT } from "@/lib/site";
 
 interface Props {
   title?: string;
@@ -25,7 +25,7 @@ interface Props {
 
 const DEFAULT_TITLE = "Yamassi - Software de caja registradora para negocios Perú";
 const DEFAULT_DESCRIPTION =
-  "Yamassi reúne todo en un solo lugar: ventas (POS), control de stock, gestión de proveedores y facturación electrónica homologada con SUNAT. Una sola app, en español y con soporte real. El sistema que los emprendedores peruanos merecen.";
+  "Yamassi reúne todo en un solo lugar: ventas (POS), control de stock, gestión de proveedores y facturación electrónica SUNAT con tu certificado digital. Una sola app, en español y con soporte real. El sistema que los emprendedores peruanos merecen.";
 
 const {
   title = DEFAULT_TITLE,
@@ -68,7 +68,7 @@ const organization = {
   logo: `${SITE_URL}/yamassi.png`,
   slogan: "Ayni · Yanantin · Masintin — Crecer juntos, en equilibrio",
   description:
-    "Yamassi es un software de gestión peruano que reúne punto de venta (POS), control de inventario, gestión de proveedores y facturación electrónica homologada con SUNAT en una sola plataforma. Su nombre y su forma de trabajar se inspiran en tres principios de la cosmovisión andina: Yanantin, Masintin y Ayni.",
+    "Yamassi es un software de gestión peruano que reúne punto de venta (POS), control de inventario, gestión de proveedores y facturación electrónica SUNAT (con el certificado digital de cada empresa) en una sola plataforma. Su nombre y su forma de trabajar se inspiran en tres principios de la cosmovisión andina: Yanantin, Masintin y Ayni.",
   areaServed: { "@type": "Country", name: "Perú" },
   knowsLanguage: "es-PE",
   sameAs: ["https://www.tiktok.com/@yamassioficial", "https://www.facebook.com/yamassioficial"],
@@ -92,7 +92,7 @@ const jsonLd = {
       },
       featureList: [
         "Punto de venta (POS)",
-        "Facturación electrónica homologada con SUNAT",
+        "Facturación electrónica SUNAT con el Certificado Digital Tributario de la empresa",
         "Control de inventario y stock",
         "Gestión de proveedores y compras",
         "Reportes y analítica de ventas",
@@ -107,15 +107,15 @@ const jsonLd = {
           name: "¿Qué incluye Yamassi?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Yamassi incluye punto de venta (POS), facturación electrónica homologada con SUNAT, control de inventario y stock, gestión de proveedores, reportes de ventas y soporte para múltiples sucursales, todo en una sola app.",
+            text: "Yamassi incluye punto de venta (POS), facturación electrónica SUNAT con tu certificado digital, control de inventario y stock, gestión de proveedores, reportes de ventas y soporte para múltiples sucursales, todo en una sola app.",
           },
         },
         {
           "@type": "Question",
-          name: "¿La facturación electrónica de Yamassi está homologada con SUNAT?",
+          name: SUNAT.faqQ,
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Sí. Yamassi emite boletas, facturas, notas de crédito y guías de remisión electrónicas 100% homologadas con SUNAT, y se mantiene actualizado ante cada cambio normativo.",
+            text: SUNAT.faqA,
           },
         },
         {

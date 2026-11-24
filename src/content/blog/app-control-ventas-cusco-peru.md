@@ -76,7 +76,7 @@ Ya sea que vendas botellas de agua y snacks en un minimarket de San Sebastián, 
 - Conoces el costo real de tu mercadería y el margen de ganancia neta de cada artículo.
 
 ### 4. Facturación Electrónica SUNAT (Activación Opcional)
-Si tu negocio está en el Régimen MYPE Tributario, Especial o General, puedes emitir **Boletas y Facturas Electrónicas homologadas con código QR de SUNAT** en un clic. Y si estás en el Nuevo RUS o emites notas de venta internas, puedes operar con la misma rapidez sin obligación de facturación electrónica.
+Si tu negocio está en el Régimen MYPE Tributario, Especial o General, puedes emitir **Boletas y Facturas Electrónicas con código QR**, firmadas con el Certificado Digital Tributario de tu empresa y enviadas directamente a SUNAT. Y si estás en el Nuevo RUS o emites notas de venta internas, puedes operar con la misma rapidez sin obligación de facturación electrónica.
 
 ---
 

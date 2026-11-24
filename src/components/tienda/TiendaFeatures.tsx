@@ -15,7 +15,7 @@ export function TiendaFeatures() {
     },
     {
       icon: <Cpu className="w-6 h-6 text-emerald-500" />,
-      title: "100% Homologado & Plug and Play",
+      title: "100% Compatible & Plug and Play",
       description: "Conecta tu ticketera, lector y gaveta a Yamassi POS sin complicaciones de controladores.",
     },
     {

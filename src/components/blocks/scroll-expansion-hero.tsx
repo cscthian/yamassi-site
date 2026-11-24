@@ -6,6 +6,8 @@ interface ScrollExpandMediaProps {
   mediaSrc: string;
   posterSrc?: string;
   bgImageSrc: string;
+  /** Responsive sources for the background photo, e.g. "small.webp 800w, large.webp 1448w". */
+  bgImageSrcSet?: string;
   title?: string;
   date?: string;
   scrollToExpand?: string;
@@ -19,6 +21,7 @@ const ScrollExpandMedia = ({
   mediaSrc,
   posterSrc,
   bgImageSrc,
+  bgImageSrcSet,
   title,
   date,
   scrollToExpand,
@@ -237,9 +240,11 @@ const ScrollExpandMedia = ({
           <div className="absolute inset-0 z-0" aria-hidden="true">
             <img
               src={bgImageSrc}
+              srcSet={bgImageSrcSet}
+              sizes="100vw"
               alt=""
-              width={1920}
-              height={1080}
+              width={1448}
+              height={1086}
               className="h-full w-full object-cover object-center"
               loading="eager"
               decoding="async"
@@ -306,9 +311,11 @@ const ScrollExpandMedia = ({
             >
               <img
                 src={bgImageSrc}
-                alt="Negocio peruano usando Yamassi"
-                width={1920}
-                height={1080}
+                srcSet={bgImageSrcSet}
+                sizes="100vw"
+                alt="Calle comercial peruana con minimarket, ferretería, botica y restaurante frente a la plaza"
+                width={1448}
+                height={1086}
                 className="h-screen w-screen object-cover object-center"
                 loading="eager"
                 decoding="async"

@@ -69,3 +69,22 @@ export function getDomainFromUrl(url: string): string {
     return url.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
   }
 }
+
+/**
+ * Facturación electrónica: one wording for every page.
+ * Yamassi is NOT homologated and is not an OSE/PSE. It connects straight to
+ * SUNAT with the business's own Certificado Digital Tributario (CDT), which the
+ * business attaches in Yamassi. Never say "homologado" or "con un clic".
+ */
+export const SUNAT = {
+  /** Short label for chips, lists and plan features. */
+  short: "Boletas y facturas electrónicas con tu certificado digital",
+  /** One sentence for feature cards. */
+  how: "Yamassi se conecta directamente con SUNAT usando el Certificado Digital Tributario (CDT) de tu empresa: lo adjuntas en Yamassi y tus boletas y facturas se firman con él y se envían a SUNAT.",
+  /** Notes-of-sale first, e-invoicing when the business wants it. */
+  optional:
+    "La facturación electrónica es opcional: puedes trabajar con notas de venta y activarla cuando quieras adjuntando tu certificado.",
+  faqQ: "¿Cómo se envían mis boletas y facturas electrónicas a SUNAT?",
+  faqA:
+    "Yamassi se conecta directamente con SUNAT usando el Certificado Digital Tributario (CDT) de tu empresa: lo adjuntas en Yamassi y cada boleta o factura se firma con tu certificado y se envía a SUNAT a nombre de tu empresa. Yamassi no es un OSE ni un PSE. La facturación electrónica es opcional: puedes trabajar con notas de venta y activarla cuando quieras.",
+} as const;

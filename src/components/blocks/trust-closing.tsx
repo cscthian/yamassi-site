@@ -1,5 +1,6 @@
 import { HelpCircle, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SUNAT } from "@/lib/site";
 
 const faqs = [
   {
@@ -8,7 +9,11 @@ const faqs = [
   },
   {
     q: "¿Es obligatorio emitir facturas con SUNAT para usar Yamassi?",
-    a: "No, para nada. Puedes utilizar Yamassi exclusivamente con notas de venta y tickets de control interno. Y si en algún momento lo deseas o tu régimen lo requiere, puedes activar la facturación electrónica SUNAT con un solo clic.",
+    a: "No, para nada. Puedes utilizar Yamassi exclusivamente con notas de venta y tickets de control interno. Y si en algún momento lo deseas o tu régimen lo requiere, activas la facturación electrónica adjuntando el Certificado Digital Tributario de tu empresa.",
+  },
+  {
+    q: SUNAT.faqQ,
+    a: SUNAT.faqA,
   },
   {
     q: "¿Necesito conocimientos técnicos para usar Yamassi?",
@@ -83,7 +88,7 @@ export function TrustClosing() {
                 Ordena tu negocio hoy, en una sola app
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
-                Ventas, stock y facturación SUNAT desde el primer día. Yamassi es
+                Ventas, stock y caja desde el primer día, y facturación electrónica cuando la necesites. Yamassi es
                 gratis: úsalo sin costo y solo pagas al superar los límites gratuitos.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">

@@ -70,6 +70,7 @@ Actualmente existen cuatro alternativas para emitir facturación electrónica en
 
 ### Alternativa 4: Software POS Cloud Integrado (Como Yamassi)
 - La solución integral más eficiente: combina **punto de venta rápido**, **control de inventario**, **arqueo de caja** y **facturación electrónica automática** en una sola pantalla.
+- Yamassi no es un OSE ni un PSE: se conecta directamente con SUNAT usando el Certificado Digital Tributario (CDT) de tu empresa, que adjuntas en Yamassi.
 - Genera comprobantes autorizados con formato ticket de 58mm y 80mm listos para imprimir o compartir al instante por **WhatsApp y correo electrónico**.
 
 ---

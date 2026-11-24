@@ -52,10 +52,11 @@ import InfoLayout from "@/layouts/InfoLayout.astro";
 
     <h2>4. Responsabilidades sobre la Facturación Electrónica y Reglas SUNAT</h2>
     <p>
-      En relación con la emisión de comprobantes de pago electrónicos homologados ante la Superintendencia Nacional de Aduanas y de Administración Tributaria (SUNAT):
+      En relación con la emisión de comprobantes de pago electrónicos ante la Superintendencia Nacional de Aduanas y de Administración Tributaria (SUNAT). Yamassi no está homologado ni actúa como OSE o PSE: se conecta directamente con SUNAT usando el Certificado Digital Tributario (CDT) que el usuario adjunta en la Plataforma.
     </p>
     <ul>
       <li><strong>Veracidad tributaria del emisor:</strong> El usuario es el único y exclusivo responsable de la veracidad, exactitud y legalidad de los datos comerciales consignados en cada comprobante (precios, descripción de mercaderías, tipo de operación gravada/exonerada e identificación del cliente con DNI o RUC).</li>
+      <li><strong>Certificado Digital Tributario:</strong> El usuario es responsable de adjuntar un certificado vigente a nombre de su empresa y de renovarlo antes de su vencimiento; sin certificado vigente no es posible emitir comprobantes electrónicos.</li>
       <li><strong>Custodia de la Clave SOL y Usuarios Secundarios:</strong> El usuario se compromete a salvaguardar sus credenciales de acceso a la SUNAT. Yamassi provee mecanismos para enlazar únicamente usuarios secundarios con permisos acotados de facturación electrónica, deslindando responsabilidad por el mal uso o negligencia en la custodia de claves por parte del personal del comercio.</li>
       <li><strong>Plazos de Envío:</strong> La Plataforma realiza el envío automático en tiempo real de los comprobantes generados. En caso de caídas masivas en los servidores de la SUNAT ajenas al control de Yamassi, el sistema activará los protocolos de reintento automático dentro de los plazos legales previstos por el ente tributario.</li>
     </ul>

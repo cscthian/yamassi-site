@@ -194,7 +194,7 @@ const features: StickyScrollItem[] = [
     title: "Comprobantes y Facturación (SUNAT opcional)",
     icon: <ReceiptText className="h-5 w-5" />,
     description:
-      "Emite tickets y notas de venta rápidas para tu control interno. Y si lo deseas, puedes activar la facturación electrónica SUNAT en cualquier momento para emitir boletas y facturas oficiales cuando lo necesites.",
+      "Emite tickets y notas de venta rápidas para tu control interno. Y cuando lo necesites, adjuntas el Certificado Digital Tributario de tu empresa y emites boletas y facturas electrónicas que Yamassi envía directamente a SUNAT.",
     content: <SunatMock />,
   },
   {

@@ -34,6 +34,7 @@ El sistema opera 100% como Web App en la nube, eliminando la necesidad de instal
 - Registro de compras a proveedores con actualización automática de costos y cálculo de utilidad real.
 
 ### 4. Facturación Electrónica SUNAT (Opcional y Flexible)
+- Conexión directa con SUNAT usando el Certificado Digital Tributario (CDT) de la empresa, que se adjunta en Yamassi. Yamassi no está homologado ni es OSE/PSE: los comprobantes se firman con el certificado del propio negocio.
 - Emisión de Boletas de Venta Electrónicas (BVE), Facturas Electrónicas (FE) y Notas de Crédito (NCE).
 - Consulta y validación automática del RUC de clientes ante el padrón oficial de SUNAT para evitar comprobantes a empresas no habidas.
 - Resguardo legal de los comprobantes electrónicos (XML, PDF y CDR) en la nube por el plazo requerido por ley.

@@ -25,7 +25,7 @@ A diferencia del hardware tradicional, no necesitas comprar máquinas costosas d
 - **Especializada en el control de caja:** Registra con exactitud cada ingreso y egreso, fondo de sencillo para vuelto, gastos menores del día (pago a proveedores de gaseosas, compra de bolsas o delivery) y turnos de cajeros.
 - **Arqueo ciego de caja:** Al finalizar el turno o la jornada, el personal declara el efectivo físico que tiene en mano sin ver el reporte del sistema. Así se detectan sobrantes o faltantes con total transparencia.
 - **Control de múltiples medios de pago:** Separa con precisión cuánto dinero ingresó en efectivo, cuánto por billeteras digitales (**Yape / Plin**) y cuánto mediante POS de tarjetas (Izipay, Niubiz, Culqi).
-- **Conexión a SUNAT si lo deseas:** Puedes operar con notas de venta internas y tickets de control. Si tu régimen tributario lo exige (Régimen Especial, MYPE Tributario o General), puedes activar la facturación electrónica oficial de SUNAT con un solo clic.
+- **Conexión a SUNAT si lo deseas:** Puedes operar con notas de venta internas y tickets de control. Si tu régimen tributario lo exige (Régimen Especial, MYPE Tributario o General), activas la facturación electrónica adjuntando el Certificado Digital Tributario de tu empresa, y Yamassi envía tus comprobantes directamente a SUNAT.
 
 ---
 

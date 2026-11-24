@@ -9,7 +9,8 @@ import ScrollExpandMedia from "@/components/blocks/scroll-expansion-hero";
 import { HeroCoverCta } from "@/components/ui/hero-cover-cta";
 
 const HERO_VIDEO = "/hero_page.webm";
-const HERO_BG = "/img/imagenfondo.png";
+const HERO_BG = "/img/imagenfondo.webp";
+const HERO_BG_SET = "/img/imagenfondo-800.webp 800w, /img/imagenfondo.webp 1448w";
 
 const valueProps = [
   {
@@ -20,7 +21,7 @@ const valueProps = [
   {
     icon: ReceiptText,
     title: "Comprobantes y cuentas claras",
-    body: "Emite tickets y notas de venta al instante. Y si lo deseas, puedes activar la facturación electrónica SUNAT en cualquier momento.",
+    body: "Emite tickets y notas de venta al instante. Y cuando lo necesites, activas boletas y facturas electrónicas con el certificado digital de tu empresa.",
   },
   {
     icon: Boxes,
@@ -107,6 +108,7 @@ export function HeroSection() {
       mediaType="video"
       mediaSrc={HERO_VIDEO}
       bgImageSrc={HERO_BG}
+      bgImageSrcSet={HERO_BG_SET}
       title="Todo tu negocio en un solo lugar"
       heroAction={<HeroCoverCta />}
       textBlend={false}

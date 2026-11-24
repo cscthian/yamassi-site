@@ -101,6 +101,8 @@ export type CnlFlow = { kicker?: string; title: string; text?: string; steps: { 
 
 export type CnlStat = {
   value: number
+  /** Shown as-is instead of an animated number, e.g. "Sin límite". */
+  text?: string
   /** Counts from here, e.g. an industry hold time down to zero. */
   from?: number
   decimals?: number
@@ -241,6 +243,17 @@ const DEFAULT_COPY: CnlCopy = {
 }
 
 const CopyCtx = React.createContext<CnlCopy>(DEFAULT_COPY)
+/** The product mark drawn in every orb (app cards, section titles). */
+const MarkCtx = React.createContext<string | undefined>(undefined)
+
+function Orb({ sm }: { sm?: boolean }) {
+  const mark = React.useContext(MarkCtx)
+  return (
+    <span className={"cnl-orb" + (sm ? " is-sm" : "") + (mark ? " is-mark" : "")} aria-hidden="true">
+      {mark ? <img src={mark} alt="" width={sm ? 20 : 28} height={sm ? 20 : 28} decoding="async" /> : null}
+    </span>
+  )
+}
 
 export interface CairnAgentsLandingProps {
   /** Business-specific interface words; defaults to a dental clinic. */
@@ -250,6 +263,8 @@ export interface CairnAgentsLandingProps {
   brand?: string
   /** Replaces the cairn mark. */
   logo?: React.ReactNode
+  /** Product mark (image URL) shown in the orbs of the app cards and section titles. */
+  mark?: string
   /** null hides the built-in nav (e.g. when the site has its own header). */
   nav?: CnlLink[] | null
   login?: CnlLink | null
@@ -835,6 +850,12 @@ const CNL_CSS = `
 .cnl-orb::before{content:"";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#fff 0 8%,transparent 30%),conic-gradient(from 210deg,#ff9a76,#f6c1ff,#8ab4ff,#9ff0d5,#ffd38a,#ff9a76);filter:saturate(1.1);animation:cnl-spin 9s linear infinite}
 .cnl-orb.is-sm{width:22px;height:22px;border-radius:50%;box-shadow:none;background:transparent}
 .cnl-orb.is-sm::before{inset:0}
+.cnl-orb.is-mark::before{content:none}
+.cnl-orb.is-mark{display:grid;place-items:center;background:#fff}
+.cnl-orb.is-mark img{width:28px;height:28px;display:block;-webkit-user-drag:none}
+/* small orb: crisp CSS ring, the mark sits 1px inside it */
+.cnl-orb.is-sm.is-mark{background:#fff;box-shadow:0 0 0 1px rgba(15,23,42,.14),0 3px 8px -4px rgba(15,23,42,.35)}
+.cnl-orb.is-sm.is-mark img{width:20px;height:20px;animation:cnl-spin 9s linear infinite}
 .cnl-canvas-text{margin-top:24px;max-width:38ch;font-size:14.5px;line-height:1.85;color:var(--cnl-mute)}
 .cnl-steps{margin-top:44px}
 .cnl-steps li{position:relative;border-top:1px solid var(--cnl-line)}
@@ -869,9 +890,9 @@ const CNL_CSS = `
 .cnl-flow-head{text-align:center;max-width:760px;margin:0 auto}
 .cnl-flow-text{margin:18px auto 0;max-width:58ch;font-size:15px;line-height:1.75;color:var(--cnl-mute)}
 .cnl-flow-cards{grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));margin-top:44px}
-.cnl-ccard .cnl-app{position:relative;left:auto;top:auto;transform:none;width:100%;margin-top:auto;box-shadow:0 18px 40px -26px rgba(0,0,0,.45),0 0 0 1px rgba(0,0,0,.05)}
+.cnl-ccard .cnl-app{position:relative;inset:auto;height:auto;max-height:none;margin:auto 0 0;width:100%;box-shadow:0 18px 40px -26px rgba(0,0,0,.45),0 0 0 1px rgba(0,0,0,.05)}
 
-.cnl-app{position:absolute;left:50%;top:50%;width:min(390px,calc(100% - 28px));transform:translate(-50%,-50%);background:var(--cnl-card);color:var(--cnl-card-ink);border-radius:14px;box-shadow:0 40px 90px -30px rgba(0,0,0,.65),0 0 0 1px rgba(0,0,0,.05)}
+.cnl-app{position:absolute;inset:0;margin:auto;height:fit-content;max-height:calc(100% - 28px);width:min(390px,calc(100% - 28px));background:var(--cnl-card);color:var(--cnl-card-ink);border-radius:14px;box-shadow:0 40px 90px -30px rgba(0,0,0,.65),0 0 0 1px rgba(0,0,0,.05)}
 .cnl-app-head{position:relative;display:flex;align-items:center;justify-content:center;height:50px;padding:0 14px;border-bottom:1px solid var(--cnl-card-line)}
 .cnl-app-head .cnl-orb{position:absolute;left:14px;top:14px}
 .cnl-app-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;animation:cnl-roll-in .55s var(--cnl-ease) both}
@@ -1233,7 +1254,7 @@ const CNL_CSS = `
 .cnl-vol{grid-template-columns:repeat(2,1fr)}
 }
 @media (prefers-reduced-motion:reduce){
-.cnl-track,.cnl-orb::before,.cnl-badge-dot::after,.cnl-eq i,.cnl-typing i,.cnl-live::before,.cnl-golive b::before,.cnl-clock.is-live::before{animation:none}
+.cnl-track,.cnl-orb::before,.cnl-orb img,.cnl-badge-dot::after,.cnl-eq i,.cnl-typing i,.cnl-live::before,.cnl-golive b::before,.cnl-clock.is-live::before{animation:none}
 .cnl-quote>span,.cnl-cite,.cnl-file,.cnl-feed li,.cnl-mem-list li,.cnl-app-title,.cnl-sheet,.cnl-sheet-links a,.cnl-sheet-links button,.cnl-outcome,.cnl-sent,.cnl-dialog,.cnl-dialog-box,.cnl-done i{animation-duration:.01ms}
 .cnl-person[aria-current=true] i{animation:none;transform:scaleX(1)}
 .cnl-roll>span,.cnl-roll::after,.cnl-img,.cnl-step-body,.cnl-step-body p,.cnl-logo,.cnl-drop-icons span,.cnl-seg::before,.cnl-switch::after{transition:none}
@@ -2418,7 +2439,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
           <div className="cnl-canvas-pin">
             <div className="cnl-canvas-copy">
               <div className="cnl-canvas-name">
-                <span className="cnl-orb" aria-hidden="true" />
+                <Orb />
                 <h3>{data.title}</h3>
               </div>
               <p className="cnl-canvas-text">{data.text}</p>
@@ -2442,7 +2463,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
             <Vista className="cnl-canvas-vista" src={image} tones={tones}>
               <div className="cnl-app" id={uid + "-app"} role="region" aria-live="polite" aria-label={data.title + ": " + panelHead(step)}>
                 <div className="cnl-app-head">
-                  <span className="cnl-orb is-sm" aria-hidden="true" />
+                  <Orb sm />
                   <span className="cnl-app-title" key={"h" + active}>
                     {panelHead(step)}
                   </span>
@@ -2462,7 +2483,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
         <section ref={sec} className="cnl-canvas" data-sec="product">
           <div className="cnl-canvas-static">
             <div className="cnl-canvas-name">
-              <span className="cnl-orb" aria-hidden="true" />
+              <Orb />
               <h3>{data.title}</h3>
             </div>
             <p className="cnl-canvas-text">{data.text}</p>
@@ -2476,7 +2497,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
                   <p>{st.text}</p>
                   <div className="cnl-app" role="group" aria-label={panelHead(st)}>
                     <div className="cnl-app-head">
-                      <span className="cnl-orb is-sm" aria-hidden="true" />
+                      <Orb sm />
                       <span className="cnl-app-title">{panelHead(st)}</span>
                       <span className="cnl-app-step">
                         {k + 1}/{n}
@@ -2765,7 +2786,7 @@ function Flow({ data }: { data: CnlFlow }) {
             <p>{st.text}</p>
             <div className="cnl-app" role="group" aria-label={st.head}>
               <div className="cnl-app-head">
-                <span className="cnl-orb is-sm" aria-hidden="true" />
+                <Orb sm />
                 <span className="cnl-app-title">{st.head}</span>
                 <span className="cnl-app-step">
                   {k + 1}/{n}
@@ -2790,7 +2811,8 @@ function Stats({ kicker, title, items, reduced }: { kicker?: string; title?: str
     if (!b || reduced) return
     const nums = Array.from(b.querySelectorAll("[data-num]")) as HTMLElement[]
     const ctx = gsap.context(() => {
-      nums.forEach((el, k) => {
+      nums.forEach((el) => {
+        const k = Number(el.dataset.num)
         const s = items[k]
         if (!s) return
         const o = { v: s.from != null ? s.from : 0 }
@@ -2813,7 +2835,8 @@ function Stats({ kicker, title, items, reduced }: { kicker?: string; title?: str
     return () => {
       ctx.revert()
       // a count cut short (re-render, reduced motion turning on) must never leave a partial number (e.g. "S/ 88", "59 días")
-      nums.forEach((el, k) => {
+      nums.forEach((el) => {
+        const k = Number(el.dataset.num)
         if (items[k]) el.textContent = fmt(items[k], items[k].value)
       })
     }
@@ -2838,7 +2861,7 @@ function Stats({ kicker, title, items, reduced }: { kicker?: string; title?: str
         {items.map((s, k) => (
           <div key={k} className="cnl-stat" data-reveal="">
             <small>{s.note || ""}</small>
-            <b data-num="">{fmt(s, s.value)}</b>
+            {s.text ? <b>{s.text}</b> : <b data-num={k}>{fmt(s, s.value)}</b>}
             <span>{s.label}</span>
           </div>
         ))}
@@ -3315,6 +3338,7 @@ export default function CairnAgentsLanding({
   heroScene,
   brand = "Cairn",
   logo,
+  mark,
   nav = DEFAULT_NAV,
   login = { label: "Sign in", href: "#" },
   action = { label: "Talk to us" },
@@ -3474,6 +3498,7 @@ export default function CairnAgentsLanding({
 
   return (
     <CopyCtx.Provider value={cp}>
+    <MarkCtx.Provider value={mark}>
     <div ref={rootRef} className={"cnl-root" + (className ? " " + className : "")} data-scheme={scheme} style={vars}>
       <style dangerouslySetInnerHTML={{ __html: CNL_CSS }} />
       {nav ? <Nav brand={brand} logo={logo} nav={nav} login={login} action={action} onAction={() => setTalk(true)} onNav={go} reduced={reduced} /> : null}
@@ -3512,6 +3537,7 @@ export default function CairnAgentsLanding({
       {footer ? <Footer brand={brand} logo={logo} data={footer} onNav={go} /> : null}
       {talk ? <TalkDialog brand={brand} volumes={volumes} onClose={() => setTalk(false)} onTalk={onTalk} /> : null}
     </div>
+    </MarkCtx.Provider>
     </CopyCtx.Provider>
   )
 }

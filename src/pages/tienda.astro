@@ -14,7 +14,7 @@ import { PRODUCTOS_MOCK, CATEGORIAS_MOCK } from "@/data/mockCatalog";
 import { Sparkles, ShoppingBag } from "lucide-react";
 
 const pageTitle = "Tienda Yamassi — Catálogo de Equipos POS, Ticketeras y Lectores de Barras";
-const pageDescription = "Catálogo oficial de hardware y equipos POS Yamassi: Ticketeras térmicas de 57mm y 80mm, lectores de código de barra 2D y accesorios homologados para comercio en Perú.";
+const pageDescription = "Catálogo oficial de hardware y equipos POS Yamassi: Ticketeras térmicas de 57mm y 80mm, lectores de código de barra 2D y accesorios compatibles con Yamassi para comercio en Perú.";
 
 // Precarga directa desde las APIs oficiales en tiempo de construcción (SSG Node.js)
 let products: ProductoCatalogo[] = PRODUCTOS_MOCK;
@@ -104,7 +104,7 @@ const jsonLd = {
       <div class="container relative mx-auto px-4 max-w-5xl text-center">
         <div class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-bold text-emerald-300 mb-4 shadow-inner">
           <ShoppingBag class="w-3.5 h-3.5" />
-          <span>Equipos & Hardware Homologado</span>
+          <span>Equipos & Hardware Compatible</span>
         </div>
 
         <h1 class="font-serif text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">

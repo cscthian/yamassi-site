@@ -1,6 +1,7 @@
 import CairnAgentsLanding, { type CnlPlan, type CnlTalkRequest } from "@/components/ui/cairn-agents-landing";
 import { SCREEN_CSS, ScreenCard, ScreenStage, type ScreenData } from "@/components/verticals/hero-screens";
 import { SUB_BRANDS } from "@/components/ui/sub-brand-logo";
+import { SUNAT } from "@/lib/site";
 
 const TIENDA_URL = SUB_BRANDS.market.app;
 
@@ -90,6 +91,7 @@ export const TIENDA_PLANS: CnlPlan[] = [
 ];
 
 export const TIENDA_FAQ: { q: string; a: string }[] = [
+  { q: SUNAT.faqQ, a: SUNAT.faqA },
   {
     q: "¿Tengo que comprar lectores de código de barras especiales o sirve cualquiera?",
     a: "Sirve prácticamente cualquier pistola lectora USB o inalámbrica disponible en el mercado peruano (Honeywell, Zebra, lectores genéricos de Wilson o MercadoLibre). Yamassi funciona como un teclado virtual: conectas el escáner y lee de inmediato sin instalar drivers raros.",
@@ -235,8 +237,9 @@ export default function TiendaLanding() {
       <CairnAgentsLanding
         className="cnl-tienda"
         brand="Yamassi Tienda"
-        logo={<img src="/yamassi-tienda.svg" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
-        heroMark={<img src="/yamassi-tienda.svg" alt="Yamassi Tienda" width={76} height={76} />}
+        mark="/yamassi-tienda-sm.svg"
+        logo={<img src="/yamassi-tienda-sm.svg" alt="" width={16} height={16} style={{ width: 16, height: 16, display: "block" }} />}
+        heroMark={<img src="/yamassi-tienda-sm.svg" alt="Yamassi Tienda" width={76} height={76} />}
         heroScene={(active) => (
           <ScreenStage screens={SCREENS} active={active} overlay label="Pantallas de Yamassi Tienda: caja, vencimientos, kardex y proveedores" />
         )}
@@ -251,7 +254,7 @@ export default function TiendaLanding() {
         footer={null}
         announcement={{ label: "Desde S/ 9.90 al mes · productos y ventas ilimitadas", href: "#precios" }}
         title={"Control de caja, ventas e inventario\nque protege cada sol de tu tienda"}
-        subtitle="Escaneo veloz con código de barras, control de vencimientos para no perder mercadería, kardex en tiempo real y facturación electrónica SUNAT al instante."
+        subtitle="Escaneo veloz con código de barras, control de vencimientos para no perder mercadería, kardex en tiempo real y boletas y facturas electrónicas con tu propio certificado digital."
         primaryAction={{ label: "Empezar con Yamassi gratis", href: TIENDA_URL }}
         secondaryAction={{ label: "Ver funciones del punto de venta", href: "#pos" }}
         heroNote="✓ Compatible con pistolas láser y balanzas · ✓ Carga masiva desde Excel · ✓ Modo offline incluido"
@@ -324,7 +327,7 @@ export default function TiendaLanding() {
               visual: <ScreenCard data={SCREENS[2]} />,
               tag: "Inventario & kardex valorizado",
               title: "Cada producto ubicado, cada centavo justificado",
-              text: "Se acabaron los inventarios de fin de mes que duraban días enteros. Con Yamassi tienes conteo en tiempo real, alertas de stock mínimo y kardex formal listo para SUNAT.",
+              text: "Se acabaron los inventarios de fin de mes que duraban días enteros. Con Yamassi tienes conteo en tiempo real, alertas de stock mínimo y kardex valorizado siempre al día.",
               points: [
                 { title: "Alertas automáticas de reposición (stock mínimo)", text: "Define el stock de seguridad de cada producto y Yamassi te avisará antes de que te quedes sin mercadería clave." },
                 { title: "Toma de inventario rápida con celular", text: "Usa la cámara de cualquier teléfono como pistola lectora para auditar estantes y góndolas en minutos." },

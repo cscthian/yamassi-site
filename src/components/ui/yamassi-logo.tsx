@@ -26,7 +26,7 @@ export function YamassiLogo({
   return (
     <span className={cn("flex items-center gap-2.5", className)}>
       <img
-        src="/yamassi-logo.svg"
+        src="/yamassi-logo-sm.svg"
         alt="Yamassi"
         width={36}
         height={36}

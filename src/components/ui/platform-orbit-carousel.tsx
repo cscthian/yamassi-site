@@ -21,6 +21,8 @@ export type Platform = {
   subtitle: string;
   /** Round brand mark (SVG/PNG), square. */
   image: string;
+  /** Small version of the mark for thumbnails and badges (no hairline ring). */
+  thumb?: string;
   alt?: string;
   /** Small line above the title, e.g. "Minimarkets, bodegas y retail". */
   eyebrow: string;
@@ -421,7 +423,7 @@ export function PlatformOrbitCarousel({ items, height = "100svh", heading, backd
         onKeyDown={onKeyDown}
       >
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
-        {backdrop ? <img className="pof-bd" src={backdrop} srcSet={backdropSet} sizes="100vw" alt="" width={1536} height={1024} fetchPriority="high" decoding="async" /> : null}
+        {backdrop ? <img className="pof-bd" src={backdrop} srcSet={backdropSet} sizes="100vw" alt="" width={1448} height={1086} fetchPriority="high" decoding="async" /> : null}
         {backdrop ? <div className="pof-wash" aria-hidden="true" /> : null}
         <div className="pof-glow" aria-hidden="true" />
         <div className="pof-grid" aria-hidden="true" />
@@ -498,7 +500,7 @@ export function PlatformOrbitCarousel({ items, height = "100svh", heading, backd
                 <div key={i} ref={(el) => { bodies.current[i] = el; }} className="pof-body" aria-hidden={i !== index}>
                   <div className="pof-brand">
                     <span className="pof-badge" style={{ background: d.accent }}>
-                      <img src={d.image} alt="" width={26} height={26} />
+                      <img src={d.thumb ?? d.image} alt="" width={26} height={26} />
                     </span>
                     <span className="pof-access">Acceso a tu cuenta</span>
                   </div>
@@ -534,7 +536,7 @@ export function PlatformOrbitCarousel({ items, height = "100svh", heading, backd
                 {items.map((d, i) => (
                   <div key={i} className="pof-th">
                     <button type="button" className="pof-btn" aria-current={i === index ? "true" : undefined} onClick={() => go(i)}>
-                      <img src={d.image} alt="" width={52} height={52} draggable={false} />
+                      <img src={d.thumb ?? d.image} alt="" width={52} height={52} draggable={false} />
                       <span>{d.label}</span>
                     </button>
                   </div>
