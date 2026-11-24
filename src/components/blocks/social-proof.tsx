@@ -3,9 +3,9 @@ export function SocialProof() {
     <section className="border-y border-border bg-white">
       <div className="container mx-auto grid grid-cols-2 gap-6 px-4 py-10 md:grid-cols-4">
         {[
-          { k: "+5,000", v: "negocios confían en Yamassi" },
-          { k: "100%", v: "control de ventas y caja" },
-          { k: "4.9/5", v: "en 1,280 reseñas" },
+          { k: "3", v: "sistemas: Tienda, Restobar y Odonto" },
+          { k: "100% web", v: "en PC, tablet o celular, sin instalar" },
+          { k: "Yape y Plin", v: "además de tarjetas y efectivo" },
           { k: "S/ 0", v: "plan gratuito para empezar" },
         ].map((stat) => (
           <div key={stat.v} className="text-center">

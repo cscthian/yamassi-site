@@ -121,6 +121,31 @@ function onAnchor(e: MouseEvent<HTMLAnchorElement>, url: string, done?: () => vo
   history.pushState(null, "", hash);
 }
 
+/** The logo on its own page glides back to the top (no reload) and, on the home, re-collapses the hero. */
+function onLogo(e: MouseEvent<HTMLAnchorElement>, url: string, done?: () => void) {
+  done?.();
+  const norm = (p: string) => p.replace(/\/+$/, "") || "/";
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+  if (norm(window.location.pathname) !== norm(url)) return;
+  e.preventDefault();
+  if (window.location.hash) history.pushState(null, "", window.location.pathname);
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const settle = () => window.dispatchEvent(new Event("resetSection"));
+  if (reduced || window.scrollY < 4) {
+    window.scrollTo(0, 0);
+    settle();
+    return;
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  // wait until the glide reaches the top, then collapse the hero
+  const t0 = performance.now();
+  const wait = () => {
+    if (window.scrollY < 4 || performance.now() - t0 > 2500) settle();
+    else requestAnimationFrame(wait);
+  };
+  requestAnimationFrame(wait);
+}
+
 /** Each dropdown sits centred under its own trigger. */
 const DROPDOWN =
   "ym-nav-viewport absolute left-1/2 top-full z-50 mt-3 -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-slate-900 shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] md:absolute md:left-1/2 md:top-full";
@@ -146,6 +171,8 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
   const sb = subBrandId ? SUB_BRANDS[subBrandId] : null;
   const [showSubBrand, setShowSubBrand] = useState(false);
   const accent = ACCENT[vertical] || ACCENT.home;
+  // On a sub-landing, "Iniciar sesión" goes straight to that platform, not the shared chooser.
+  const loginHref = sb ? sb.app : "/login/";
   const solid = scrolled || mobileOpen;
 
   useEffect(() => {
@@ -187,7 +214,12 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
       <div className="container mx-auto grid h-16 grid-cols-[1fr_auto] items-center gap-4 px-4 lg:grid-cols-[1fr_auto_1fr]">
         {/* Left: logo */}
         <div className="flex min-w-0 items-center">
-          <a href={sb ? sb.home + "/" : "/"} aria-label={sb ? sb.name + " inicio" : "Yamassi inicio"} className="shrink-0">
+          <a
+            href={sb ? sb.home + "/" : "/"}
+            onClick={(e) => onLogo(e, sb ? sb.home + "/" : "/", () => setMobileOpen(false))}
+            aria-label={sb ? sb.name + " inicio" : "Yamassi inicio"}
+            className="shrink-0"
+          >
             {subBrandId && sb ? (
               <span
                 className={cn(
@@ -370,7 +402,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <a href="/login/" className="ym-nav-link inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium transition-colors">
+                  <a href={loginHref} className="ym-nav-link inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium transition-colors">
                     Iniciar sesión
                   </a>
                 </NavigationMenuLink>
@@ -386,7 +418,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
         {/* Right side (phones and tablets) */}
         <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3 lg:hidden">
           <a
-            href="/login/"
+            href={loginHref}
             className={cn(
               "hidden whitespace-nowrap text-sm font-medium transition-colors sm:inline lg:hidden",
               solid ? "text-slate-600 hover:text-slate-900" : "text-white/80 hover:text-white"
@@ -475,7 +507,7 @@ export function SiteHeader({ vertical = "home", navItems }: SiteHeaderProps) {
                   </a>
                 );
               })}
-              <a href="/login/" className="ym-drop-item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium sm:hidden">
+              <a href={loginHref} className="ym-drop-item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium sm:hidden">
                 <LogIn className="h-4 w-4" style={{ color: accent.ink }} aria-hidden="true" />
                 Iniciar sesión
               </a>

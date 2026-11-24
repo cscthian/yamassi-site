@@ -1,4 +1,7 @@
 import CairnAgentsLanding, { type CnlPlan, type CnlTalkRequest } from "@/components/ui/cairn-agents-landing";
+import { SUB_BRANDS } from "@/components/ui/sub-brand-logo";
+
+const ODONTO_APP = SUB_BRANDS.odontologia.app;
 
 /* Odonto Yamassi sub-brand palette */
 const C = {
@@ -42,10 +45,10 @@ export const ODONTO_PLANS: CnlPlan[] = [
     capacity: "Hasta 2 sillones",
     badge: "Ideal para empezar",
     text: "Plan Odontólogo Independiente. Para doctores que atienden su propio consultorio o box dental privado.",
-    price: 89,
+    price: 79,
     period: "/ mes",
     featured: true,
-    action: { label: "Empezar gratis", href: "/login" },
+    action: { label: "Empezar gratis", href: ODONTO_APP },
     features: [
       { text: "2 meses gratis, sin tarjeta" },
       { text: "Odontograma digital ilimitado (adultos y niños)" },
@@ -63,9 +66,9 @@ export const ODONTO_PLANS: CnlPlan[] = [
     capacity: "Hasta 4 sillones",
     badge: "Para clínicas",
     text: "Plan Centro Odontológico. Para clínicas con recepcionista, varios doctores especialistas y alto flujo de pacientes.",
-    price: 169,
+    price: 149,
     period: "/ mes",
-    action: { label: "Empezar gratis", href: "/login" },
+    action: { label: "Empezar gratis", href: ODONTO_APP },
     features: [
       { text: "Todo lo del plan Consultorio Solo" },
       { text: "Doctores y especialistas ilimitados" },
@@ -98,12 +101,12 @@ export const ODONTO_PLANS: CnlPlan[] = [
 
 export const ODONTO_FAQ: { q: string; a: string }[] = [
   {
-    q: "¿El odontograma cumple con las exigencias del Ministerio de Salud (MINSA) y SUSALUD?",
-    a: "Sí. El odontograma digital de Yamassi está diseñado siguiendo los lineamientos de la Norma Técnica de Salud para la Gestión de la Historia Clínica del MINSA y el estándar de la Federación Dental Internacional (FDI), con código de colores oficial (rojo para patología activa y azul para tratamiento ejecutado).",
+    q: "¿En qué norma se basa el odontograma?",
+    a: "El odontograma digital de Yamassi está basado en la NTS de Historia Clínica del MINSA y usa la numeración dental de la Federación Dental Internacional (FDI), con el código de colores habitual: rojo para patología y azul para tratamiento realizado.",
   },
   {
     q: "¿Cómo se envían los recordatorios de citas por WhatsApp?",
-    a: "Desde la agenda, con un clic se abre WhatsApp (web o celular) con el mensaje de la cita listo: fecha, hora y doctor. El mensaje sale desde el WhatsApp de tu consultorio, así el paciente reconoce tu número y puede responderte directamente.",
+    a: "Desde la cita o con «Recordatorios de mañana», un clic abre WhatsApp (web o celular) con el mensaje listo: fecha, hora y doctor. Lo revisas y lo envías desde el WhatsApp de tu consultorio, así el paciente reconoce tu número. La cita queda marcada como recordada.",
   },
   {
     q: "¿Puedo subir radiografías periapicales, panorámicas y fotos intraorales?",
@@ -115,17 +118,260 @@ export const ODONTO_FAQ: { q: string; a: string }[] = [
   },
   {
     q: "¿Qué validez tienen las historias clínicas y los consentimientos informados?",
-    a: "Los consentimientos informados se generan en PDF para imprimir y firmar con el paciente, y la historia clínica queda registrada en tu cuenta, lista para consultar y descargar cuando la necesites.",
+    a: "Cada consentimiento se emite con su texto fijo y se descarga en PDF con código y huella del texto; el paciente lo firma en papel y subes la foto o el escaneo. Las atenciones de historia clínica las firma el odontólogo con su colegiatura y, una vez firmadas, solo se corrigen con «Enmendar», que deja registro.",
   },
   {
     q: "¿Qué pasa cuando terminan los 2 meses gratis?",
-    a: "Tu centro queda en solo lectura: puedes consultar y descargar toda tu información hasta que actives tu plan. La activación es manual: pagas por Yape o transferencia y activamos tu centro por 1, 3 o 12 meses.",
+    a: "Tu centro queda en solo lectura: puedes consultar toda tu información hasta que actives tu plan. La activación es manual: pagas por Yape o transferencia y activamos tu centro por 1, 3 o 12 meses.",
   },
   {
     q: "¿Puedo pasar mis pacientes de mi software anterior o de un Excel?",
     a: "Escríbenos por WhatsApp y te ayudamos a empezar con tu información. Con 2 meses de prueba tienes tiempo de sobra para cargar tus pacientes sin apuro.",
   },
 ];
+
+/* ------------------------------------------------------------------
+ * App screens for "Así de simple" and "Un día en recepción", drawn after
+ * the real Odonto Yamassi screens (Equipo, Permisos por rol, Agenda por
+ * sillón, Pacientes, Cuenta OD-xxxx, detalle de cita, recordatorio).
+ * ------------------------------------------------------------------ */
+
+const SCREENS_CSS = `
+.od-f{display:grid;gap:9px}
+.od-k{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--cnl-card-mute)}
+.od-in{display:flex;align-items:center;gap:8px;min-height:32px;padding:0 10px;border-radius:8px;background:var(--cnl-card-soft);font-size:12.5px;color:var(--cnl-card-ink);flex:1;min-width:0}
+.od-in.is-ph{color:var(--cnl-card-mute)}
+.od-in svg{width:13px;height:13px;flex:none;color:var(--cnl-card-mute)}
+.od-line{display:flex;gap:6px;align-items:center}
+.od-mini{display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 12px;border-radius:8px;font-size:12px;font-weight:700;background:#5D43F7;color:#fff;flex:none}
+.od-mini.is-soft{background:#E9E5FF;color:#402FC7}
+.od-ok-t{font-size:11px;font-weight:600;color:#047857}
+.od-box{display:grid;gap:6px;padding:9px 10px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--cnl-card-line)}
+.od-box-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.od-box-top small{font-size:10.5px;color:var(--cnl-card-mute)}
+.od-chair{display:flex;justify-content:space-between;font-size:12.5px;color:var(--cnl-card-ink);padding:3px 0;border-top:1px solid var(--cnl-card-line)}
+.od-chair:first-of-type{border-top:0}
+.od-chair small{font-size:10.5px;color:var(--cnl-card-mute);text-decoration:underline}
+.od-btn{display:flex;align-items:center;justify-content:center;gap:7px;height:34px;border-radius:99px;font-size:12.5px;font-weight:700;background:#5D43F7;color:#fff}
+.od-btn.is-wa{background:#25D366;color:#063d1c}
+.od-tabs{display:flex;flex-wrap:wrap;gap:4px}
+.od-tab{padding:4px 9px;border-radius:99px;font-size:10.5px;font-weight:600;white-space:nowrap;color:var(--cnl-card-ink);box-shadow:inset 0 0 0 1px var(--cnl-card-line)}
+.od-tab.is-on{background:#5D43F7;color:#fff;box-shadow:none}
+.od-note{padding:7px 9px;border-radius:8px;background:#EEF0FF;font-size:11px;line-height:1.45;color:#3b3f73}
+.od-cks{display:grid;gap:6px}
+.od-ck{display:grid;grid-template-columns:16px 1fr;gap:8px;align-items:start;font-size:12px;color:var(--cnl-card-ink)}
+.od-ck>i{width:15px;height:15px;margin-top:1px;border-radius:4px;box-shadow:inset 0 0 0 1.5px #b9b7d4;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:800;color:#fff}
+.od-ck.is-on>i{background:#5D43F7;box-shadow:none}
+.od-ck.is-fixed{opacity:.55}
+.od-ck small{display:block;font-size:10.5px;color:var(--cnl-card-mute)}
+.od-ck em{font-style:normal;font-size:9.5px;font-weight:600;padding:1px 5px;margin-left:4px;border-radius:4px;background:#FFF6D6;color:#92400E}
+.od-day{display:grid;grid-template-columns:36px 1fr 1fr;gap:5px;font-size:11px}
+.od-day>b{font-size:11px;font-weight:600;color:var(--cnl-card-ink);text-align:center;padding-bottom:3px;border-bottom:1px solid var(--cnl-card-line)}
+.od-t{font:500 10px/1 ui-monospace,Menlo,monospace;color:var(--cnl-card-mute);padding-top:7px}
+.od-slot{min-height:42px;padding:5px 7px;border-radius:7px;display:grid;gap:1px;align-content:start;background:#E9E5FF;box-shadow:inset 3px 0 0 #5D43F7}
+.od-slot b{font-size:11.5px;color:var(--cnl-card-ink)}
+.od-slot span{font-size:10px;color:var(--cnl-card-mute)}
+.od-slot.is-free{background:transparent;box-shadow:none;border:1px dashed var(--cnl-card-line)}
+.od-tag{justify-self:start;margin-top:2px;padding:1px 6px;border-radius:99px;font-size:9.5px;font-weight:700;font-style:normal}
+.od-tag.ok{background:#D1FAE5;color:#065F46}
+.od-tag.wait{background:#FEF3C7;color:#92400E}
+.od-bar{display:flex;flex-wrap:wrap;gap:5px}
+.od-list{display:grid;gap:6px;list-style:none;margin:0;padding:0}
+.od-list li{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:var(--cnl-card-soft);font-size:12.5px;color:var(--cnl-card-ink)}
+.od-list li>i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;flex:none;background:#5D43F7;color:#fff;font-style:normal;font-size:11px;font-weight:800}
+.od-c{text-align:center;font-size:11.5px;color:var(--cnl-card-mute)}
+.od-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.od-tbl th{padding:6px 4px;font-size:9.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--cnl-card-mute);text-align:left;background:#F3F1FF}
+.od-tbl td{padding:7px 4px;border-top:1px solid var(--cnl-card-line);color:var(--cnl-card-ink)}
+.od-tbl td code{font:500 10.5px ui-monospace,Menlo,monospace;color:var(--cnl-card-mute)}
+.od-tbl tr.is-on td{background:#F3F1FF}
+.od-tbl a{color:#5D43F7;font-weight:600}
+.od-acc{display:flex;justify-content:space-between;align-items:baseline}
+.od-acc b{font-size:15px;font-style:italic;color:var(--cnl-card-ink)}
+.od-acc span{font-size:11px;color:var(--cnl-card-mute)}
+.od-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.od-tiles div{padding:7px 7px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--cnl-card-line)}
+.od-tiles span{display:block;font-size:8.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--cnl-card-mute)}
+.od-tiles b{display:block;margin-top:2px;font:italic 700 13.5px ui-monospace,Menlo,monospace;color:var(--cnl-card-ink)}
+.od-tiles .is-due{background:#FFF6D6;box-shadow:none}
+.od-tiles .is-due b{color:#92400E}
+.od-ok{padding:6px 9px;border-radius:8px;background:#D1FAE5;color:#065F46;font-size:11.5px;font-weight:600}
+.od-who b{display:block;font-size:14px;color:var(--cnl-card-ink)}
+.od-who span{font-size:11px;color:var(--cnl-card-mute)}
+.od-st{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.od-st span{display:flex;align-items:center;justify-content:center;height:28px;border-radius:7px;font-size:11px;font-weight:500;color:var(--cnl-card-ink);box-shadow:inset 0 0 0 1px var(--cnl-card-line)}
+.od-st span.is-on{background:#5D43F7;color:#fff;box-shadow:none;font-weight:700}
+.od-wa{position:relative;padding:9px 11px 17px;border-radius:12px 12px 12px 3px;background:#DCF8C6;color:#111b21;font-size:12px;line-height:1.5}
+.od-wa small{position:absolute;right:10px;bottom:3px;font-size:9.5px;color:#667781}
+`;
+
+const IcoSearch = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </svg>
+);
+
+/** Equipo del centro: colegiatura, sillones and the invite form. */
+function CenterScreen() {
+  return (
+    <div className="od-f">
+      <span className="od-k">Número de colegiatura (COP)</span>
+      <div className="od-line"><span className="od-in">34512</span><span className="od-mini is-soft">Guardar</span></div>
+      <span className="od-ok-t">Colegiatura guardada.</span>
+      <div className="od-box">
+        <div className="od-box-top"><span className="od-k">Sillones del centro</span><small>2 de 2 sillones de tu plan</small></div>
+        <div className="od-chair"><span>Sillón 1</span><small>Desactivar</small></div>
+        <div className="od-chair"><span>Sillón 2</span><small>Desactivar</small></div>
+      </div>
+      <span className="od-k">Agregar a alguien</span>
+      <div className="od-line"><span className="od-in is-ph">recepcion@correo.com</span><span className="od-mini is-soft">Recepción ▾</span></div>
+      <span className="od-btn">Agregar</span>
+    </div>
+  );
+}
+
+const PERMS: { t: string; d: string; on?: boolean; tag?: string; fixed?: boolean }[] = [
+  { t: "Programar citas", d: "Crear, mover y cancelar citas", on: true },
+  { t: "Marcar llegadas y atendidos", d: "Llegó, en sillón, atendida, no vino", on: true },
+  { t: "Registrar y editar pacientes", d: "Alta de pacientes y su filiación", on: true },
+  { t: "Leer el contenido clínico", d: "Anamnesis, examen y diagnósticos", tag: "historia clínica" },
+  { t: "Firmar atenciones", d: "Siempre del odontólogo, con colegiatura", tag: "fijo", fixed: true },
+];
+
+/** Permisos por rol: one tab per role, grouped checkboxes. */
+function RolesScreen() {
+  return (
+    <div className="od-f">
+      <div className="od-tabs">
+        {["Administración", "Recepción", "Odontólogo", "Asistente", "Caja"].map((r) => (
+          <span key={r} className={"od-tab" + (r === "Recepción" ? " is-on" : "")}>{r}</span>
+        ))}
+      </div>
+      <p className="od-note">La persona dueña del centro tiene siempre todos los permisos, también los clínicos.</p>
+      <div className="od-cks">
+        {PERMS.map((p) => (
+          <div key={p.t} className={"od-ck" + (p.on ? " is-on" : "") + (p.fixed ? " is-fixed" : "")}>
+            <i>{p.on ? "✓" : ""}</i>
+            <span>
+              {p.t}
+              {p.tag ? <em>{p.tag}</em> : null}
+              <small>{p.d}</small>
+            </span>
+          </div>
+        ))}
+      </div>
+      <span className="od-btn">Guardar permisos de Recepción</span>
+    </div>
+  );
+}
+
+/** Agenda del día, vista por sillón. */
+function DayScreen() {
+  return (
+    <div className="od-f">
+      <div className="od-bar">
+        <span className="od-tab">Hoy</span>
+        <span className="od-tab">Ver por profesional</span>
+        <span className="od-tab is-on">Nueva cita</span>
+      </div>
+      <div className="od-day">
+        <span />
+        <b>Sillón 1</b>
+        <b>Sillón 2</b>
+        <span className="od-t">09:00</span>
+        <div className="od-slot"><b>Luis Mamani</b><span>Limpieza · Dra. Torres</span><em className="od-tag ok">Confirmada</em></div>
+        <div className="od-slot"><b>Carla Rojas</b><span>Endodoncia · Dr. Ramos</span><em className="od-tag ok">Confirmada</em></div>
+        <span className="od-t">10:00</span>
+        <div className="od-slot"><b>Sofía Huamán</b><span>Control · Dra. Torres</span><em className="od-tag wait">Programada</em></div>
+        <div className="od-slot is-free" />
+        <span className="od-t">11:00</span>
+        <div className="od-slot is-free" />
+        <div className="od-slot"><b>Jorge Quispe</b><span>Curación · Dr. Ramos</span><em className="od-tag wait">Programada</em></div>
+      </div>
+      <p className="od-c">Un profesional o un sillón no pueden tener dos citas a la vez.</p>
+    </div>
+  );
+}
+
+function ReadyScreen() {
+  return (
+    <div className="od-f">
+      <ul className="od-list">
+        <li><i>✓</i>Agenda por sillón y por profesional</li>
+        <li><i>✓</i>Pacientes con historia clínica (HC) numerada</li>
+        <li><i>✓</i>Odontograma, atenciones y consentimientos</li>
+        <li><i>✓</i>Cuentas de tratamiento y caja con arqueo</li>
+      </ul>
+      <p className="od-c">Incluido en tu plan, sin activar nada.</p>
+      <span className="od-btn">Ir a Mi jornada</span>
+    </div>
+  );
+}
+
+function SearchScreen() {
+  return (
+    <div className="od-f">
+      <span className="od-in"><IcoSearch />rosa q</span>
+      <table className="od-tbl">
+        <thead><tr><th>HC</th><th>Paciente</th><th /></tr></thead>
+        <tbody>
+          <tr className="is-on"><td><code>HC-000012</code></td><td>Rosa Quispe</td><td><a>Ver expediente</a></td></tr>
+          <tr><td><code>HC-000031</code></td><td>Rosario Quintana</td><td><a>Ver expediente</a></td></tr>
+        </tbody>
+      </table>
+      <p className="od-c">Por nombre, documento, HC o teléfono.</p>
+    </div>
+  );
+}
+
+function BalanceScreen() {
+  return (
+    <div className="od-f">
+      <div className="od-acc"><b>OD-0007</b><span>Endodoncia · Rosa Quispe</span></div>
+      <div className="od-tiles">
+        <div><span>Total acordado</span><b>S/ 450.00</b></div>
+        <div><span>Pagos recibidos</span><b>S/ 270.00</b></div>
+        <div className="is-due"><span>Saldo del acuerdo</span><b>S/ 180.00</b></div>
+      </div>
+      <table className="od-tbl">
+        <thead><tr><th>Procedimiento</th><th>Pieza</th><th>Precio</th></tr></thead>
+        <tbody>
+          <tr><td>Endodoncia</td><td>36</td><td>S/ 450.00</td></tr>
+        </tbody>
+      </table>
+      <span className="od-ok">✓ Presupuesto v1 aceptado</span>
+    </div>
+  );
+}
+
+function RescheduleScreen() {
+  return (
+    <div className="od-f">
+      <div className="od-who"><b>Rosa Quispe</b><span>Vie 10:00 · Sillón 1 · Dr. Ramos</span></div>
+      <div className="od-st">
+        <span>Confirmada</span><span>En espera</span><span>Cancelada</span>
+        <span>No asistió</span><span className="is-on">Reprogramar</span><span>En atención</span>
+      </div>
+      <div className="od-line"><span className="od-in">Jue 26/11 · 04:00 p. m.</span><span className="od-in">Sillón 2</span></div>
+      <span className="od-ok">✓ Sin cruces: el sillón y el profesional están libres</span>
+      <span className="od-btn">Guardar</span>
+    </div>
+  );
+}
+
+function WhatsappScreen() {
+  return (
+    <div className="od-f">
+      <p className="od-wa">
+        Hola Rosa, te recordamos tu cita en Consultorio Dental Sonrisa el jueves 26 de noviembre a las 04:00 p. m. con Dr. Luis Ramos. Por favor confírmanos tu asistencia respondiendo este mensaje.
+        <small>16:02</small>
+      </p>
+      <span className="od-btn is-wa">Recordar por WhatsApp</span>
+      <span className="od-ok-t">✓ Recordado hoy por Recepción</span>
+    </div>
+  );
+}
 
 /** Brand overrides on top of the landing's own tokens. */
 const THEME = `
@@ -170,7 +416,7 @@ const THEME = `
 export default function OdontoLanding() {
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: THEME }} />
+      <style dangerouslySetInnerHTML={{ __html: THEME + SCREENS_CSS }} />
       <CairnAgentsLanding
         className="cnl-odonto"
         brand="Odonto Yamassi"
@@ -185,12 +431,12 @@ export default function OdontoLanding() {
         scheme="light"
         nav={null}
         footer={null}
-        announcement={{ label: "Hasta 2 sillones · S/ 89 al mes · 2 meses gratis", href: "#precios" }}
+        announcement={{ label: "Hasta 2 sillones · S/ 79 al mes · 2 meses gratis", href: "#precios" }}
         title={"Control clínico y administrativo\npara tu consultorio dental"}
         subtitle="Odonto Yamassi es el software dental hecho en Perú: odontograma digital, historias clínicas, agenda con recordatorios por WhatsApp y caja con arqueo para tu consultorio de hasta 2 sillones."
-        primaryAction={{ label: "Empezar con Yamassi gratis", href: "/login" }}
+        primaryAction={{ label: "Empezar con Yamassi gratis", href: ODONTO_APP }}
         secondaryAction={{ label: "Conocer el odontograma digital", href: "#odontograma" }}
-        heroNote="✓ Conforme a norma técnica MINSA · ✓ Recordatorios por WhatsApp · ✓ Soporte local"
+        heroNote="✓ Basado en la NTS de Historia Clínica del MINSA · ✓ Recordatorios por WhatsApp · ✓ Soporte local"
         liveCalls={null}
         images={{
           hero: "/img/odonto-yamassi-hero.webp",
@@ -238,13 +484,13 @@ export default function OdontoLanding() {
           items: [
             {
               id: "odontograma",
-              tag: "Odontograma digital MINSA",
-              title: "Odontograma interactivo conforme a la norma técnica",
-              text: "Registra hallazgos por cada cara dental en segundos: caries (rojo), tratamientos realizados (azul), endodoncias, implantes, sellantes y extracciones con la simbología oficial del Colegio Odontológico del Perú (COP) y MINSA.",
+              tag: "Odontograma digital",
+              title: "Odontograma interactivo basado en la NTS del MINSA",
+              text: "Marca cada pieza por capas (caries, obturaciones, corona, prótesis, raíz y periodonto) o cara por cara. Rojo para lo que requiere tratamiento, azul para lo tratado y gris para piezas ausentes.",
               points: [
-                { title: "Odontograma inicial vs. odontograma de evolución", text: "Visualiza el estado con el que llegó el paciente y compáralo con el resultado final del tratamiento." },
-                { title: "Odontograma para adultos y odontopediatría", text: "Cambia en un clic entre dentición permanente (32 piezas) y dentición temporal (20 piezas de leche). Ilimitado en todos los planes." },
-                { title: "Del odontograma al presupuesto", text: "Las piezas a tratar alimentan la cuenta de tratamiento y el presupuesto del paciente, sin doble digitación." },
+                { title: "Evolución con copias fechadas", text: "Cada control guarda una copia de cómo estaba la boca para compararla con el estado actual. Nada se pierde." },
+                { title: "Adultos, niños y dentición mixta", text: "Permanente, primaria, mixta o edéntulo, con numeración FDI, Universal o Palmer. Ilimitado en todos los planes." },
+                { title: "Del odontograma al presupuesto", text: "Las piezas a tratar alimentarán la cuenta de tratamiento y el presupuesto del paciente, sin doble digitación.", soon: true },
               ],
             },
             {
@@ -253,8 +499,8 @@ export default function OdontoLanding() {
               title: "Menos ausentismo con recordatorios por WhatsApp",
               text: "Las citas que se cancelan a última hora son dinero perdido para tu clínica. Desde la agenda envías el recordatorio con un clic, desde el WhatsApp de tu consultorio (web o celular).",
               points: [
-                { title: "Agenda por sillón y por odontólogo", text: "Tus 2 sillones organizados por doctor (ortodoncista, endodoncista, cirujano) para nunca cruzar horarios." },
-                { title: "Recordatorio en 1 clic", text: "El mensaje sale con fecha, hora y doctor de la cita, listo para enviar al paciente." },
+                { title: "Agenda por sillón y por profesional", text: "Cambias de vista en un clic. Un profesional o un sillón no pueden tener dos citas a la vez." },
+                { title: "Recordatorios de mañana", text: "Un botón por paciente abre WhatsApp con fecha, hora y doctor; la cita queda marcada como recordada." },
                 { title: "Crece cuando lo necesites", text: "Empiezas con 2 sillones en Consultorio Solo; si tu clínica crece, pasas a 4 sillones o a varias sedes." },
               ],
             },
@@ -264,9 +510,9 @@ export default function OdontoLanding() {
               title: "Expediente clínico seguro y consentimientos",
               text: "Dile adiós a los archivadores de cartón. Toda la información médica y legal de tus pacientes en un solo lugar, con acceso desde cualquier dispositivo.",
               points: [
-                { title: "Anamnesis completa", text: "Alergias a penicilina o anestésicos, diabetes, hipertensión y antecedentes médicos relevantes." },
-                { title: "Consentimiento informado", text: "Generado en PDF para imprimir y firmar en cirugías, endodoncias e implantes." },
-                { title: "Tus historias siempre son tuyas", text: "Consulta y descarga toda la información de tus pacientes cuando lo necesites." },
+                { title: "Atenciones firmadas con tu colegiatura", text: "Anamnesis, signos vitales, diagnóstico CIE-10 y recetas. Lo firmado no se edita: se corrige con Enmendar, que deja registro." },
+                { title: "Consentimientos informados", text: "11 modelos redactados sobre la Ley N.° 29414: emites, descargas el PDF, el paciente firma en papel y subes la foto o el escaneo." },
+                { title: "Tus historias siempre son tuyas", text: "Consulta toda la información de tus pacientes cuando lo necesites, desde cualquier dispositivo." },
                 { title: "Radiografías y fotos en la nube", text: "Periapicales, panorámicas y fotos del antes/después directamente en la ficha.", soon: true },
               ],
             },
@@ -276,8 +522,8 @@ export default function OdontoLanding() {
               title: "Presupuestos claros y caja en orden",
               text: "Arma presupuestos por paciente, registra cobros, adelantos y devoluciones, y cierra el día con arqueo. Cada pago queda ligado a la cuenta de tratamiento.",
               points: [
-                { title: "Cuentas de tratamiento por paciente", text: "El paciente abona por cita conforme avanza el tratamiento y ves su saldo al instante." },
-                { title: "Caja con arqueo", text: "Cobros, adelantos y devoluciones con cierre diario. En Clínica Dental Pro, control de saldos." },
+                { title: "Cuentas de tratamiento por paciente", text: "Servicios por pieza, presupuesto con versiones aceptadas, adelantos y cobros: ves el saldo al instante." },
+                { title: "Caja con arqueo", text: "Al cerrar comparas el efectivo esperado con el contado. Yape, Plin, tarjeta y transferencias se reportan aparte." },
                 { title: "Cuotas y liquidación de comisiones", text: "Planes de pago, comisiones de especialistas y pagos a laboratorios dentales.", soon: true },
                 { title: "Boletas y facturas electrónicas SUNAT", text: "Comprobantes electrónicos por servicios odontológicos.", soon: true },
               ],
@@ -290,56 +536,30 @@ export default function OdontoLanding() {
           title: "Odonto Yamassi",
           text: "Configura tu centro en minutos, define quién hace qué y empieza a atender. Todo desde el navegador.",
           steps: [
-            { title: "Crea tu centro", panel: "create", text: "Elige tu tipo de centro y agrega tus tratamientos y precios para armar presupuestos desde el primer día." },
-            { title: "Define roles y permisos", panel: "policies", text: "Recepción, asistente y caja ven solo lo que les toca. Tú decides quién agenda, quién cobra y quién ve las historias." },
-            { title: "Organiza tu agenda", panel: "simulate", text: "Mira cómo se llena una semana de citas por sillón y qué pacientes faltan confirmar." },
-            { title: "Empieza a atender", panel: "deploy", text: "Activa los módulos que necesitas y atiende a tu primer paciente hoy mismo." },
-          ],
-          policies: [
-            { id: "agenda", title: "Recepción agenda y reprograma citas", text: "Con recordatorios por WhatsApp en un clic.", on: true },
-            { id: "historia", title: "Asistente ve historias y odontograma", text: "Para preparar cada atención.", on: true },
-            { id: "caja", title: "Caja registra cobros y adelantos", text: "Con arqueo al cerrar el día.", on: true },
-            { id: "devolucion", title: "Devoluciones con aprobación del doctor", text: "Para que nada salga de caja sin aviso.", on: false },
-          ],
-          personas: ["Primera vez", "Control", "Niño", "Urgencia", "Tratamiento largo"],
-          intents: ["Limpieza", "Curación", "Endodoncia", "Ortodoncia", "Extracción", "Blanqueamiento", "Evaluación", "Presupuesto"],
-          channels: [
-            { id: "agenda", label: "Agenda", detail: "Citas por sillón", icon: "globe", on: true },
-            { id: "whatsapp", label: "Recordatorios por WhatsApp", detail: "Desde el WhatsApp de tu consultorio", icon: "whats", on: true },
-            { id: "historias", label: "Historias clínicas", detail: "Odontograma adultos y niños", icon: "doc", on: true },
-            { id: "caja", label: "Caja", detail: "Cobros, adelantos y arqueo", icon: "shield", on: false },
-          ],
-          samples: [
-            { name: "lista-de-precios.xlsx", size: 42000 },
-            { name: "consentimiento-endodoncia.pdf", size: 186000 },
-            { name: "logo-consultorio.png", size: 96000 },
+            { title: "Registra tu centro", panel: "create", head: "Equipo del centro", screen: <CenterScreen />, text: "Registra tu colegiatura (COP), agrega tus sillones e invita a tu equipo: cada persona entra con su propio correo." },
+            { title: "Define roles y permisos", panel: "policies", head: "Permisos por rol", screen: <RolesScreen />, text: "Administración, recepción, odontólogo, asistente y caja: marcas qué puede hacer cada rol. Firmar atenciones es siempre del odontólogo, y cada cambio queda registrado." },
+            { title: "Organiza tu día", panel: "simulate", head: "Agenda del día", screen: <DayScreen />, text: "Tu día por sillón y por profesional, sin cruces: el sistema avisa si una cita choca con otra." },
+            { title: "Empieza a atender", panel: "deploy", head: "Tu centro está listo", screen: <ReadyScreen />, text: "Todo listo desde el primer día: agenda, pacientes, odontograma, historia clínica, cuentas y caja ya vienen incluidos en tu plan." },
           ],
         }}
-        call={{
+        call={null}
+        flow={{
           kicker: "Un día en recepción",
           title: "Cada paciente,\ncon su historia a la mano.",
-          text: "Una llamada de consultorio, de principio a fin. Recepción ve el tratamiento, el saldo y la agenda sin pedirle al paciente que repita nada.",
-          data: {
-            caller: "Rosa Quispe",
-            agent: "Recepción",
-            topic: "Llamada entrante",
-            memory: ["Paciente desde 2024", "Prefiere citas por la tarde"],
-            outcome: "Cita reprogramada · recordatorio listo para WhatsApp",
-            lines: [
-              { who: "caller", mood: -0.5, text: "Hola, tengo cita mañana a las 10 pero no voy a poder llegar. ¿Me la pueden mover?" },
-              { who: "agent", mood: -0.25, memory: "Endodoncia · 2.ª sesión", text: "Claro, señora Rosa. Veo que es su segunda sesión de endodoncia. ¿Le acomoda por la tarde, como siempre?" },
-              { who: "caller", mood: -0.05, text: "Sí, mejor en la tarde. ¿Y cuánto me falta pagar del tratamiento?" },
-              { who: "agent", mood: 0.45, memory: "Saldo del tratamiento · S/ 180", text: "Le quedan 180 soles. Le dejo la cita el jueves a las 4 en el sillón 2 y le envío el recordatorio por WhatsApp." },
-              { who: "caller", mood: 0.85, text: "Perfecto, muchas gracias. Así ya no me olvido." },
-            ],
-          },
+          text: "Una paciente pide mover su cita. Recepción la encuentra, ve su saldo, la reprograma sin cruces y le envía el recordatorio, sin pedirle que repita nada.",
+          steps: [
+            { title: "Busca al paciente", head: "Pacientes", screen: <SearchScreen />, text: "Por nombre, documento, número de historia clínica (HC) o teléfono." },
+            { title: "Revisa su saldo", head: "Cuenta de tratamiento", screen: <BalanceScreen />, text: "Su cuenta de tratamiento muestra lo acordado, lo pagado y el saldo, al instante." },
+            { title: "Reprograma la cita", head: "Reprogramar cita", screen: <RescheduleScreen />, text: "Desde el detalle de la cita: nuevo horario y sillón, sin cruces con otras citas." },
+            { title: "Envía el recordatorio", head: "Recordatorio por WhatsApp", screen: <WhatsappScreen />, text: "Un clic abre WhatsApp con el mensaje listo; lo envías desde el número de tu consultorio y la cita queda marcada como recordada." },
+          ],
         }}
         stats={{
           kicker: "Sin letra chica",
           title: "Tu consultorio de 2 sillones,\ncompleto desde el día uno.",
           items: [
             { value: 2, label: "sillones incluidos en el plan Consultorio Solo" },
-            { value: 89, prefix: "S/ ", label: "al mes, con todo lo esencial del consultorio" },
+            { value: 79, prefix: "S/ ", label: "al mes, con todo lo esencial del consultorio" },
             { value: 60, label: "días de prueba gratis, sin tarjeta" },
             { value: 0, prefix: "S/ ", label: "para empezar: activas tu plan solo si continúas" },
           ],
@@ -350,7 +570,7 @@ export default function OdontoLanding() {
           text: "2 meses gratis en cualquier plan, sin contratos forzosos. Si no continúas, tus historias clínicas siguen siendo tuyas.",
           soonLabel: "Próximamente",
           plans: ODONTO_PLANS,
-          note: "Al terminar la prueba, tu centro queda en solo lectura: puedes consultar y descargar todo hasta activar tu plan. Activas pagando por Yape o transferencia.",
+          note: "Al terminar la prueba, tu centro queda en solo lectura: puedes consultar toda tu información hasta activar tu plan. Activas pagando por Yape o transferencia.",
         }}
         faq={{
           kicker: "Preguntas frecuentes",
@@ -364,7 +584,7 @@ export default function OdontoLanding() {
           title: "Digitaliza tu clínica dental hoy.\nTus pacientes lo notarán.",
           text: "Únete a los odontólogos y clínicas del Perú que profesionalizan su atención, reducen faltas a citas y ordenan sus finanzas con Yamassi.",
           action: "Hablar con un asesor",
-          assurances: ["Sin tarjeta de crédito", "Soporte en Perú", "Norma técnica MINSA"],
+          assurances: ["Sin tarjeta de crédito", "Soporte en Perú", "Basado en la NTS del MINSA"],
         }}
         volumes={["1–2 sillones", "3–4 sillones", "2+ sedes"]}
         onTalk={onTalk}

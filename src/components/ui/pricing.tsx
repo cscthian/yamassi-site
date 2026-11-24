@@ -4,6 +4,7 @@ import NumberFlow from "@number-flow/react";
 import { CheckCheck, Clock3, MoveRight, PhoneCall, Zap } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { SUB_BRANDS } from "@/components/ui/sub-brand-logo";
 import { TimelineContent } from "@/components/ui/timeline-animation";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
 
@@ -99,7 +100,7 @@ const verticals: Vertical[] = [
         annual: 11.9,
         unit: "/ mes + IGV",
         note: "Plan gratuito disponible",
-        cta: { label: "Empieza gratis", href: "/login", icon: "arrow" },
+        cta: { label: "Empieza gratis", href: SUB_BRANDS.market.app, icon: "arrow" },
         features: [
           { text: "POS ultra rápido con lector de código de barras" },
           { text: "Control de inventario, stock y alertas de vencimiento" },
@@ -123,7 +124,7 @@ const verticals: Vertical[] = [
         annual: 13.5,
         unit: "/ mes + IGV",
         note: "Plan gratuito disponible",
-        cta: { label: "Empieza gratis", href: "/login", icon: "arrow" },
+        cta: { label: "Empieza gratis", href: SUB_BRANDS.restaurantes.app, icon: "arrow" },
         features: [
           { text: "Comandas digitales instantáneas a cocina y barra" },
           { text: "Mapa interactivo de mesas y división de cuentas" },
@@ -143,10 +144,10 @@ const verticals: Vertical[] = [
       {
         name: "Consultorio Solo",
         hint: "Hasta 2 sillones · para doctores con su propio consultorio o box dental",
-        monthly: 89,
+        monthly: 79,
         unit: "/ mes",
         note: "2 meses gratis, sin tarjeta",
-        cta: { label: "Empezar gratis", href: "/login", icon: "arrow" },
+        cta: { label: "Empezar gratis", href: SUB_BRANDS.odontologia.app, icon: "arrow" },
         features: [
           { text: "Odontograma digital ilimitado (adultos y niños)" },
           { text: "Historias clínicas y consentimientos informados (PDF)" },
@@ -160,10 +161,10 @@ const verticals: Vertical[] = [
       {
         name: "Clínica Dental Pro",
         hint: "Hasta 4 sillones · el más elegido por clínicas con varios especialistas",
-        monthly: 169,
+        monthly: 149,
         unit: "/ mes",
         note: "2 meses gratis, sin tarjeta",
-        cta: { label: "Empezar gratis", href: "/login", icon: "arrow" },
+        cta: { label: "Empezar gratis", href: SUB_BRANDS.odontologia.app, icon: "arrow" },
         features: [
           { text: "Todo lo del plan Consultorio Solo" },
           { text: "Doctores y especialistas ilimitados" },

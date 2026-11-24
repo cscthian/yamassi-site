@@ -46,7 +46,15 @@ export type CnlLogo = { name: string; style?: CnlLogoStyle; color?: string; src?
 
 export type CnlPanel = "create" | "policies" | "simulate" | "deploy"
 
-export type CnlStep = { title: string; text: string; panel: CnlPanel }
+export type CnlStep = {
+  title: string
+  text: string
+  panel: CnlPanel
+  /** Drawn in the card instead of the built-in demo panel (e.g. a real app screen). */
+  screen?: React.ReactNode
+  /** Card title for this step; defaults to the panel heading. */
+  head?: string
+}
 
 export type CnlPolicy = { id: string; title: string; text: string; on?: boolean }
 
@@ -60,11 +68,12 @@ export type CnlCanvas = {
   title: string
   text: string
   steps: CnlStep[]
-  policies: CnlPolicy[]
-  personas: string[]
-  intents: string[]
-  channels: CnlChannel[]
-  samples: CnlSample[]
+  /** Only needed by the built-in demo panels. */
+  policies?: CnlPolicy[]
+  personas?: string[]
+  intents?: string[]
+  channels?: CnlChannel[]
+  samples?: CnlSample[]
 }
 
 export type CnlLine = {
@@ -86,6 +95,9 @@ export type CnlCall = {
   memory?: string[]
   outcome?: string
 }
+
+/** A short real workflow, one card per step with its app screen. */
+export type CnlFlow = { kicker?: string; title: string; text?: string; steps: { title: string; text: string; head: string; screen: React.ReactNode }[] }
 
 export type CnlStat = {
   value: number
@@ -263,6 +275,8 @@ export interface CairnAgentsLandingProps {
   logos?: CnlLogo[] | null
   canvas?: CnlCanvas | null
   call?: { kicker?: string; title: string; text?: string; data: CnlCall } | null
+  /** Shown instead of the call demo. */
+  flow?: CnlFlow | null
   stats?: { kicker?: string; title?: string; items: CnlStat[] } | null
   quotes?: { kicker?: string; items: CnlQuote[] } | null
   cta?: { kicker?: string; title: string; text?: string; action?: string; assurances?: string[] } | null
@@ -533,14 +547,8 @@ function nextIndex(i: number, key: string, n: number) {
 }
 
 /** Which of n steps a pinned scroll progress (0–1) is on. */
-function stepAt(p: number, n: number) {
-  return clamp(Math.floor(clamp(p, 0, 1) * n), 0, n - 1)
-}
-
-/** How far through step i that progress is (0–1). */
-function stepLocal(p: number, n: number, i: number) {
-  return clamp(p * n - i, 0, 1)
-}
+/** Scroll (in vh) the sticky "how it works" section spends on each step after the first. */
+const CANVAS_STEP_VH = 70
 
 function sensitivityLabel(v: number, labels: [string, string, string]) {
   if (v < 34) return labels[0]
@@ -838,14 +846,30 @@ const CNL_CSS = `
 .cnl-step-btn:hover,.cnl-steps li.is-on .cnl-step-btn{color:var(--cnl-ink)}
 .cnl-step-num{font:400 13px/1 var(--cnl-mono);color:var(--cnl-faint);transition:color .3s}
 .cnl-steps li.is-on .cnl-step-num{color:var(--cnl-accent)}
-.cnl-step-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--cnl-ease)}
-.cnl-step-body>div{overflow:hidden}
-.cnl-step-body p{padding:0 0 20px 0;font-size:13.5px;line-height:1.85;color:var(--cnl-mute);max-width:42ch;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .5s var(--cnl-ease)}
-.cnl-steps li.is-on .cnl-step-body{grid-template-rows:1fr}
-.cnl-steps li.is-on .cnl-step-body p{opacity:1;transform:none;transition-delay:.12s}
+.cnl-step-body p{padding:0 0 16px 0;font-size:13.5px;line-height:1.7;color:var(--cnl-mute);max-width:42ch;opacity:.45;transition:opacity .3s}
+.cnl-steps li.is-on .cnl-step-body p{opacity:1}
+.cnl-steps .cnl-step-btn{padding:14px 0 8px}
 .cnl-canvas-vista{height:620px}
-.cnl-canvas.is-pinned .cnl-canvas-pin{min-height:100vh;min-height:100svh;align-content:center;padding-top:96px;padding-bottom:40px}
-.cnl-canvas.is-pinned .cnl-canvas-vista{height:min(820px,calc(100svh - 180px));min-height:560px}
+/* desktop: the copy and the card stay in view (sticky) while 4 markers scroll past the middle of the screen */
+.cnl-canvas.is-pinned .cnl-canvas-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;padding-top:88px;padding-bottom:32px}
+.cnl-canvas.is-pinned .cnl-canvas-vista{height:min(760px,calc(100svh - 150px));min-height:520px}
+.cnl-canvas-marks{position:absolute;inset:0;pointer-events:none;visibility:hidden}
+.cnl-canvas-marks i{position:absolute;left:0;right:0}
+.cnl-panel-in{animation:cnl-panel-in .4s var(--cnl-ease) both}
+@keyframes cnl-panel-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* phones, tablets and no-JS: the four steps as plain cards */
+.cnl-canvas-static{max-width:1180px;margin:0 auto;padding:12px 24px 40px}
+.cnl-canvas-static .cnl-canvas-text{max-width:60ch}
+.cnl-ccards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;margin-top:32px;list-style:none;padding:0}
+.cnl-ccard{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:18px;background:var(--cnl-soft)}
+.cnl-ccard h4{display:flex;align-items:baseline;gap:10px;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.cnl-ccard h4 .cnl-step-num{color:var(--cnl-accent)}
+.cnl-ccard>p{font-size:13.5px;line-height:1.7;color:var(--cnl-mute)}
+.cnl-flow{max-width:1040px;margin:0 auto;padding:120px 24px 30px}
+.cnl-flow-head{text-align:center;max-width:760px;margin:0 auto}
+.cnl-flow-text{margin:18px auto 0;max-width:58ch;font-size:15px;line-height:1.75;color:var(--cnl-mute)}
+.cnl-flow-cards{grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));margin-top:44px}
+.cnl-ccard .cnl-app{position:relative;left:auto;top:auto;transform:none;width:100%;margin-top:auto;box-shadow:0 18px 40px -26px rgba(0,0,0,.45),0 0 0 1px rgba(0,0,0,.05)}
 
 .cnl-app{position:absolute;left:50%;top:50%;width:min(390px,calc(100% - 28px));transform:translate(-50%,-50%);background:var(--cnl-card);color:var(--cnl-card-ink);border-radius:14px;box-shadow:0 40px 90px -30px rgba(0,0,0,.65),0 0 0 1px rgba(0,0,0,.05)}
 .cnl-app-head{position:relative;display:flex;align-items:center;justify-content:center;height:50px;padding:0 14px;border-bottom:1px solid var(--cnl-card-line)}
@@ -1972,69 +1996,57 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
   const steps = data.steps
   const n = steps.length
   const uid = "cnl" + React.useId().replace(/[^a-zA-Z0-9]/g, "")
+  // One source of truth: `active` drives the highlighted step, the card and the counter.
   const [active, setActive] = React.useState(0)
+  // false on the server, on phones/tablets and without JS: the steps render as static cards.
   const [pinned, setPinned] = React.useState(false)
   const sec = React.useRef(null as HTMLElement | null)
-  const pin = React.useRef(null as HTMLDivElement | null)
-  const bodyRef = React.useRef(null as HTMLDivElement | null)
-  const trig = React.useRef(null as ScrollTrigger | null)
-  const prevH = React.useRef(0)
+  const marks = React.useRef([] as (HTMLElement | null)[])
 
   // the app's own state, shared by every panel
   const [mode, setMode] = React.useState(0)
   const [files, setFiles] = React.useState([] as CnlFile[])
   const [over, setOver] = React.useState(false)
-  const [policies, setPolicies] = React.useState(() => data.policies.map((p) => ({ ...p, on: p.on !== false })))
+  const [policies, setPolicies] = React.useState(() => (data.policies || []).map((p) => ({ ...p, on: p.on !== false })))
   const [sensitivity, setSensitivity] = React.useState(45)
-  const [personas, setPersonas] = React.useState(() => data.personas.slice(0, 2))
+  const [personas, setPersonas] = React.useState(() => (data.personas || []).slice(0, 2))
   const [sim, setSim] = React.useState({ state: "idle", done: 0, runs: 0, result: null as CnlSimResult | null })
-  const [channels, setChannels] = React.useState(() => data.channels.map((c) => ({ ...c, on: c.on !== false })))
+  const [channels, setChannels] = React.useState(() => (data.channels || []).map((c) => ({ ...c, on: c.on !== false })))
   const [live, setLive] = React.useState(0)
   const fileId = React.useRef(1)
 
-  useIso(() => {
-    const s = sec.current
-    const p = pin.current
-    if (!s || !p) return
-    const mm = gsap.matchMedia()
-    mm.add("(min-width: 1024px)", () => {
-      setPinned(true)
-      const st = ScrollTrigger.create({
-        trigger: s,
-        start: "top top",
-        end: () => "+=" + Math.round(window.innerHeight * n * 0.5),
-        pin: p,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const k = stepAt(self.progress, n)
-          setActive((a) => (a === k ? a : k))
-          s.style.setProperty("--cnl-sp", String(stepLocal(self.progress, n, k)))
-        },
-      })
-      trig.current = st
-      return () => {
-        trig.current = null
-        setPinned(false)
-        s.style.removeProperty("--cnl-sp")
-      }
-    })
-    return () => mm.revert()
-  }, [n])
+  // sticky mode only on wide screens
+  React.useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)")
+    const on = () => setPinned(mq.matches)
+    on()
+    mq.addEventListener("change", on)
+    return () => mq.removeEventListener("change", on)
+  }, [])
 
-  // the card morphs between panels: height tweens, content re-enters
-  useIso(() => {
-    const b = bodyRef.current
-    if (!b) return
-    const h = b.offsetHeight
-    const from = prevH.current
-    prevH.current = h
-    if (reduced || !from) return
-    const ctx = gsap.context(() => {
-      if (Math.abs(from - h) > 1) gsap.fromTo(b, { height: from }, { height: h, duration: 0.7, ease: "expo.inOut", clearProps: "height" })
-      gsap.fromTo(b.querySelectorAll("[data-st]"), { autoAlpha: 0, y: 14, filter: "blur(6px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.6, stagger: 0.045, delay: 0.1, ease: "power3.out", clearProps: "filter,transform,opacity,visibility" })
-    }, b)
-    return () => ctx.revert()
-  }, [active])
+  // the section changes height when it switches layout: re-measure every scroll animation below it
+  React.useEffect(() => {
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh())
+    return () => cancelAnimationFrame(id)
+  }, [pinned])
+
+  // whichever marker crosses the middle of the screen is the active step — works at any scroll speed,
+  // with anchor jumps and when scrolling back up
+  React.useEffect(() => {
+    if (!pinned) return
+    const els = marks.current.slice(0, n).filter(Boolean) as HTMLElement[]
+    if (!els.length) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.k) || 0)
+        })
+      },
+      { rootMargin: "-49% 0px -50% 0px", threshold: 0 },
+    )
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [pinned, n])
 
   // indexing progress for uploaded files
   React.useEffect(() => {
@@ -2087,14 +2099,15 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
     return () => window.clearTimeout(id)
   }, [live, reduced])
 
+  // scroll budget per step (in vh) and the length of each marker's stretch
+  const seg = n > 1 ? ((n - 1) * CANVAS_STEP_VH) / n : 0
   const choose = (k: number) => {
-    const t = trig.current
-    if (t) {
-      const y = t.start + (t.end - t.start) * ((k + 0.12) / n)
-      window.scrollTo({ top: y, behavior: reduced ? "auto" : "smooth" })
-      return
-    }
     setActive(k)
+    const s = sec.current
+    if (!pinned || !s) return
+    const top = s.getBoundingClientRect().top + window.scrollY
+    const y = top + (k === 0 ? 0 : ((k + 0.5) * seg * window.innerHeight) / 100)
+    window.scrollTo({ top: y, behavior: reduced ? "auto" : "smooth" })
   }
 
   const addFiles = (list: { name: string; size: number }[]) => {
@@ -2106,7 +2119,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
     const result = simulateCalls(500, {
       seed: 7 + sim.runs * 101,
       personas,
-      intents: data.intents,
+      intents: data.intents || [],
       policies: policies.filter((p) => p.on).length,
       sensitivity,
     })
@@ -2120,7 +2133,6 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
     { label: cp.centerTabs[2], icon: "multi" as CnlIconName },
   ]
   const step = steps[active] || steps[0]
-  const panel = step ? step.panel : "create"
   const heads = cp.heads
   const t = sim.result ? tally(sim.result.calls, sim.done) : { done: 0, resolved: 0, handoff: 0, flagged: 0 }
   const feed = sim.result ? sim.result.calls.slice(Math.max(0, t.done - 4), t.done).reverse() : []
@@ -2128,9 +2140,12 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
   const checks = [cp.checks[0], "Cargando " + Math.max(1, files.length) + " " + cp.checkDocs + (files.length === 1 ? "" : "s"), cp.checks[1], cp.checks[2]]
   const lines = splitTitle(data.heading || "")
 
-  let content: React.ReactNode = null
+  const panelHead = (st: CnlStep) => st.head || heads[st.panel]
+  const renderPanel = (st: CnlStep): React.ReactNode => {
+  if (st.screen) return st.screen
+  const panel = st.panel
   if (panel === "create")
-    content = (
+    return (
       <>
         <div className="cnl-seg" role="tablist" aria-label={cp.centerLabel} style={{ "--cnl-i": mode } as React.CSSProperties} data-st="">
           {tabs.map((tb, k) => (
@@ -2224,14 +2239,14 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
             ))}
           </ul>
         ) : (
-          <button className="cnl-sample" data-st="" onClick={() => addFiles(data.samples)}>
+          <button className="cnl-sample" data-st="" onClick={() => addFiles(data.samples || [])}>
             Usar archivos de ejemplo
           </button>
         )}
       </>
     )
-  else if (panel === "policies")
-    content = (
+  if (panel === "policies")
+    return (
       <>
         {policies.map((p) => (
           <div key={p.id} className="cnl-row" data-st="">
@@ -2254,8 +2269,8 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
         </p>
       </>
     )
-  else if (panel === "simulate")
-    content = (
+  if (panel === "simulate")
+    return (
       <>
         <div className="cnl-lbl" data-st="" style={{ marginTop: 0 }}>
           <b>{cp.personasTitle}</b>
@@ -2314,8 +2329,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
         </ul>
       </>
     )
-  else
-    content = (
+  return (
       <>
         {channels.map((c) => (
           <div key={c.id} className="cnl-row" data-st="">
@@ -2354,6 +2368,7 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
         ) : null}
       </>
     )
+  }
 
   return (
     <>
@@ -2377,53 +2392,104 @@ function Canvas({ data, image, tones, reduced }: { data: CnlCanvas; image?: stri
           </h2>
         </section>
       ) : null}
-      <section ref={sec} className={"cnl-canvas" + (pinned ? " is-pinned" : "")} data-sec="product">
-        <div ref={pin} className="cnl-canvas-pin">
-          <div className="cnl-canvas-copy">
-            <div className="cnl-canvas-name" data-reveal="">
+      {pinned ? (
+        <section
+          ref={sec}
+          className="cnl-canvas is-pinned"
+          data-sec="product"
+          style={{ height: "calc(100vh + " + (n - 1) * CANVAS_STEP_VH + "vh)" }}
+        >
+          {/* one marker per step; the one crossing the middle of the screen sets `active` */}
+          <div className="cnl-canvas-marks" aria-hidden="true">
+            {steps.map((st, k) => (
+              <i
+                key={st.title}
+                ref={(el) => {
+                  marks.current[k] = el
+                }}
+                data-k={k}
+                style={{
+                  top: k === 0 ? 0 : "calc(50vh + " + k * seg + "vh)",
+                  ...(k === n - 1 ? { bottom: 0 } : { height: k === 0 ? "calc(50vh + " + seg + "vh)" : seg + "vh" }),
+                }}
+              />
+            ))}
+          </div>
+          <div className="cnl-canvas-pin">
+            <div className="cnl-canvas-copy">
+              <div className="cnl-canvas-name">
+                <span className="cnl-orb" aria-hidden="true" />
+                <h3>{data.title}</h3>
+              </div>
+              <p className="cnl-canvas-text">{data.text}</p>
+              <ol className="cnl-steps">
+                {steps.map((st, k) => (
+                  <li key={st.title} className={k === active ? "is-on" : ""}>
+                    <span className="cnl-step-bar" aria-hidden="true">
+                      <i />
+                    </span>
+                    <button className="cnl-step-btn" aria-current={k === active ? "step" : undefined} aria-controls={uid + "-app"} onClick={() => choose(k)}>
+                      <span className="cnl-step-num">{String(k + 1).padStart(2, "0")}</span>
+                      {st.title}
+                    </button>
+                    <div className="cnl-step-body">
+                      <p>{st.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <Vista className="cnl-canvas-vista" src={image} tones={tones}>
+              <div className="cnl-app" id={uid + "-app"} role="region" aria-live="polite" aria-label={data.title + ": " + panelHead(step)}>
+                <div className="cnl-app-head">
+                  <span className="cnl-orb is-sm" aria-hidden="true" />
+                  <span className="cnl-app-title" key={"h" + active}>
+                    {panelHead(step)}
+                  </span>
+                  <span className="cnl-app-step">
+                    {active + 1}/{n}
+                  </span>
+                </div>
+                {/* keyed by step: remounts and fades in; the CSS animation always ends visible */}
+                <div className={"cnl-app-body" + (reduced ? "" : " cnl-panel-in")} key={"b" + active}>
+                  {renderPanel(step)}
+                </div>
+              </div>
+            </Vista>
+          </div>
+        </section>
+      ) : (
+        <section ref={sec} className="cnl-canvas" data-sec="product">
+          <div className="cnl-canvas-static">
+            <div className="cnl-canvas-name">
               <span className="cnl-orb" aria-hidden="true" />
               <h3>{data.title}</h3>
             </div>
-            <p className="cnl-canvas-text" data-reveal="">
-              {data.text}
-            </p>
-            <ol className="cnl-steps" data-reveal="">
+            <p className="cnl-canvas-text">{data.text}</p>
+            <ol className="cnl-ccards">
               {steps.map((st, k) => (
-                <li key={st.title} className={k === active ? "is-on" : ""}>
-                  <span className="cnl-step-bar" aria-hidden="true">
-                    <i />
-                  </span>
-                  <button className="cnl-step-btn" aria-expanded={k === active} aria-controls={uid + "-app"} onClick={() => choose(k)}>
+                <li key={st.title} className="cnl-ccard">
+                  <h4>
                     <span className="cnl-step-num">{String(k + 1).padStart(2, "0")}</span>
                     {st.title}
-                  </button>
-                  <div className="cnl-step-body">
-                    <div>
-                      <p>{st.text}</p>
+                  </h4>
+                  <p>{st.text}</p>
+                  <div className="cnl-app" role="group" aria-label={panelHead(st)}>
+                    <div className="cnl-app-head">
+                      <span className="cnl-orb is-sm" aria-hidden="true" />
+                      <span className="cnl-app-title">{panelHead(st)}</span>
+                      <span className="cnl-app-step">
+                        {k + 1}/{n}
+                      </span>
                     </div>
+                    <div className="cnl-app-body">{renderPanel(st)}</div>
                   </div>
                 </li>
               ))}
             </ol>
           </div>
-          <Vista className="cnl-canvas-vista" src={image} tones={tones}>
-            <div className="cnl-app" id={uid + "-app"} role="region" aria-label={data.title + ": " + heads[panel]}>
-              <div className="cnl-app-head">
-                <span className="cnl-orb is-sm" aria-hidden="true" />
-                <span className="cnl-app-title" key={panel}>
-                  {heads[panel]}
-                </span>
-                <span className="cnl-app-step">
-                  {active + 1}/{n}
-                </span>
-              </div>
-              <div className="cnl-app-body" ref={bodyRef}>
-                {content}
-              </div>
-            </div>
-          </Vista>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   )
 }
@@ -2673,6 +2739,47 @@ function Call({ kicker, title, text, data, image, tones, reduced, brand }: { kic
   )
 }
 
+/* ------------------------------------------------------------------ flow */
+
+function Flow({ data }: { data: CnlFlow }) {
+  const lines = splitTitle(data.title)
+  const n = data.steps.length
+  return (
+    <section className="cnl-flow" data-sec="flow">
+      <div className="cnl-flow-head">
+        {data.kicker ? <p className="cnl-kicker">{data.kicker}</p> : null}
+        <h2 className="cnl-h2">
+          {lines.map((l, k) => (
+            <span key={k}>{l}</span>
+          ))}
+        </h2>
+        {data.text ? <p className="cnl-flow-text">{data.text}</p> : null}
+      </div>
+      <ol className="cnl-ccards cnl-flow-cards">
+        {data.steps.map((st, k) => (
+          <li key={st.title} className="cnl-ccard">
+            <h4>
+              <span className="cnl-step-num">{String(k + 1).padStart(2, "0")}</span>
+              {st.title}
+            </h4>
+            <p>{st.text}</p>
+            <div className="cnl-app" role="group" aria-label={st.head}>
+              <div className="cnl-app-head">
+                <span className="cnl-orb is-sm" aria-hidden="true" />
+                <span className="cnl-app-title">{st.head}</span>
+                <span className="cnl-app-step">
+                  {k + 1}/{n}
+                </span>
+              </div>
+              <div className="cnl-app-body">{st.screen}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
 /* ------------------------------------------------------------------ stats */
 
 function Stats({ kicker, title, items, reduced }: { kicker?: string; title?: string; items: CnlStat[]; reduced: boolean }) {
@@ -2696,11 +2803,20 @@ function Stats({ kicker, title, items, reduced }: { kicker?: string; title?: str
           onUpdate: () => {
             el.textContent = fmt(s, o.v)
           },
+          onComplete: () => {
+            el.textContent = fmt(s, s.value)
+          },
           scrollTrigger: { trigger: b, start: "top 80%", once: true },
         })
       })
     }, b)
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      // a count cut short (re-render, reduced motion turning on) must never leave a partial number (e.g. "S/ 88", "59 días")
+      nums.forEach((el, k) => {
+        if (items[k]) el.textContent = fmt(items[k], items[k].value)
+      })
+    }
   }, [JSON.stringify(items), reduced])
   return (
     <section className="cnl-stats" aria-label={kicker || "Cifras"}>
@@ -3215,6 +3331,7 @@ export default function CairnAgentsLanding({
   logos = DEFAULT_LOGOS as CnlLogo[],
   canvas = DEFAULT_CANVAS as CnlCanvas,
   call = DEFAULT_CALL as CairnAgentsLandingProps["call"],
+  flow = null,
   stats = DEFAULT_STATS,
   quotes = DEFAULT_QUOTES,
   cta = DEFAULT_CTA,
@@ -3306,9 +3423,10 @@ export default function CairnAgentsLanding({
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         // every other window opens out of a smaller frame and drifts as it passes
         ;(Array.from(r.querySelectorAll(".cnl-vista")) as HTMLElement[])
-          .filter((v) => !v.classList.contains("cnl-hero-vista"))
+          // the sticky "how it works" window stays still: no scroll-scrubbed clip on it
+          .filter((v) => !v.classList.contains("cnl-hero-vista") && !v.closest(".cnl-canvas"))
           .forEach((v) => {
-            const pc = v.closest(".cnl-canvas-pin") as HTMLElement | null
+            const pc = null as HTMLElement | null
             const big = v.classList.contains("cnl-cta-vista")
             gsap.fromTo(
               v,
@@ -3384,7 +3502,7 @@ export default function CairnAgentsLanding({
         {logos && logos.length ? <Logos logos={logos} label={logosLabel} /> : null}
         {modules && modules.items.length ? <Modules data={modules} /> : null}
         {canvas && canvas.steps.length ? <Canvas data={canvas} image={img.canvas} tones={pal.ridges} reduced={reduced} /> : null}
-        {call ? <Call kicker={call.kicker} title={call.title} text={call.text} data={call.data} image={img.call} tones={pal.ridges} reduced={reduced} brand={brand} /> : null}
+        {flow && flow.steps.length ? <Flow data={flow} /> : call ? <Call kicker={call.kicker} title={call.title} text={call.text} data={call.data} image={img.call} tones={pal.ridges} reduced={reduced} brand={brand} /> : null}
         {stats && stats.items.length ? <Stats kicker={stats.kicker} title={stats.title} items={stats.items} reduced={reduced} /> : null}
         {pricing && pricing.plans.length ? <Pricing data={pricing} reduced={reduced} onNav={go} /> : null}
         {faq && faq.items.length ? <Faq data={faq} /> : null}

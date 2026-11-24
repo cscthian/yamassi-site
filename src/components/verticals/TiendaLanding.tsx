@@ -252,7 +252,7 @@ export default function TiendaLanding() {
         announcement={{ label: "Desde S/ 9.90 al mes · productos y ventas ilimitadas", href: "#precios" }}
         title={"Control de caja, ventas e inventario\nque protege cada sol de tu tienda"}
         subtitle="Escaneo veloz con código de barras, control de vencimientos para no perder mercadería, kardex en tiempo real y facturación electrónica SUNAT al instante."
-        primaryAction={{ label: "Empezar con Yamassi gratis", href: "/login" }}
+        primaryAction={{ label: "Empezar con Yamassi gratis", href: TIENDA_URL }}
         secondaryAction={{ label: "Ver funciones del punto de venta", href: "#pos" }}
         heroNote="✓ Compatible con pistolas láser y balanzas · ✓ Carga masiva desde Excel · ✓ Modo offline incluido"
         liveCalls={null}

@@ -191,7 +191,10 @@ const CSS =
   // title sized to the phone width so long names (RESTOBAR) never clip
   ".pof-t1{font-size:min(40px,11cqw)!important}" +
   ".pof-t2{font-size:min(46px,13cqw)!important}" +
-  ".pof-acts{display:none}" +
+  // the sign-in button sits right under the name, so short phones (e.g. Pixel 6a) never lose it below the fold
+  ".pof-acts{position:relative;left:auto;top:auto;width:100%;max-width:420px;margin:2px 0 12px;justify-content:center}" +
+  ".pof-acts .pof-go{flex:1;justify-content:center;height:48px;padding:0 18px;font-size:14px}" +
+  ".pof-card .pof-enter{display:none}" +
   ".pof-card{position:relative;left:auto;top:auto;width:100%;max-width:420px;margin-top:4px}" +
   ".pof-desc,.pof-feat{min-height:0}" +
   ".pof-heading{order:-2}" +

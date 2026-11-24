@@ -256,7 +256,7 @@ export default function RestobarLanding() {
         announcement={{ label: "Desde S/ 14.90 al mes · 100% de funciones", href: "#precios" }}
         title={"Control de caja y comandas\nque no se cuelga en hora punta"}
         subtitle="Toma pedidos desde tablet o celular, envía comandas automáticas a cocina y barra, divide cuentas en segundos y factura con SUNAT sin errores ni demoras."
-        primaryAction={{ label: "Empezar con Yamassi gratis", href: "/login" }}
+        primaryAction={{ label: "Empezar con Yamassi gratis", href: RESTOBAR_URL }}
         secondaryAction={{ label: "Ver cómo funcionan las comandas", href: "#comandas" }}
         heroNote="✓ Sin tarjeta de crédito · ✓ Compatible con impresoras térmicas ESC/POS · ✓ Soporte en Perú"
         liveCalls={null}
@@ -463,7 +463,7 @@ export default function RestobarLanding() {
           title: "Todo tu restaurante,\ndesde el primer día.",
           items: [
             { value: 0, suffix: " seg", label: "de demora en el envío de comandas a cocina" },
-            { value: 100, suffix: "%", label: "de arqueos de caja cuadrados" },
+            { value: 0, prefix: "S/ ", label: "para empezar con el plan gratuito" },
             { value: 1, suffix: " clic", label: "para dividir la cuenta por comensal" },
             { value: 14.9, decimals: 2, prefix: "S/ ", label: "al mes con el Plan Élite, con todas las funciones" },
           ],
