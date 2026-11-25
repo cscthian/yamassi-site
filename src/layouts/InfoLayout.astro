@@ -27,6 +27,9 @@ const {
   effectiveDate = "15 de Febrero de 2025",
   version = "Versión 2.4",
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const ogImageUrl = new URL("/og-image.jpg", SITE_URL).href;
 ---
 
 <!doctype html>
@@ -38,10 +41,25 @@ const {
     <title>{title} — Yamassi</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href={SITE_URL} />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XE7W6ZHQC"
-    ></script>
+    <link rel="canonical" href={canonicalUrl} />
 
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content={`${title} — Yamassi`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Yamassi" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:secure_url" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Yamassi: software de gestión para tiendas, restaurantes y consultorios" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} — Yamassi`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XE7W6ZHQC"
     ></script>

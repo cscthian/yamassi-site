@@ -39,6 +39,14 @@ const { Content } = await render(doc);
 const rubroMeta = DOC_RUBROS[currentRubroKey] || DOC_RUBROS.pos;
 const Icon = rubroMeta.icon;
 
+// Social card: each rubro shares its own vertical's image; reservas falls back to the brand card.
+const RUBRO_OG: Partial<Record<string, { src: string; alt: string }>> = {
+  pos: { src: "/img/yamassi-tienda-og.jpg", alt: "Yamassi Tienda: cajera de bodega entregando la compra a un cliente" },
+  restobar: { src: "/img/yamassi-restobar-og.jpg", alt: "Yamassi Restobar: moza sirviendo platos peruanos a una mesa en un restaurante" },
+  odontologia: { src: "/img/odonto-yamassi-og.jpg", alt: "Odonto Yamassi: odontóloga atendiendo a un paciente en un consultorio dental" },
+};
+const rubroOg = RUBRO_OG[currentRubroKey];
+
 const allDocs = await getCollection("docs");
 const siblingDocs = allDocs
   .filter((d) => d.data.rubro === currentRubroKey)
@@ -74,6 +82,8 @@ const articleSchema = {
 <Layout
   title={`${doc.data.title} — Documentación Yamassi ${rubroMeta.shortName}`}
   description={doc.data.description}
+  ogImage={rubroOg?.src}
+  ogImageAlt={rubroOg?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 

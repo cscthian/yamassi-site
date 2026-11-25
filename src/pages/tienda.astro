@@ -86,7 +86,12 @@ const jsonLd = {
 };
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage="/img/yamassi-tienda-og.jpg"
+  ogImageAlt="Yamassi Tienda: cajera de bodega entregando la compra a un cliente"
+>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <main class="min-h-screen bg-slate-50 text-slate-900">
